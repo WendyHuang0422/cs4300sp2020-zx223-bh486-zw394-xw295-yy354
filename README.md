@@ -944,3 +944,5 @@ remove migrations from gitignroe and then commit, push to heroku
 to upgrade database on heroku
 heroku run python manage.py db upgrade --app tw-fact-xzh-2004080134
 
+
+
