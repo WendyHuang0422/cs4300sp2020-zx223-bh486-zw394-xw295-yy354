@@ -1,39 +1,92 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css">
-    </head>
-    <body>
-        <div class="topcorner">
-            <p>Project Name: {{ name }}</p>
-            <p>Student Name: ({{ netid }})</p>
-        </div>
-        <form class="form-inline global-search">
-            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                C
-                <span style="color: #EA4335; ">S</span>
-                <span style="color: #FBBC05; ">4</span>
-                3
-                <span style="color: #34A853; ">0</span>
-                <span style="color: #EA4335; ">0</span>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/static/bootstrap_4_4_1.min.css">
+    <!-- <link rel="stylesheet" href="/static/main.css"> -->
+    
+</head>
+
+
+<body>
+    <div class="text-right" style = "margin-top: 10px">
+        <h6>Project Name: {{ name }} (DEVELOPMENT VERSION)</h6>
+        <h6>Student Name: ({{ netid }})</h6>
+    </div>
+
+<!--     <div class="text-center">
+        <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
+            C
+            <span style="color: #EA4335; ">S</span>
+            <span style="color: #FBBC05; ">4</span>
+            3
+            <span style="color: #34A853; ">0</span>
+            <span style="color: #EA4335; ">0</span>
+        </h1>
+    </div> -->
+<!--<a href="/"> 
+        <div class="text-center">
+            <h1 style="font-size: 45px">
+                TWEETED FACTS
             </h1>
-            
-            <br><br>
-            
-            <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Your Input">
+        </div>
+    </a> 
+    <h5 class = "text-center" style = "margin-bottom: 20px">
+        Your Trustworthy Fact Checker for Untrustworthy Fact Spreaders
+    </h5> -->
+    <main class = "container" style = "margin-top: 7%">
+        <div class = "text-center">
+            <a href = "/">
+                <img src = "/static/media/logo_600x350px.png" class = "img-fluid" alt = "">
+            </a>
+        </div>
+        <form>
+            <div class="row d-flex justify-content-center" style = "margin-top: 10px">
+                <div class="col-md-8">
+                    <input id="input" type="text" name="search" 
+                    class="form-control" placeholder="Twitter Celebrity" 
+                    value = {{user}}>
+                </div>
             </div>
-            <button type="submit" class="btn btn-info"> Go! </button>
+            <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+                <div class="col-md-8">
+                    {% if topic%}
+                        <input id="input_2" type="text" name="terms" 
+                        class="form-control" placeholder="Topic or Keywords (optional)"
+                        value = "{{topic}}">
+                    {% else %}
+                        <input id="input_2" type="text" name="terms" 
+                        class="form-control" placeholder="Topic or Keywords (optional)">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+                <button type="submit" class="btn btn-primary mb-2">Fact Check</button>
+            </div>
         </form>
-        <form class="form-inline global-search">
-        {% if data %}
-            <h1>{{output_message}}</h1>
-            {% for d in data %}  
-                <br>
-                <p>{{d}}</p>
-            {% endfor %}
-        {% endif %}
-        </form>
-    </body>
+        <div class="text-center">
+            {% if data %}
+                {% if topic%}
+                    <h5>Showing recent tweets by: "{{user}}" containing "{{topic}}"</h5>
+                {% else %}
+                    <h5>Showing recent tweets by: "{{user}}"</h5>
+                {% endif %}
+                <div class="d-flex flex-column">
+                    {% for d in data %}  
+                        <div class="p-2">Tweet {{d + 1}}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </main>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
 
 </html>
