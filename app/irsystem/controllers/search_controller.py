@@ -55,7 +55,7 @@ def search():
 			db.session.commit()
 		count_1 = (Search_users.query.filter(Search_users.user_query.contains(":</>" + query + "</>"))).count()
 		count_2 = (Search_terms.query.filter(Search_terms.terms_query.contains(":</>" + keywords + "</>"))).count()
-		count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains("<u:t>" + combined_query + "</>"))).count()
+		count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
 
 	return render_template('search.html', name=project_name, netid=net_id, user=user, data=data, counts=counts,
 		topic=topic, count_1=count_1, count_2 = count_2, count_3 = count_3, user_ip = user_ip)
