@@ -12,7 +12,6 @@
 
 
 <body>
-    {{count_1}}, {{count_2}}, {{user_ip}}
     <div class="text-right" style = "margin-top: 10px">
         <h6>Project Name: {{ name }} (DEVELOPMENT VERSION)</h6>
         <h6>Student Name: ({{ netid }})</h6>
@@ -76,18 +75,33 @@
                     <h5>Showing recent tweets by: "{{user}}"</h5>
                 {% endif %}
                 <div class="d-flex flex-column">
-                    {% for d in data %}  
-                        <div class="p-2">Tweet {{d + 1}}</div>
+                    {% for i in range(5) %}  
+                        <div class="p-2">[{{data[i]}}], checked {{counts[i]}} times. </div>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
+        <div class = "text-center text-muted" style = "margin-top: 6%">
+            {% if data %}
+                {% if topic %}
+                    #DEBUG: Search counts <br>{ {{user}}: {{count_1}}, &nbsp; {{topic}}: {{count_2}}, &nbsp; <br>
+                    {{user}} + {{topic}}: {{count_3}}, &nbsp; your IP: {{user_ip}} }
+                {% else %}
+                    #DEBUG: Search counts <br>{ {{user}}: {{count_1}}, &nbsp; your IP: {{user_ip}} }. Also try second field
+                {% endif %}
+            {% else %}
+                #DEBUG: your IP: {{user_ip}}. make a search to show debug data. <br>repeated searches from same IP will not affect data. 127.0.0.1 is IP for localhost. 
+            {% endif %}
+        </div>
     </main>
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
+
 
 </html>
