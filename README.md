@@ -933,3 +933,14 @@ PLAY RECAP *********************************************************************
 ```
 
 Boom! You are done :) How easy was that!
+
+
+
+### Notes for Me:
+
+first init and migrate db locally. 
+remove migrations from gitignroe and then commit, push to heroku
+
+to upgrade database on heroku
+heroku run python manage.py db upgrade --app tw-fact-xzh-2004080134
+
