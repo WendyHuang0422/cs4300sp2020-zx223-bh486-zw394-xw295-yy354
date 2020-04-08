@@ -40,10 +40,10 @@ def search():
 
 		# 		db.session.add(tweet_data)
 		# 		db.session.commit()
-		ip_user_query = user_ip + ":" + user
-		ip_terms_query = user_ip + ":" + topic
-		combined_query = user + "<terms=>" + topic
-		ip_combined_query = user_ip + ":" + combined_query
+		ip_user_query = user_ip + ":</>" + user + "</>"
+		ip_terms_query = user_ip + ":</>" + topic + "</>"
+		combined_query = user + "<u:t>" + topic + "</>"
+		ip_combined_query = user_ip + ":</>" + combined_query
 		if (Search_terms.query.filter(Search_terms.combined_query.contains(ip_combined_query))).count() < 1:
 			search_data = Search_terms(user_ip = user_ip, user_query = ip_user_query, terms_query = ip_terms_query,
 				combined_query = ip_combined_query)
@@ -53,9 +53,9 @@ def search():
 			search_user_data = Search_users(user_ip = user_ip, user_query = ip_user_query)
 			db.session.add(search_user_data)
 			db.session.commit()
-		count_1 = (Search_users.query.filter(Search_users.user_query.contains(query))).count()
-		count_2 = (Search_terms.query.filter(Search_terms.terms_query.contains(keywords))).count()
-		count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
+		count_1 = (Search_users.query.filter(Search_users.user_query.contains(":</>" + query + "</>"))).count()
+		count_2 = (Search_terms.query.filter(Search_terms.terms_query.contains(":</>" + keywords + "</>"))).count()
+		count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains("<u:t>" + combined_query + "</>"))).count()
 
 	return render_template('search.html', name=project_name, netid=net_id, user=user, data=data, counts=counts,
 		topic=topic, count_1=count_1, count_2 = count_2, count_3 = count_3, user_ip = user_ip)
