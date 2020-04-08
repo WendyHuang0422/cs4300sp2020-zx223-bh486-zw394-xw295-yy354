@@ -13,7 +13,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 # revision identifiers, used by Alembic.
 revision = 'ed5271eaf28a'
-down_revision = 'eb1ed41270a7'
+down_revision = '67284fcf4c95'
 branch_labels = None
 depends_on = None
 
