@@ -32,6 +32,7 @@
         </div>
     </form>
 
+    <!--
     <div id="page2">
         <div class="search-bar">
             <a href="/" id="search-logo">
@@ -55,11 +56,11 @@
                         <h3>Suggested @<u>{{user}}</u> related news</h3>
                     {% endif %}
                     {for i in range(3) %}
-                        <a href="/"><!-- Fill in URL to news-->
+                        <a href="/">  Fill in URL to news
                             <div class="element">
-                                <h4><!-- Fill in news title--></h4>
-                                <h5><strong><em>Keyword:</em></strong> {{terms_query}}</h5><!-- Not sure this is correct, but here should topic -->
-                                <h5><strong><em></em>Sorce:</strong> <!-- Fill in news source --></h5>
+                                <h4> Fill in news title</h4>
+                                <h5><strong><em>Keyword:</em></strong> {{terms_query}}</h5>< Not sure this is correct, but here should topic 
+                                <h5><strong><em></em>Sorce:</strong>  Fill in news source /h5>
                             </div>
                         </a>
                     {% endfor %}
@@ -69,9 +70,9 @@
                 {% if data %}
                     <h3>@<u>{{user}}</u> latest 5 tweets</h3>
                     {% for i in range(5) %}  
-                        <a href="/"> <!-- Fill in URL to tweets-->
+                        <a href="/">  Fill in URL to tweets
                             <div class="element">
-                                <h5><strong><em>Posted:</em></strong> {{date_posted}}</h5><!-- Not sure this is correct, but here should fill in tweeted date -->
+                                <h5><strong><em>Posted:</em></strong> {{date_posted}}</h5> Not sure this is correct, but here should fill in tweeted date 
                                 <p>"[{{data[i]}}]"</p>
                                 <h5>checked {{counts[i]}} times </h5>
                             </div>
@@ -79,7 +80,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-        </main>
-        
+        </main>    
     </div>
+    -->
 </body>
