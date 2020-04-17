@@ -1,7 +1,8 @@
-import pymongo
-from pymongo import MongoClient
+import flask_pymongo
+from flask_pymongo import MongoClient
 # connect = MongoClient()
-client = pymongo.MongoClient('mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
+client = flask_pymongo.MongoClient(
+    'mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
 
 SEED_DATA = [
     {
@@ -37,8 +38,8 @@ songs.update(query, {'$set': {'artist': 'Mariah Carey ft. Boyz II Men'}})
 cursor = songs.find({'weeksAtOne': {'$gte': 10}}).sort('decade', 1)
 
 for doc in cursor:
-    print ('In the %s, %s by %s topped the charts for %d straight weeks.' %
-              (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
+    print('In the %s, %s by %s topped the charts for %d straight weeks.' %
+          (doc['decade'], doc['song'], doc['artist'], doc['weeksAtOne']))
 
 
 client.close()
