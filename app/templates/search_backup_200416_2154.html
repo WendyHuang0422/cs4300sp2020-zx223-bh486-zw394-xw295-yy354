@@ -1,0 +1,227 @@
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- <link rel="stylesheet" type="text/css" href="/static/zx.css"> -->
+    <link rel="stylesheet" href="/static/bootstrap_4_4_1.min.css">
+    <!-- <link rel="stylesheet" href="/static/main.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/static/zx.css" > -->
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="/static/font_awesome/all.min.css">
+
+    <style>
+
+        #go_back_to_top_button {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 20px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            /*background-color: red;  Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 20px; /* Increase font size */
+        }
+
+        #go_back_to_top_button:hover {
+            /*background-color: #555;  Add a dark-grey background on hover */
+        }
+    
+    </style>
+
+</head>
+
+
+<body>
+    <div class="text-right" style = "margin-top: 10px">
+        <h6>Project Name: Tweeted Facts (DEVELOPMENT VERSION)</h6>
+        <h6>Student Name: Zenong Wang: zw394, Wendy Huang: bh486, Alicia Yang: yy354, Zi Heng Xu: zx223, Iris Wang: zw295</h6>
+    </div>
+<!--     <div class="text-center">
+        <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
+            C
+            <span style="color: #EA4335; ">S</span>
+            <span style="color: #FBBC05; ">4</span>
+            3
+            <span style="color: #34A853; ">0</span>
+            <span style="color: #EA4335; ">0</span>
+        </h1>
+    </div> -->
+<!--<a href="/"> 
+        <div class="text-center">
+            <h1 style="font-size: 45px">
+                TWEETED FACTS
+            </h1>
+        </div>
+    </a> 
+    <h5 class = "text-center" style = "margin-bottom: 20px">
+        Your Trustworthy Fact Checker for Untrustworthy Fact Spreaders
+    </h5> -->
+
+    <main class = "container" style = "margin-top: 5%">
+    <button onclick="topFunction()" id="go_back_to_top_button" class="btn btn-info"><i class="fas fa-chevron-double-up"></i></button>
+        <div class = "text-center">
+            <a href = "/">
+                <img src = "/static/media/logo_600x350px.png" class = "img-fluid" alt = "">
+            </a>
+        </div>
+        <!-- <a id = "search_page"></a> -->
+        <a id = "results_page"></a>
+        <form action = "#results_page">
+            <div class="row d-flex justify-content-center" style = "margin-top: 10px">
+                <div class="col-md-8">
+                    <input id="input" type="text" name="search" 
+                    class="form-control" placeholder="Twitter Celebrity" 
+                    value = "{{user}}" required>
+                </div>
+<!--                 <div class="invalid-feedback">
+                    Please enter a twitter username to search for. 
+                </div> -->
+            </div>
+            <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+                <div class="col-md-8">
+                    {% if topic%}
+                        <input id="input_2" type="text" name="terms" 
+                        class="form-control" placeholder="Topic or Keywords (optional)"
+                        value = "{{topic}}">
+                    {% else %}
+                        <input id="input_2" type="text" name="terms" 
+                        class="form-control" placeholder="Topic or Keywords (optional)">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+                <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
+            </div>
+            <!-- <a href = "#results_page"> sakdl; </a> -->
+        </form>
+        <a id = "results_page"></a>
+        <div class = "container">
+            <div class="row justify-content-md-center">
+                <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+                    {% if data %}
+                        <div class = "container" style = "margin-bottom: 3%">
+                            {% if topic%}
+                                <h4 style = "margin-bottom: 5px">Latest tweets from @<a href="#results_page" style = "color: #222222">
+                                    <u>{{user}}</u></a> on "{{topic}}":</h4>
+                            {% else %}
+                                <h4 style = "margin-bottom: 5px">
+                                    Latest tweets from @<a href="#results_page" style = "color: #222222"><u>{{user}}</u></a>:</h4>
+                            {% endif %}
+                        </div>
+                        <!-- <h4>@<a href="#results_page" style = "color: #222222; "><u>{{user}}</u></a>'s latest tweets</h4> -->
+                        {% for i in range(5) %}  
+                            <a href="#results_page" class="list-group-item list-group-item-action"> 
+                                <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
+                                    <h5 class="mb-1">[Celeb Name]</h5>
+                                    <small class="text-muted">[Date of tweet]</small>
+                                </div>
+                                <p class="mb-1" style = "margin-top: 1px">[{{data[i]}}]</p>
+                                <small class="text-muted">
+                                    <i class="far fa-comment"></i>&nbsp;[comments]&nbsp;&nbsp;
+                                    <i class="far fa-retweet"></i>&nbsp;[retweets]&nbsp;&nbsp;
+                                    <i class="far fa-heart"></i>&nbsp;[likes]&nbsp;&nbsp;
+                                    <br></small>
+                                <small class="text-muted">checked {{counts[i]}} times</small>
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+                    {% if data %}
+                        <div class = "container" style = "margin-bottom: 3%">
+                            {% if topic%}
+                                <h4 style = "color: #222222; margin-bottom: 5px">
+                                Recent news articles on [Celeb Name] and "{{topic}}":</h4>
+                            {% else %}
+                                <h4 style = "color: #222222; margin-bottom: 5px">
+                                Recent news articles on [Celeb Name]:</h4>
+                            {% endif %}
+                        </div>
+                        {% for i in range(3) %}  
+                            <a href="#results_page" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px">
+                                    <h5 class="mb-1">[News Title {{i + 1}}] A says B as X Y's, experts warn that X could soon Z (...)</h5>
+                                </div>
+                                <small class="text-muted">[News Source]<br></small>
+                                {% if topic %}
+                                    <small class="text-muted">Keywords: "{{topic}}"</small> 
+                                {% endif %}
+                                <p class="mb-1" style = "margin-top: 7px">[Body of News] A says B as X Y's, experts warn that X could soon Z, meaning that (...) </p>
+                                <small class="text-muted">clicked {{counts[i]}} times<br></small>
+                                {% if not topic %}
+                                    <small class="text-muted">&nbsp;</small> 
+                                {% endif %}
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class = "container">
+            <div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
+                <div class = "text-center text-muted">
+                    {% if data %}
+                        {% if topic %}
+                            #DEBUG: Search counts <br>{ {{user}}: {{count_1}}, &nbsp; {{topic}}: {{count_2}}, &nbsp; <br>
+                            {{user}} + {{topic}}: {{count_3}}, &nbsp; your IP: {{user_ip}} }
+                        {% else %}
+                            #DEBUG: Search counts <br>{ {{user}}: {{count_1}}, &nbsp; your IP: {{user_ip}} }. Also try the second (topic) field
+                        {% endif %}
+                    {% else %}
+                        #DEBUG: your IP: {{user_ip}}. make a search to show debug data. <br>repeated searches from same IP will not affect data. 127.0.0.1 is IP for localhost. 
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+
+    <script>
+        //Get the button:
+        mybutton = document.getElementById("go_back_to_top_button");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+
+    </main>
+
+    
+
+
+    <!-- <script src="/static/zx.js"></script> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+
+
+</html>

@@ -41,3 +41,11 @@ color: #4285F4;
 .margin_bot_20px {
 margin-bottom: 20;
 }
+
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display:none;
+}

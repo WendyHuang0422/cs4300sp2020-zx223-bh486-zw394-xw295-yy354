@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/static/design.css"/>
+  <title>Tweeted Facts</title>
+</head>
+
+<body>
+    <div class="text-right">
+        <p>Project Name: {{ name }} (DEVELOPMENT VERSION)</p>
+        <p>Student Name: ({{ netid }})</p>
+    </div>
+    <a href="/" id="home-logo"><img src = "/static/media/logo.jpg" alt = "Tweeted Facts Logo"></a>
+    <h1>Tweeted Facts</h1>
+    <h3>Your Trusted Fact Checker for Untrusted Fact Spreaders</h3>
+
+    <form method="get" id="search-form">
+        <div>
+            <input type="text" name="search" id="search" placeholder="Twitter Celebrity" value = "{{user}}">
+        </div>
+        <div>
+            {% if topic%}
+                <input type="text" name="terms" id="terms" placeholder="Topic or Keywords (optional)" value = "{{topic}}">
+            {% else %}
+                <input type="text" name="terms" id="terms" placeholder="Topic or Keywords (optional)">
+            {% endif %}
+        </div>
+        <div>
+            <button type="submit" id="home-search">Fact Check</button>
+        </div>
+    </form>
+
+    
+    <div id="page2">
+        <!-- <div class="search-bar">
+            <a href="/" id="search-logo">
+                <img src = "media/logo.jpg" alt = "Tweeted Facts Logo">
+            </a>
+            <form method="get" id="search-bar">
+                <div id="bar">
+                    <input type="text" name="search" id="page-search" placeholder="Twitter Celebrity" value = "{{user}}">
+                </div>
+                <div>
+                    <button type="submit" id="page-button">Fact Check</button>
+                </div>
+            </form>
+        </div> -->
+        <main>
+            <div class="left">
+                {% if data %}
+                    {% if topic%}
+                        <h3>Suggested @<u>{{user}}</u> "{{topic}}" related news</h3>
+                    {% else %}
+                        <h3>Suggested @<u>{{user}}</u> related news</h3>
+                    {% endif %}
+                    {% for i in range(3) %}
+                        <a href="/">  Fill in URL to news
+                            <div class="element">
+                                <h4> Fill in news title</h4>
+                                <h5><strong><em>Keyword:</em></strong> {{terms_query}}</h5> Not sure this is correct, but here should topic 
+                                <h5><strong><em></em>Sorce:</strong>  Fill in news source </h5>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="right">
+                {% if data %}
+                    <h3>@<u>{{user}}</u> latest 5 tweets</h3>
+                    {% for i in range(5) %}  
+                        <a href="/">  Fill in URL to tweets
+                            <div class="element">
+                                <h5><strong><em>Posted:</em></strong> {{date_posted}}</h5> Not sure this is correct, but here should fill in tweeted date 
+                                <p>"[{{data[i]}}]"</p>
+                                <h5>checked {{counts[i]}} times </h5>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </main>    
+    </div>
+    
+</body>

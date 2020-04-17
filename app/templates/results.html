@@ -1,0 +1,102 @@
+{% extends "search.html" %}
+{% block content %}
+    <a id = "results_page"></a>
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+                {% if data %}
+                    <div class = "container" style = "margin-bottom: 3%">
+                        {% if topic%}
+                            <h4 style = "margin-bottom: 5px">Latest tweets from @<a href="#results_page" style = "color: #222222">
+                                <u>{{user}}</u></a> on "{{topic}}":</h4>
+                        {% else %}
+                            <h4 style = "margin-bottom: 5px">
+                                Latest tweets from @<a href="#results_page" style = "color: #222222"><u>{{user}}</u></a>:</h4>
+                        {% endif %}
+                    </div>
+                    <!-- <h4>@<a href="#results_page" style = "color: #222222; "><u>{{user}}</u></a>'s latest tweets</h4> -->
+                    {% for i in range(5) %}  
+                        <a class="list-group-item list-group-item-action" href="?search={{user}}&terms={{topic}}&idx={{i}}#results_page" >
+                            <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
+                                <h5 class="mb-1">[Celeb Name]</h5>
+                                <small class="text-muted">[Date of tweet]</small>
+                            </div>
+                            <p class="mb-1" style = "margin-top: 1px">[{{data[i]}}]</p>
+                            <small class="text-muted">
+                                <i class="far fa-comment"></i>&nbsp;[comments]&nbsp;&nbsp;
+                                <i class="far fa-retweet"></i>&nbsp;[retweets]&nbsp;&nbsp;
+                                <i class="far fa-heart"></i>&nbsp;[likes]&nbsp;&nbsp;
+                                <br></small>
+                            <small class="text-muted">checked {{counts[i]}} times</small>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+                {% if data %}
+                    <div class = "container" style = "margin-bottom: 3%">
+                    	<h4 style = "color: #222222; margin-bottom: 5px">
+                        {% if topic%}
+                        	{% if idx != -1 %}
+                            	Recent news articles relating to: {{data[idx][0:30]}} ...:
+                        	{% else %}
+                        		Recent news articles on [Celeb Name] and "{{topic}}":
+                        	{% endif %}
+                        {% else %}
+                        	{% if idx != -1 %}
+                            	Recent news articles relating to: {{data[idx][0:30]}} ...:
+                        	{% else %}
+                        		Recent news articles on [Celeb Name]:
+                        	{% endif %}
+                        {% endif %}
+                        </h4>
+                    </div>
+                    {% for i in range(3) %}  
+                        <a href="#results_page" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px">
+                                <h5 class="mb-1">[News Title {{i + 1}}]
+                                {% if idx != -1 %} 
+                                	that is relevant to {{data[idx][0:30]}} 
+                                {% else %}
+                                	A says B as X Y's, experts warn that X could soon Z ...
+                                {% endif %}
+                                </h5>
+                            </div>
+                            <small class="text-muted">[News Source]<br></small>
+                            {% if topic %}
+                                <small class="text-muted">Keywords: "{{topic}}"</small> 
+                            {% endif %}
+                            <p class="mb-1" style = "margin-top: 7px">[Body of News] A says B as X Y's, experts warn that X could soon Z, meaning that (...) </p>
+                            <small class="text-muted">clicked {{counts[i]}} times<br></small>
+                            {% if not topic %}
+                                <small class="text-muted">&nbsp;</small> 
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- debug counter -->
+
+    <div class = "container">
+        <div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
+            <div class = "text-center text-muted">
+            	You searched: [{{user}}, "{{topic}}"] <br>
+            	{{msg}} <br>
+            	{% if data %}
+                    {% if topic %}
+                        Search counts { {{user}}: {{count_1}}, &nbsp; {{topic}}: {{count_2}}, &nbsp; 
+                        {{user}} + {{topic}}: {{count_3}}, &nbsp; your IP: {{user_ip}} }
+                    {% else %}
+                        Search counts { {{user}}: {{count_1}}, &nbsp; your IP: {{user_ip}} }. Also try the second (topic) field
+                    {% endif %}
+                {% else %}
+                    #DEBUG: your IP: {{user_ip}}. make a search to show debug data. repeated searches from same IP will not affect data. 127.0.0.1 is IP for localhost. 
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

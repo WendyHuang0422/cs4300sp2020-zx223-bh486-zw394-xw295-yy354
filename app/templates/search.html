@@ -1,86 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="/static/design.css"/>
-  <title>Tweeted Facts</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/bootstrap_4_4_1.min.css">
+    <link rel="stylesheet" href="/static/font_awesome/all.min.css">
+
+    <style>
+        #go_back_to_top_button {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 20px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            /*background-color: red;  Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 20px; /* Increase font size */
+        }
+
+        #go_back_to_top_button:hover {
+            /*background-color: #555;  Add a dark-grey background on hover */
+        }
+    </style>
+
 </head>
 
 <body>
-    <div class="text-right">
-        <p>Project Name: {{ name }} (DEVELOPMENT VERSION)</p>
-        <p>Student Name: ({{ netid }})</p>
+    <div class="text-right" style = "margin-top: 10px">
+        <h6>Project Name: Tweeted Facts (DEVELOPMENT VERSION)</h6>
+        <h6>Student Name: Zenong Wang: zw394, Wendy Huang: bh486, Alicia Yang: yy354, Zi Heng Xu: zx223, Iris Wang: zw295</h6>
     </div>
-    <a href="/" id="home-logo"><img src = "/static/media/logo.jpg" alt = "Tweeted Facts Logo"></a>
-    <h1>Tweeted Facts</h1>
-    <h2>Your Trusted Fact Checker for Untrusted Fact Spreaders</h2>
 
-    <form method="get" id="search-form">
-        <div>
-            <input type="text" name="search" id="search" placeholder="Twitter Celebrity" value = "{{user}}">
-        </div>
-        <div>
-            {% if topic%}
-                <input type="text" name="terms" id="terms" placeholder="Topic or Keywords (optional)" value = "{{topic}}">
-            {% else %}
-                <input type="text" name="terms" id="terms" placeholder="Topic or Keywords (optional)">
-            {% endif %}
-        </div>
-        <div>
-            <button type="submit" id="home-search">Fact Check</button>
-        </div>
-    </form>
-
-    <!--
-    <div id="page2">
-        <div class="search-bar">
-            <a href="/" id="search-logo">
-                <img src = "media/logo.jpg" alt = "Tweeted Facts Logo">
+    <main class = "container" style = "margin-top: 5%">
+        <button onclick="topFunction()" id="go_back_to_top_button" class="btn btn-info"><i class="fas fa-chevron-double-up"></i></button>
+        <div class = "text-center">
+            <a href = "/">
+                <img src = "/static/media/logo_600x350px.png" class = "img-fluid" alt = "">
             </a>
-            <form method="get" id="search-bar">
-                <div id="bar">
-                    <input type="text" name="search" id="page-search" placeholder="Twitter Celebrity" value = "{{user}}">
-                </div>
-                <div>
-                    <button type="submit" id="page-button">Fact Check</button>
-                </div>
-            </form>
         </div>
-        <main>
-            <div class="left">
-                {% if data %}
+        <a id = "results_page"></a>
+        <form action = "/search#results_page">
+            <div class="row d-flex justify-content-center" style = "margin-top: 10px">
+                <div class="col-md-8">
+                    <input id="input" type="text" name="search" 
+                    class="form-control" placeholder="Twitter Celebrity" 
+                    value = "{{user}}" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+                <div class="col-md-8">
                     {% if topic%}
-                        <h3>Suggested @<u>{{user}}</u> "{{topic}}" related news</h3>
+                        <input id="input_2" type="text" name="terms" 
+                        class="form-control" placeholder="Topic or Keywords (optional)"
+                        value = "{{topic}}">
                     {% else %}
-                        <h3>Suggested @<u>{{user}}</u> related news</h3>
+                        <input id="input_2" type="text" name="terms" 
+                        class="form-control" placeholder="Topic or Keywords (optional)">
                     {% endif %}
-                    {for i in range(3) %}
-                        <a href="/">  Fill in URL to news
-                            <div class="element">
-                                <h4> Fill in news title</h4>
-                                <h5><strong><em>Keyword:</em></strong> {{terms_query}}</h5>< Not sure this is correct, but here should topic 
-                                <h5><strong><em></em>Sorce:</strong>  Fill in news source /h5>
-                            </div>
-                        </a>
-                    {% endfor %}
-                {% endif %}
+                </div>
             </div>
-            <div class="right">
-                {% if data %}
-                    <h3>@<u>{{user}}</u> latest 5 tweets</h3>
-                    {% for i in range(5) %}  
-                        <a href="/">  Fill in URL to tweets
-                            <div class="element">
-                                <h5><strong><em>Posted:</em></strong> {{date_posted}}</h5> Not sure this is correct, but here should fill in tweeted date 
-                                <p>"[{{data[i]}}]"</p>
-                                <h5>checked {{counts[i]}} times </h5>
-                            </div>
-                        </a>
-                    {% endfor %}
-                {% endif %}
+            <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+                <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
+                <!-- class="btn btn-primary mb-2" >Feeling Lucky! &nbsp; <i class="far fa-dice-d20"></i></button> -->
             </div>
-        </main>    
-    </div>
-    -->
+        </form>
+
+        <!-- block content -->
+
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+
+
+    </main>
+
+    <script>
+        //Get the button:
+        mybutton = document.getElementById("go_back_to_top_button");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    </script>
+
+    <!-- <script src="/static/zx.js"></script> -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
 </body>
+
+
+
+</html>
