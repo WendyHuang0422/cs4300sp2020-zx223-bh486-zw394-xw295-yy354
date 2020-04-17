@@ -1,5 +1,5 @@
-import flask_pymongo
-from flask_pymongo import MongoClient
+from flask_pymongo import PyMongo
+from PyMongo import MongoClient
 # connect = MongoClient()
 client = flask_pymongo.MongoClient(
     'mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
