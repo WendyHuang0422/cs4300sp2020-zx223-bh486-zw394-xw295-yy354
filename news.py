@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 # connect = MongoClient()
-client = flask_pymongo.MongoClient(
+client = pymongo.MongoClient(
     'mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
 
 SEED_DATA = [
