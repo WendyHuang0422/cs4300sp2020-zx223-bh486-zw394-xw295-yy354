@@ -1,4 +1,4 @@
-import en_core_web_sm
+
 from spacy import load
 import numpy as np
 import math
