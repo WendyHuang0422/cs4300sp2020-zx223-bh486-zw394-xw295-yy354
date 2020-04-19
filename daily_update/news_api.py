@@ -1,3 +1,5 @@
+import en_core_web_sm
+from spacy import load
 import numpy as np
 import math
 from nltk.corpus import stopwords
@@ -12,7 +14,6 @@ import nltk
 import spacy
 nltk.download('punkt')
 nltk.download('stopwords')
-spacy.download('en_core_web_sm')
 
 
 def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
