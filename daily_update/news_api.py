@@ -9,6 +9,7 @@ from newspaper import Article
 from collections import defaultdict
 import pandas as pd
 import nltk
+import spacy
 nltk.download('punkt')
 nltk.download('stopwords')
 
