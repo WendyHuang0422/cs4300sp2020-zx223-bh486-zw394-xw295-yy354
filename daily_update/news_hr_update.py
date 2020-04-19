@@ -1,8 +1,10 @@
+import gardian
 import pymongo
 from pymongo import MongoClient
 import datetime
 from datetime import datetime, timedelta
 import json
+from gardian import*
 from news_api import *
 
 
@@ -12,6 +14,10 @@ def mongo_store(source_name, dictionary):
     db = client.get_default_database()
 
     collection = db[source_name]
+    # a = []
+    # for i in range(100):
+    #     temp = {'a': i, 'weeksAtOne': 100}
+    #     a.append(temp)
 
     document = {"dictionary": dictionary}
     if collection.find_one({}) == None:
@@ -42,18 +48,13 @@ if __name__ == '__main__':
     TODAY = datetime.today().strftime("%Y-%m-%d")
     START_DATE = (datetime.today() -
                   timedelta(days=DURATION)).strftime("%Y-%m-%d")
-    N = 10
+    N = 100
     # gardian_dict = guardian_aggregated(N, None, START_DATE+"T23:11:39Z", TODAY+"T23:11:39Z")
-    news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
-    inverted_index, document_norms, idf, dictionaries_without_texts = full_text_integerate(
-        news_dict)
+    news_dict = news_Aggregated(N, START_DATE, TODAY, "popularity")
+    inverted_ind = 
     STORE_ITEMS = []
     STORE_ITEMS.append(("news", news_dict))
-    STORE_ITEMS.append(("inverted_ind", inverted_index))
-    STORE_ITEMS.append(("document_norms", document_norms))
-    STORE_ITEMS.append(("idf", idf))
-    STORE_ITEMS.append(("dictionaries_without_texts",
-                        dictionaries_without_texts))
+    STORE_ITEMS.append(("inverted_ind",inverted_ind))
     for (source_name, dictionary) in STORE_ITEMS:
         mongo_store(source_name, dictionary)
 

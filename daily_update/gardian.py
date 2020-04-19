@@ -1,3 +1,7 @@
+import re
+import json
+import urllib
+from urllib import request
 def generate_q(query):
     result = ''
     if type(query) == str:

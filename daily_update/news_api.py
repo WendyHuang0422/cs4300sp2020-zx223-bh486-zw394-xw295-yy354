@@ -1,6 +1,16 @@
+import numpy as np
+import math
+from nltk.corpus import stopwords
 import json
 import urllib
 from urllib import request
+import newspaper
+from newspaper import Article
+from collections import defaultdict
+import pandas as pd
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
 
 
 def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
@@ -105,3 +115,157 @@ def news_Aggregated(N, date1, date2, order, query=None):
         full1.append(data1)
         count += 1
     return full1
+
+
+def get_news_text(url_list):
+    """
+      Retreive the news text from the url listm return list of string in the given
+      url input order 
+      (some url might not be avialble fo this method so the return list might be 
+      less than the given url link)
+      [text1, text2, ...]
+
+      url_list: a list of urls
+      Return: a list of strings(news content)
+
+      Required Library: newspaper3k, nltk
+      """
+    text_list = []
+    for i in range(len(url_list)):
+        url = url_list[i]
+        article = Article(url)
+        try:
+            # this sometimes casue error due to bad http requests
+            article.download()
+            article.parse()
+        except:
+            continue
+        text_list.append(article.text)
+    return text_list
+
+
+def full_text_integerate(list_dictionaries1):
+    """
+    use this function to retrieve 1. inverted_index 2.list of dictionaries without text
+
+    returns dicitonaries for 
+    1.inverted_index
+    2.document norms
+    3.idf
+    4.list of dictionaries without texts (no 'contents' or 'description' keys)
+    """
+    print(list_dictionaries1[0])
+    list_dictionaries = [dict(ele) for ele in list_dictionaries1]
+    urls = [news['url'] for news in list_dictionaries]
+    full_text = get_news_text(urls)
+    tokenized = []
+    for text_idx in range(len(full_text)):
+        instance = list_dictionaries[text_idx]
+        if full_text[text_idx] is None:
+            if len(instance['description']) > len(instance['content']):
+                full_text[text_idx] = instance['description']
+            else:
+                full_text[text_idx] = instance['content']
+        del list_dictionaries[text_idx]['description']
+        del list_dictionaries[text_idx]['content']
+    tokenized = tokenize_news(
+        full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=False)
+    inverted_index = build_inverted_idx_zw(tokenized)
+    idf = compute_idf(inverted_index, len(tokenized),
+                      min_df=1, max_df_ratio=0.7)
+    inverted_index = {key: val for key,
+                      val in inverted_index.items() if key in idf.keys()}
+    doc_norms = compute_doc_norms(inverted_index, idf, len(tokenized))
+
+    return inverted_index, doc_norms, idf, list_dictionaries
+
+
+def build_inverted_idx_zw(tokenized_tweets):
+    """
+    build inverted index for the list of twitter posts content
+    tokenized_tweets: list of tokenized tweets
+    return : a dictionary:  {term1: (doc_id, count_of_term1_in_doc), 
+                            term2: (doc_id, count_of_term2_in_doc) ... }
+    """
+    result = defaultdict(lambda: [], {})
+    for i in range(len(tokenized_tweets)):
+        tweet = tokenized_tweets[i][0]
+        sofar = set()
+        for tok in tweet:
+            if(tok not in sofar):
+                result[tok].append((i, tweet.count(tok)))
+                sofar.add(tok)
+    return result
+
+
+def compute_idf(inv_idx, n_docs, min_df=1, max_df_ratio=1):
+    result = {}
+    for word in inv_idx:
+        num = len(inv_idx[word])
+        if(num >= min_df and num <= max_df_ratio*n_docs):
+            result[word] = math.log(n_docs/(1+num), 2)
+    return result
+
+
+def compute_doc_norms(index, idf, n_docs):
+    result = [0]*n_docs
+    for word in index:
+        per = index[word]
+        for ind in per:
+            if(word in idf):
+                result[ind[0]] += (ind[1]*idf[word])**2
+    norm = np.sqrt(result)
+    temp = {}
+    for i in range(len(norm)):
+        temp[i] = norm[i]
+    return temp
+
+
+def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop=True, nltk1=True):
+    if stemming and pos:
+        stemming = False
+    result = []
+    stemmer = nltk.PorterStemmer()
+    tokenizer = nltk.RegexpTokenizer(r"\w+")
+    parse = None
+    if not nltk1:
+        parser = spacy.load('en_core_web_sm')
+    wanted = ['N', 'P', 'J', 'V', 'P']  # 'VB'
+    wanted_scp = ['ADJ', 'NOUN', 'VERB', 'PROPN', 'PROPN']
+    for news in news_texts:
+        sentences = nltk.sent_tokenize(news)
+        tokens = []
+        for sent in sentences:
+            temp = sent
+            rich_word = None
+            if lower:
+                temp = sent.lower()
+            if nltk1:
+                sent_tok = nltk.word_tokenize(temp)
+            if not nltk1:
+                rich_word = parser(temp)
+                sent_tok = [x.text for x in rich_word]
+            if pos:
+                if nltk1:
+                    tags = [x[1] for x in nltk.pos_tag(sent_tok)]
+                    sent_tok = [sent_tok[i] for i in range(
+                        len(sent_tok)) if tags[i][:1] in wanted]
+                elif not nltk1:
+                    tags = [word.pos_ for word in rich_word]
+                    sent_tok = [sent_tok[i] for i in range(
+                        len(sent_tok)) if tags[i] in wanted_scp]
+            elif stemming:
+                for idx in range(len(sent_tok)):
+                    sent_tok[idx] = stemmer.stem(sent_tok[idx])
+
+            if remove_stop:
+                stop_words = stopwords.words('english')
+                temp = []
+                for tok in sent_tok:
+                    if tok not in stop_words:
+                        temp.append(tok)
+                sent_tok = temp
+
+            tokens.extend(sent_tok)
+        result.append((tokens, 'padded'))
+    return result
