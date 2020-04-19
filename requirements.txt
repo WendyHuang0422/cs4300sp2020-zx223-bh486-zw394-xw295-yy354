@@ -55,5 +55,5 @@ Werkzeug==0.16.1
 WTForms==2.2.1
 pymongo==3.4.0
 newspaper3k==0.2.8
-spacy==2.0.13
+spacy==2.2.4
 pandas==1.0.3
