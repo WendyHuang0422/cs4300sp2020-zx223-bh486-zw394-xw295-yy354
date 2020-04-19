@@ -171,8 +171,10 @@ def full_text_integerate(list_dictionaries1):
                 full_text[text_idx] = instance['content']
         del list_dictionaries[text_idx]['description']
         del list_dictionaries[text_idx]['content']
+    # tokenized = tokenize_news(
+    #     full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=False)
     tokenized = tokenize_news(
-        full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=False)
+        full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=True)
     inverted_index = build_inverted_idx_zw(tokenized)
     idf = compute_idf(inverted_index, len(tokenized),
                       min_df=1, max_df_ratio=0.7)
@@ -231,8 +233,8 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
     stemmer = nltk.PorterStemmer()
     tokenizer = nltk.RegexpTokenizer(r"\w+")
     parse = None
-    if not nltk1:
-        parser = spacy.load('en_core_web_sm')
+    # if not nltk1:
+    #     parser = spacy.load('en_core_web_sm')
     wanted = ['N', 'P', 'J', 'V', 'P']  # 'VB'
     wanted_scp = ['ADJ', 'NOUN', 'VERB', 'PROPN', 'PROPN']
     for news in news_texts:
@@ -245,9 +247,9 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
                 temp = sent.lower()
             if nltk1:
                 sent_tok = nltk.word_tokenize(temp)
-            if not nltk1:
-                rich_word = parser(temp)
-                sent_tok = [x.text for x in rich_word]
+            # if not nltk1:
+            #     rich_word = parser(temp)
+            #     sent_tok = [x.text for x in rich_word]
             if pos:
                 if nltk1:
                     tags = [x[1] for x in nltk.pos_tag(sent_tok)]
