@@ -1,4 +1,3 @@
-
 from spacy import load
 import numpy as np
 import math
@@ -234,8 +233,8 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
     stemmer = nltk.PorterStemmer()
     tokenizer = nltk.RegexpTokenizer(r"\w+")
     parse = None
-    # if not nltk1:
-    #     parser = spacy.load('en_core_web_sm')
+    if not nltk1:
+        parser = spacy.load('en_core_web_sm')
     wanted = ['N', 'P', 'J', 'V', 'P']  # 'VB'
     wanted_scp = ['ADJ', 'NOUN', 'VERB', 'PROPN', 'PROPN']
     for news in news_texts:
@@ -248,19 +247,20 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
                 temp = sent.lower()
             if nltk1:
                 sent_tok = nltk.word_tokenize(temp)
-            # if not nltk1:
-            #     rich_word = parser(temp)
-            #     sent_tok = [x.text for x in rich_word]
-            if pos:
-                if nltk1:
-                    tags = [x[1] for x in nltk.pos_tag(sent_tok)]
-                    sent_tok = [sent_tok[i] for i in range(
-                        len(sent_tok)) if tags[i][:1] in wanted]
-                elif not nltk1:
-                    tags = [word.pos_ for word in rich_word]
-                    sent_tok = [sent_tok[i] for i in range(
-                        len(sent_tok)) if tags[i] in wanted_scp]
-            elif stemming:
+            if not nltk1:
+                rich_word = parser(temp)
+                sent_tok = [x.text for x in rich_word]
+            sent_tok = tokenizer.tokenize(temp)
+            # if pos:
+            #     if nltk1:
+            #         tags = [x[1] for x in nltk.pos_tag(sent_tok)]
+            #         sent_tok = [sent_tok[i] for i in range(
+            #             len(sent_tok)) if tags[i][:1] in wanted]
+            #     elif not nltk1:
+            #         tags = [word.pos_ for word in rich_word]
+            #         sent_tok = [sent_tok[i] for i in range(
+            #             len(sent_tok)) if tags[i] in wanted_scp]
+            if stemming:
                 for idx in range(len(sent_tok)):
                     sent_tok[idx] = stemmer.stem(sent_tok[idx])
 
