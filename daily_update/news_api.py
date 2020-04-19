@@ -12,7 +12,7 @@ import nltk
 import spacy
 nltk.download('punkt')
 nltk.download('stopwords')
-spacy.download('en')
+spacy.download('en_core_web_sm')
 
 
 def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
