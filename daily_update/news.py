@@ -49,7 +49,8 @@ if __name__ == '__main__':
     # N = 3
     # gardian_dict = guardian_aggregated(N, None, START_DATE+"T23:11:39Z", TODAY+"T23:11:39Z")
 
-    news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
+    # news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
+    news_dict = get_mongo_store('news')
     inverted_index, document_norms, idf, dictionaries_without_texts = full_text_integerate(
         news_dict)
     document_norms = {str(key): document_norms[key] for key in document_norms}
