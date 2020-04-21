@@ -57,3 +57,6 @@ pymongo==3.4.0
 newspaper3k==0.2.8
 spacy==2.2.4
 pandas==1.0.3
+tweepy==3.8.0
+DateTime==4.3
+ipython==7.13.0
