@@ -113,8 +113,7 @@ def search():
 		# count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
 		# msg = msg + " Retrieved " + str(len(data)) + " tweets. ID: " + str(randint(0, 9999999999))
 
-		return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list, counts=counts, 
-			topic=topic, count_1=count_1, count_2 = count_2, count_3 = count_3, user_ip = user_ip, msg = msg, idx = idx)
+		return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list, msg = msg, idx = idx)
 
 # @irsystem.route("/view_tweet", methods=['GET', 'POST'])
 # def view_tweet():
