@@ -53,8 +53,6 @@ def search():
 	else:
 		user = query
 		result = adhoc_data_crawl.totally_aggregated(query,3,True,N_keyword = 5,num_processed_tweets=10,num_pool_tweets=20,nltk1=True)
-		ref = list(result[1].keys())
-		print(result[1])
 
 		data = []
 		date = []
@@ -64,20 +62,26 @@ def search():
 
 		for i in range(3):
 			# if not keywords:
-				topic = ""
-				tweet_id = ref[i]
-				tweet = result[0][tweet_id]
-				data.append(tweet["text"])
-				print(data)
-				date.append(tweet["created_at"])
-				print(date)
-				retweets.append(tweet["retweet_count"])
-				print(retweets)
-				like.append(tweet["favorite_count"])
-				print(like)
-				for news in result[1][tweet_id]:
-					news_list.append((news["source"], news["description"], news["url"]))
+			print(i)
+			tweet = result[0][i]
+			data.append(tweet["text"])
+			print(data)
+			date.append(tweet["created_at"])
+			print(date)
+			retweets.append(tweet["retweet_count"])
+			print(retweets)
+			like.append(tweet["favorite_count"])
+			print(like)
+			for news in result[1][i]:
+				news_list.append((news["source"], news["description"], news["url"]))
 
+
+
+		print(data)
+		print(date)
+		print(retweets)
+		print(like)
+		print(news_list)
 			# else:
 			# 	topic = keywords
 			# 	data = ["Tweet " +  str(i + 1) + " by @" + query + " containing \"" + topic + "\"" for i in range(length_retrieval_tweets)]

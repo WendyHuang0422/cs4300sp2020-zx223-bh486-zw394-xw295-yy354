@@ -37,7 +37,7 @@
                 {% if data %}
                     <div class = "container" style = "margin-bottom: 3%">
                     	<h4 style = "color: #222222; margin-bottom: 5px">
-                        {% if topic%}
+                        <!-- {% if topic%}
                         	{% if idx != -1 %}
                             	Recent news articles relating to: {{data[idx][0:30]}} ...:
                         	{% else %}
@@ -46,21 +46,21 @@
                         {% else %}
                         	{% if idx != -1 %}
                             	Recent news articles relating to: {{data[idx][0:30]}} ...:
-                        	{% else %}
-                        		Recent news articles on [Celeb Name]:
-                        	{% endif %}
-                        {% endif %}
+                        	{% else %} -->
+                        		Recent news articles on {{user}}:
+                        	<!-- {% endif %}
+                        {% endif %} -->
                         </h4>
                     </div>
                     {% for i in range(3) %}  
                         <a href="#results_page" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px">
                                 <h5 class="mb-1">{{news_list[i][1]}}
-                                {% if idx != -1 %} 
+                                <!-- {% if idx != -1 %} 
                                 	that is relevant to {{data[idx][0:30]}} 
                                 {% else %}
                                     {{news_list[i][2]}}
-                                {% endif %}
+                                {% endif %} -->
                                 </h5>
                             </div>
                             <small class="text-muted">{{news_list[i][0]}}<br></small>
