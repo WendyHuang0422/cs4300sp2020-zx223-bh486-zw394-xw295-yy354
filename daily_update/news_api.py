@@ -11,9 +11,9 @@ from collections import defaultdict
 import pandas as pd
 import nltk
 import spacy
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
+# nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('averaged_perceptron_tagger')
 
 
 def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
@@ -102,7 +102,7 @@ def news_Aggregated(N, date1, date2, order, query=None):
     json
     """
     instance = retrieve_news_article(
-        N, '8ba8b6889b1343508e1ba0b55849ec31', date1, date2, order, query)
+        N, '770d3e15e7234b028da0d84fc0fb6210', date1, date2, order, query)
     wanted = ['source', 'author', 'description',
               'publi_time', 'url', 'content']
     full1 = []
@@ -141,9 +141,9 @@ def get_news_text(url_list):
             # this sometimes casue error due to bad http requests
             article.download()
             article.parse()
+            text_list.append(article.text)
         except:
-            continue
-        text_list.append(article.text)
+            text_list.append(" ")
     return text_list
 
 
