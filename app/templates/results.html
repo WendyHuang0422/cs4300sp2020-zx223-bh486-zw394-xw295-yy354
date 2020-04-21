@@ -15,17 +15,17 @@
                         {% endif %}
                     </div>
                     <!-- <h4>@<a href="#results_page" style = "color: #222222; "><u>{{user}}</u></a>'s latest tweets</h4> -->
-                    {% for i in range(5) %}  
+                    {% for i in range(3) %}  
                         <a class="list-group-item list-group-item-action" href="?search={{user}}&terms={{topic}}&idx={{i}}#results_page" >
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
-                                <h5 class="mb-1">[Celeb Name]</h5>
-                                <small class="text-muted">[Date of tweet]</small>
+                                <h5 class="mb-1">{{user}}</h5>
+                                <small class="text-muted">{{date[i]}}</small>
                             </div>
-                            <p class="mb-1" style = "margin-top: 1px">[{{data[i]}}]</p>
+                            <p class="mb-1" style = "margin-top: 1px">{{data[i]}}</p>
                             <small class="text-muted">
                                 <i class="far fa-comment"></i>&nbsp;[comments]&nbsp;&nbsp;
-                                <i class="far fa-retweet"></i>&nbsp;[retweets]&nbsp;&nbsp;
-                                <i class="far fa-heart"></i>&nbsp;[likes]&nbsp;&nbsp;
+                                <i class="far fa-retweet"></i>&nbsp;{{retweets[i]}}&nbsp;&nbsp;
+                                <i class="far fa-heart"></i>&nbsp;{{likes[i]}}&nbsp;&nbsp;
                                 <br></small>
                             <small class="text-muted">checked {{counts[i]}} times</small>
                         </a>
@@ -67,7 +67,7 @@
                             {% if topic %}
                                 <small class="text-muted">Keywords: "{{topic}}"</small> 
                             {% endif %}
-                            <p class="mb-1" style = "margin-top: 7px">[Body of News] A says B as X Y's, experts warn that X could soon Z, meaning that (...) </p>
+                            <p class="mb-1" style = "margin-top: 7px">{{}}</p>
                             <small class="text-muted">clicked {{counts[i]}} times<br></small>
                             {% if not topic %}
                                 <small class="text-muted">&nbsp;</small> 

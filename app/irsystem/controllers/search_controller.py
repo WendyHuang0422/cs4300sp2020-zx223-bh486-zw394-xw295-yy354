@@ -10,19 +10,40 @@ from flask_sqlalchemy import SQLAlchemy
 
 from random import randint
 
+import tweepy
+import re
+import datetime
+import numpy as np
+import urllib
+import json
+import math
+import nltk
+nltk.download('stopwords')
+import pymongo
+from pymongo import MongoClient
+import datetime
+from datetime import timedelta
+from newspaper import Article
+
+import adhoc_data_crawl
+
 # project_name = "Tweeted Facts"
 # net_id = "Zenong Wang: zw394, Wendy Huang: bh486, Alicia Yang: yy354, " \
 # 		 "Zi Heng Xu: zx223, Iris Wang: zw295"
 
 # how many tweets we are retrieving, and how many news for each tweet we are retrieving
-length_retrieval_tweets = 42
+length_retrieval_tweets = 20
 length_retrieval_news = 20
+
+b = adhoc_data_crawl.twittter_aggregated(20,30,'realDonaldTrump',False)
+print(b)
 
 @irsystem.route("/", methods=['GET', 'POST'])
 @irsystem.route("/search", methods=['GET', 'POST'])
 def search():
 	query = request.args.get('search')
 	keywords = request.args.get('terms', None)
+
 	idx = request.args.get('idx', "-1")
 	idx = int(idx)
 	user_ip = request.remote_addr
@@ -33,14 +54,35 @@ def search():
 		return render_template("search.html", msg = msg)
 	else:
 		user = query
-		if not keywords:
-			topic = ""
-			data = ["Tweet " + str(i + 1) + " by @" + query for i in range(length_retrieval_tweets)]
-		else:
-			topic = keywords
-			data = ["Tweet " +  str(i + 1) + " by @" + query + " containing \"" + topic + "\"" for i in range(length_retrieval_tweets)]
-		counts = [(Tweet_checks.query.filter(Tweet_checks.combined_str.contains(
-			user_ip + ":" + tweet))).count() for tweet in data]
+		a = adhoc_data_crawl.twittter_aggregated(20,30,'realDonaldTrump',False)
+		print(a)
+		result = adhoc_data_crawl.totally_aggregated(query,3,True,N_keyword = 5,num_processed_tweets=20,num_pool_tweets=30,nltk1=True)
+		ref = list(result[1].keys())
+		print(ref)
+
+		data = []
+		date = []
+		retweets = []
+		like = []
+
+		for i in range(3):
+			# if not keywords:
+				topic = ""
+				tweet_id = ref[i]
+				print(tweet_id)
+				tweet = result[0][tweet_id]
+				data.append(tweet["text"])
+				date.append(tweet["created_at"])
+				retweets.append(tweet["retweet_count"])
+				like.append(tweet["favorite_count"])
+				news = []
+				# for i in ref[tweet_id]:
+				# 	news.append(result[2][i])
+
+			# else:
+			# 	topic = keywords
+			# 	data = ["Tweet " +  str(i + 1) + " by @" + query + " containing \"" + topic + "\"" for i in range(length_retrieval_tweets)]
+		counts = [(Tweet_checks.query.filter(Tweet_checks.combined_str.contains(user_ip + ":" + tweet))).count() for tweet in data]
 		# for tweet in data:
 		# 	if (Tweet_checks.query.filter(Tweet_checks.combined_str.contains(tweet))).count() < 1:
 
