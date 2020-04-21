@@ -17,7 +17,7 @@ totally_aggregated(celeb_name,N_tweets,ad_hoc,N_keyword = 5,num_processed_tweets
 call this funciton\
 specifications on how to use this function are added in the documentation of the funciton\
 \
-currently only supports ad_hoc mode, 
+currently only supports ad_hoc mode,
 \
 \
 before calling this funciton\
@@ -70,7 +70,7 @@ import urllib
 import json
 import math
 import nltk
-nltk.download('stopwords')
+# nltk.download('stopwords')
 import pymongo
 from pymongo import MongoClient
 import datetime
@@ -79,7 +79,7 @@ from datetime import timedelta
 from newspaper import Article
 from nltk.tokenize import RegexpTokenizer
 import nltk
-nltk.download('stopwords')
+# nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
@@ -100,10 +100,10 @@ def tweet_score(status,timeline):
   """
 
   time = [x for x in list(filter(None,re.split('[\s:-]',str(status.created_at))))]
-  
-  
+
+
   score = datetime.datetime.timestamp(datetime.datetime.strptime(' '.join(time), '%Y %m %d %H %M %S'))
-  
+
   temp = status._json
   if 'full_text' in temp.keys():
     text = temp["full_text"]
@@ -115,7 +115,7 @@ def tweet_score(status,timeline):
 
 def complete_replies(base,status,fetched,api):
   if status._json['in_reply_to_status_id'] == None:
-    return 
+    return
   else:
     responded = api.get_status(id=status._json['in_reply_to_status_id'],tweet_mode='extended')
     base._json['full_text'] =  responded._json['full_text'] + base._json['full_text']
@@ -159,7 +159,7 @@ def retrieve_tweets(N,celeb_name,inc_retweets,api):
 
 
 def tweets_crawl(N,pool_size,celeb_name,api,inc_retweets):
-  """ 
+  """
     retrieve the top N tweets tweeted by the celeb_account
     N: the number of wanted accounts
 
@@ -196,12 +196,12 @@ def twittter_aggregated(N,pool_size,celeb_name,inc_retweets):
   the aggregated retrieval function  to retrieve N most recent tweets from pool_size
   potential tweets, for example, 200 tweets from 400 tweets in the format
   specified in the google doc (a list of dictionaries with each dictionary
-  representing a tweet). 
+  representing a tweet).
   Also returned is a dictionary mapping the index in the list to the time_stamp
 
   Call this function in the other stages of the system
 
-  READ: this function depends on 
+  READ: this function depends on
   tweepy
   math
   urllib
@@ -217,7 +217,7 @@ def twittter_aggregated(N,pool_size,celeb_name,inc_retweets):
   inc_retweets: whether we include retweets, set to False to retrieve only
     original tweets
   """
-  
+
   c_key = '4xQ7FcDfGAlAM5JkG505ndS3k'
   s_c_key = 'GJkKVtF34AoqaXSdCXq6agxCKrj1T2FL9i2w28Yj9t2wCo6jmM'
   a_key =  '1247186585994637312-6ZuAFM9bhsv1Mil7utLrL0stxbT8ft'
@@ -233,8 +233,8 @@ def twittter_aggregated(N,pool_size,celeb_name,inc_retweets):
   for idx in recent:
     idx = idx[0]._json
     temp = {}
-   
-      
+
+
     if 'full_text' in idx.keys():
       temp['text'] = idx['full_text']
     else:
@@ -292,9 +292,9 @@ def retrieve_tweets(N,celeb_name,inc_retweets,api):
 
 def raw_news_retrieval(query,api_key,date1,date2,N,page,sort):
   """
-  return a json file specified in 
+  return a json file specified in
   query: a tuple or a keyword, the tuple should represent
-        
+
   api_key: the auth key to retrieve the news
   time_span: a string in the format of 'yyyy-mm-dd:yyyy-mm-dd' indicating the
             timespan from the first date to the second one
@@ -310,7 +310,7 @@ def raw_news_retrieval(query,api_key,date1,date2,N,page,sort):
         +'/page='+str(page)+'&pageSize=' +str(N)+'&sortBy='+ sort +date_a+"&language=en"+keys_a
   print(url)
   agg_file = json.load(urllib.request.urlopen(url))
-  
+
   return agg_file
 
 
@@ -321,15 +321,15 @@ def retrieve_news_article(N,key,date1,date2,order,query):
   N: the total number of wanted news
   key: the API key for access
   query: the string query terms for the search, can be in the format
-   of  "keyword", "keyword AND keyword", "keyword NOT keyword", 
+   of  "keyword", "keyword AND keyword", "keyword NOT keyword",
    "keyword OR keyword"
-   query (any operator) (query), 
+   query (any operator) (query),
    keyword (any operator) query
    default is None
   date11: the start date of the timespan from which we retrieve news
     format: "yyyy-mm-dd"
   date2: the end date of the time span from which we retrieve news
-  order: one of 'pubishedAt', 'relevancy',or 'popularity' 
+  order: one of 'pubishedAt', 'relevancy',or 'popularity'
   """
   results = []
   date = date1+':'+date2
@@ -342,7 +342,7 @@ def retrieve_news_article(N,key,date1,date2,order,query):
     results_left = totalSize-len(results)
     if len(results) >= N:
       return results[:N]
-    page = page + 1  
+    page = page + 1
   #print("there are not enoguh results that can be retrieved, returning as many as we can")
   return (results)
 
@@ -356,9 +356,9 @@ def news_Aggregated(N,date1,date2,order,query=None):
 
   N: the total number of wanted news
   query: the string query terms for the search, can be in the format
-   of  "keyword", "keyword AND keyword", "keyword NOT keyword", 
+   of  "keyword", "keyword AND keyword", "keyword NOT keyword",
    "keyword OR keyword"
-   query (any operator) (query), 
+   query (any operator) (query),
    keyword (any operator) query
    default is None
   date11: the start date of the timespan from which we retrieve news
@@ -367,7 +367,7 @@ def news_Aggregated(N,date1,date2,order,query=None):
 
   (the time span can at most be one month)
 
-  order: one of 'pubishedAt', 'relevancy',or 'popularity' 
+  order: one of 'pubishedAt', 'relevancy',or 'popularity'
 
   libraries:
   re
@@ -398,7 +398,7 @@ def bing_retrieve_raw(N,query,key):
 
   N: the number of results wanted
   query: the search keywords
-  
+
   """
   #Bing API
   search_url = "https://api.cognitive.microsoft.com/bing/v7.0/news/search"
@@ -505,7 +505,7 @@ def retrieve_g_article1(N,key,query,date1,date2):
   page = 1
   while page_left != 0:
     instance = raw_g_retrieval(query,key,date,200,page)
-    
+
     pageSize = instance['response']['pageSize']
     if pageSize < page:
       return results
@@ -514,10 +514,10 @@ def retrieve_g_article1(N,key,query,date1,date2):
       if idx['type'] == 'article':
         results.append(idx)
         if len(results) >= N:
-          return results 
-    
+          return results
+
     page_left = instance['response']['pages']-instance['response']["currentPage"]
-    page = page + 1 
+    page = page + 1
   return results
 
 def guardian_aggregated(N, query,date1,date2):
@@ -556,12 +556,12 @@ from collections import defaultdict
 ## this function CONNECTS TO FRONT END
 def retrive_twitt_post_url(top_num, N, celebrity_name, topics):
   """
-  [top_num]: most recent [top_num] twitts by the [celebrity_name] 
+  [top_num]: most recent [top_num] twitts by the [celebrity_name]
   [N]: choosing from N recent posts
   [topics]: string of relating topics ; "" if no specified the topics
 
-  Return: A list of tuples: ( twitter post content, corresponding url) 
-          the list may have (length < top_num) 
+  Return: A list of tuples: ( twitter post content, corresponding url)
+          the list may have (length < top_num)
           if the celebrity doesn't have [top_num] of post related to the topic
   """
   post_url = []
@@ -575,7 +575,7 @@ def retrive_twitt_post_url(top_num, N, celebrity_name, topics):
     top_related = find_related_post(top_num, topics, post_url,twitts_inverted_ind)
     return top_related
 
-# Helper functions for 1.step: 
+# Helper functions for 1.step:
 def decompose_post(twitts):
   """
   Decompose the twitts to seperate the url and the text from the twitts content
@@ -653,7 +653,7 @@ def tokenize_tweets(tweetList_raw,stemming=False,pos=False,lower=True,remove_sto
           if tok not in  stop_words:
             temp.append(tok)
         sent_tok = temp
-    
+
       tokens.extend(sent_tok)
     result.append((tokens,tweet[1]))
   return result,tweetList_raw
@@ -664,7 +664,7 @@ def build_inverted_idx_zw(tokenized_tweets):
   """
   build inverted index for the list of twitter posts content
   tokenized_tweets: list of tokenized tweets
-  return : a dictionary:  {term1: (doc_id, count_of_term1_in_doc), 
+  return : a dictionary:  {term1: (doc_id, count_of_term1_in_doc),
                           term2: (doc_id, count_of_term2_in_doc) ... }
   """
   result = defaultdict(lambda: [], {})
@@ -672,7 +672,7 @@ def build_inverted_idx_zw(tokenized_tweets):
     tweet = tokenized_tweets[i][0]
     sofar = set()
     for tok in tweet:
-      if(tok not in sofar): 
+      if(tok not in sofar):
         result[tok].append( (i,tweet.count(tok)))
         sofar.add(tok)
   return result
@@ -702,10 +702,10 @@ def build_inverted_ind(docList):
   """
   build inverted index for the list of twitter posts content
   tweetList_raw: the original list of dictionaries
-  return : 1.a dictionary:  {term1: (doc_id, count_of_term1_in_doc), 
+  return : 1.a dictionary:  {term1: (doc_id, count_of_term1_in_doc),
                           term2: (doc_id, count_of_term2_in_doc) ... }
            2.the tokenized sentences_url pairs
-           3. 
+           3.
   """
   tokenizer = RegexpTokenizer(r'((?<=[^\w\s])\w(?=[^\w\s])|(\W))+', gaps=True)
   result = defaultdict(lambda: [], {})
@@ -713,7 +713,7 @@ def build_inverted_ind(docList):
       toks = tokenizer.tokenize(docList[i])
       sofar = set()
       for tok in toks:
-          if(tok not in sofar): 
+          if(tok not in sofar):
               result[tok].append( (i,toks.count(tok)))
               sofar.add(tok)
   return result
@@ -757,13 +757,13 @@ def idf_topic_cluster(inv_idx,tweet1,tok_tweet_list,idf,doc_norms):
 
   # idf = []
   for tok in query_tok:
-      if(tok in idf): 
+      if(tok in idf):
         temp[tok] += 1
   for tok in temp:
       tweets = inv_idx[tok]
       for tweet in tweets:
         scores[tweet[0]] += (idf[tok])**2*temp[tok]
-  inv_idx = {key: val for key, val in inv_idx.items() if key in idf} 
+  inv_idx = {key: val for key, val in inv_idx.items() if key in idf}
   doc_norms = np.multiply(math.sqrt(query_norm),doc_norms)
   orders = []
   for i in range(len(doc_norms)):
@@ -787,7 +787,7 @@ def recent_surge(word,tweet,total_length,range_per,tok_tweet_list,inv_idx):
   last = 0 if tweet>0 else 1
   count = 0
   while covered_length<segment:
-    
+
     if last ==0 and pre-1 >=0:
       pre = pre -1
       covered_length += len(tok_tweet_list[pre][0])
@@ -803,12 +803,12 @@ def recent_surge(word,tweet,total_length,range_per,tok_tweet_list,inv_idx):
   for pair in inv_idx[word]:
     if pair[0]<=pos and pair[0]>=pre:
       local_wd_count += pair[1]
-  
+
   global_per = global_wd_count/total_length
   local_per = local_wd_count/covered_length
-  
+
   return math.log((local_per/global_per))
-  
+
 
 def keywords(tweet,pool,idf,tok_tweet_list,inv_idx):
   total_length = sum([len(x[0]) for x in tok_tweet_list])
@@ -817,11 +817,11 @@ def keywords(tweet,pool,idf,tok_tweet_list,inv_idx):
 
   for text in pool:
     pool_text = text[0][0]
- 
+
     for word in pool_text:
       if word in idf.keys():
         surge = recent_surge(word,text[1],total_length,0.1,tok_tweet_list,inv_idx)
-       
+
         score[word] = score.get(word,0) + idf[word]*surge
   score = sorted(list(score.items()), key=lambda x: x[1],reverse=True)
   return [x[0] for x in score]
@@ -843,16 +843,16 @@ def q_generate(combo,news_source):
 
 def retrive_news(list_keywords):
   """
-  the function generates all combinations of the 
+  the function generates all combinations of the
   keyword set to retrieve the related news, if the longest combination
-  have results then just retur that result, otherwise decrease the 
+  have results then just retur that result, otherwise decrease the
   keywords by one until some news are retrieved.
   """
   result = []
   date1 = (datetime.datetime.today() - timedelta(days=30)).strftime("%Y-%m-%d")
   date2 = datetime.datetime.today().strftime("%Y-%m-%d")
   for length in range(len(list_keywords),int(0.4*len(list_keywords)),-1):
-  
+
     combinations = itertools.combinations(list_keywords,length)
     query = ''
     count = 0
@@ -886,9 +886,9 @@ def keywords_per_tweet(list_of_tweets,idx_time,N_tweets,N_keyword,nltk1):
   {tweet index in the list:[list of related news objects]}
 
   list_of_tweets: the list of tweets in the raw list of dictionaries
-  idx_time: the dicitonary that map the index in the list of tweet to the 
+  idx_time: the dicitonary that map the index in the list of tweet to the
             original index in the list of tweets that strictly follows the chronological order
-            for example, 101 to 50 means the 101th item in the list was originally the 
+            for example, 101 to 50 means the 101th item in the list was originally the
             50th most recent tweet we retrieve
   N_tweets: the number of tweets for which we want to retrieve news
   N_keyword: the number of top keywords retrieved for each cluster of tweets
@@ -898,7 +898,7 @@ def keywords_per_tweet(list_of_tweets,idx_time,N_tweets,N_keyword,nltk1):
   tokenized_time_s = [None]*len(tokenized)
   print("tokenized")
   time_idx = {idx_time[x]: x for x in idx_time.keys()}
-  
+
   for idx in range(len(tokenized)):
       tokenized_time_s[idx_time[idx]] = tokenized[idx]
 
@@ -931,15 +931,15 @@ def tweet_match_db(tok_tweet,inverted_idx,idf,doc_norms,list_of_news):
   temp = defaultdict(lambda: 0, {})
   # idf = []
   for tok in query_tok:
-      if(tok in idf.keys()): 
+      if(tok in idf.keys()):
         temp[tok] += 1
   for tok in temp:
       query_norm += (temp[tok]*idf[tok])**2
       documents = inverted_idx[tok]
       for ind in documents:
-  
+
           scores[ind[0]] += ind[1]*(idf[tok])**2*temp[tok]
-  
+
   orders = []
   for i in range(len(doc_norms)):
       if(doc_norms[str(i)]!=0 and scores[i]):
@@ -955,7 +955,7 @@ def tweet_match_db(tok_tweet,inverted_idx,idf,doc_norms,list_of_news):
 def db_news_retrieval(list_of_tweets,N_news):
   #list of interested tweets dictionaries
   list_of_news = get_mongo_store('news')
-  
+
   print(list_of_news)
   inverted_idx = get_mongo_store('inverted_index')
   print('inverted_index')
@@ -1022,7 +1022,7 @@ def totally_aggregated(celeb_name,N_tweets,ad_hoc,N_keyword = 5,num_processed_tw
 
     for idx in range(len(fall_in_range)):
       idx_time[time_idx[fall_in_range[idx]]] = idx
-  
+
   #rehashing the range of time stamp back to the same size of the retrieved results
   if ad_hoc:
     result = keywords_per_tweet(data,idx_time,N_tweets,N_keyword,nltk1)
@@ -1059,7 +1059,7 @@ import math
 # for_text,idx_time = twittter_aggregated(200,300,'realDonaldTrump',False)
 
 # import datetime
-# start = datetime.datetime.now() 
+# start = datetime.datetime.now()
 # fall_in_range = sorted(idx_time.values())
 # print(len(idx_time.values()))
 # time_idx = {idx_time[x]:x for x in idx_time.keys()}
@@ -1093,17 +1093,17 @@ def find_related_post(top_num, topics, post_url,inv_idx):
   query_tok  = topics.split(" ")
   query_norm, scores= 0, [0]*len(post_url)
   temp = defaultdict(lambda: 0, {})
-  idf = compute_idf(inv_idx, len(post_url))  
+  idf = compute_idf(inv_idx, len(post_url))
   # idf = []
   for tok in query_tok:
-      if(tok in idf): 
+      if(tok in idf):
         temp[tok] += 1
   for tok in temp:
       query_norm += (temp[tok]*idf[tok])**2
       sentences = inv_idx[tok]
       for ind in sentences:
           scores[ind[0]] += ind[1]*(idf[tok])**2*temp[tok]
-  inv_idx = {key: val for key, val in inv_idx.items() if key in idf} 
+  inv_idx = {key: val for key, val in inv_idx.items() if key in idf}
   doc_norms = compute_doc_norms(inv_idx, idf, len(post_url))
   doc_norms = np.multiply(math.sqrt(query_norm),doc_norms)
   orders = []
@@ -1131,7 +1131,7 @@ import numpy as np
 
 
 ## this function CONNECT TO FRONT END
-## it should only be called once in a day 
+## it should only be called once in a day
 def store_news(N,start_date):
   """
   [N]: total number of news stored in the database
@@ -1156,7 +1156,7 @@ def related_news(post_url, top_n):
   tokenizer = RegexpTokenizer(r'[a-zA-Z]{3,}')
   tokens = tokenizer.tokenize(post_url[0])
   stopw = stopwords.words('english')
-  ps = PorterStemmer() 
+  ps = PorterStemmer()
   tokens = [token for token in tokens if ps.stem(token) not in stopw]
   query = "+".join(tokens)
   end_date = datetime.date(datetime.now()).strftime("%Y-%m-%d")
@@ -1232,11 +1232,11 @@ from newspaper import Article
 def get_news_text(url_list):
   """
     Retreive the news text from the url listm return list of string in the given
-    url input order 
-    (some url might not be avialble fo this method so the return list might be 
+    url input order
+    (some url might not be avialble fo this method so the return list might be
     less than the given url link)
     [text1, text2, ...]
-    
+
     url_list: a list of urls
     Return: a list of strings(news content)
 
@@ -1245,7 +1245,7 @@ def get_news_text(url_list):
   text_list = []
   for i in range(len(url_list)):
     url = url_list[i]
-    article = Article(url) 
+    article = Article(url)
     try:
       #this sometimes casue error due to bad http requests
       article.download()
@@ -1277,8 +1277,8 @@ def full_text_integerate(list_dictionaries):
   inverted_index = build_inverted_idx_zw(tokenized)
 
   return inverted_index,list_dicitonaries
-  
-    
+
+
 
 
 
@@ -1324,7 +1324,7 @@ def tokenize_news(news_texts,stemming=False,pos=False,lower=True,remove_stop = T
           if tok not in  stop_words:
             temp.append(tok)
         sent_tok = temp
-    
+
       tokens.extend(sent_tok)
     result.append((tokens,'padded'))
   return result
