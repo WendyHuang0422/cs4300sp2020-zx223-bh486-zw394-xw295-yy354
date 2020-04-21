@@ -1,3 +1,4 @@
+from spacy import load
 import numpy as np
 import math
 from nltk.corpus import stopwords
@@ -9,8 +10,10 @@ from newspaper import Article
 from collections import defaultdict
 import pandas as pd
 import nltk
+import spacy
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
 
 
 def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
@@ -168,8 +171,10 @@ def full_text_integerate(list_dictionaries1):
                 full_text[text_idx] = instance['content']
         del list_dictionaries[text_idx]['description']
         del list_dictionaries[text_idx]['content']
+    # tokenized = tokenize_news(
+    #     full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=False)
     tokenized = tokenize_news(
-        full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=False)
+        full_text, stemming=False, pos=True, lower=True, remove_stop=True, nltk1=True)
     inverted_index = build_inverted_idx_zw(tokenized)
     idf = compute_idf(inverted_index, len(tokenized),
                       min_df=1, max_df_ratio=0.7)
@@ -245,16 +250,17 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
             if not nltk1:
                 rich_word = parser(temp)
                 sent_tok = [x.text for x in rich_word]
-            if pos:
-                if nltk1:
-                    tags = [x[1] for x in nltk.pos_tag(sent_tok)]
-                    sent_tok = [sent_tok[i] for i in range(
-                        len(sent_tok)) if tags[i][:1] in wanted]
-                elif not nltk1:
-                    tags = [word.pos_ for word in rich_word]
-                    sent_tok = [sent_tok[i] for i in range(
-                        len(sent_tok)) if tags[i] in wanted_scp]
-            elif stemming:
+            sent_tok = tokenizer.tokenize(temp)
+            # if pos:
+            #     if nltk1:
+            #         tags = [x[1] for x in nltk.pos_tag(sent_tok)]
+            #         sent_tok = [sent_tok[i] for i in range(
+            #             len(sent_tok)) if tags[i][:1] in wanted]
+            #     elif not nltk1:
+            #         tags = [word.pos_ for word in rich_word]
+            #         sent_tok = [sent_tok[i] for i in range(
+            #             len(sent_tok)) if tags[i] in wanted_scp]
+            if stemming:
                 for idx in range(len(sent_tok)):
                     sent_tok[idx] = stemmer.stem(sent_tok[idx])
 
