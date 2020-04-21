@@ -91,31 +91,31 @@ def search():
 
 		# 		db.session.add(tweet_data)
 		# 		db.session.commit()
-		ip_user_query = user_ip + ":</>" + user + "</>"
-		ip_terms_query = user_ip + ":</>" + topic + "</>"
-		combined_query = user + "<u:t>" + topic + "</>"
-		ip_combined_query = user_ip + ":</>" + combined_query
-		if (Search_terms.query.filter(Search_terms.combined_query.contains(ip_combined_query))).count() < 1:
-			search_data = Search_terms(user_ip = user_ip, user_query = ip_user_query, terms_query = ip_terms_query,
-				combined_query = ip_combined_query)
-			db.session.add(search_data)
-			db.session.commit()
-			msg = msg + " Combined search counted!"
-		else:
-			# repeat combined search is not counted 
-			msg = msg + " Repeat combined search not counted."
-		if (Search_users.query.filter(Search_users.user_query.contains(ip_user_query))).count() < 1:
-			search_user_data = Search_users(user_ip = user_ip, user_query = ip_user_query)
-			db.session.add(search_user_data)
-			db.session.commit()
-			msg = msg + " User search counted!"
-		else:
-			# repeat user search is not counted 
-			msg = msg + " Repeat user search not counted."
-		count_1 = (Search_users.query.filter(Search_users.user_query.contains(":</>" + query + "</>"))).count()
-		count_2 = (Search_terms.query.filter(Search_terms.terms_query.contains(":</>" + keywords + "</>"))).count()
-		count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
-		msg = msg + " Retrieved " + str(len(data)) + " tweets. ID: " + str(randint(0, 9999999999))
+		# ip_user_query = user_ip + ":</>" + user + "</>"
+		# ip_terms_query = user_ip + ":</>" + topic + "</>"
+		# combined_query = user + "<u:t>" + topic + "</>"
+		# ip_combined_query = user_ip + ":</>" + combined_query
+		# if (Search_terms.query.filter(Search_terms.combined_query.contains(ip_combined_query))).count() < 1:
+		# 	search_data = Search_terms(user_ip = user_ip, user_query = ip_user_query, terms_query = ip_terms_query,
+		# 		combined_query = ip_combined_query)
+		# 	db.session.add(search_data)
+		# 	db.session.commit()
+		# 	msg = msg + " Combined search counted!"
+		# else:
+		# 	# repeat combined search is not counted 
+		# 	msg = msg + " Repeat combined search not counted."
+		# if (Search_users.query.filter(Search_users.user_query.contains(ip_user_query))).count() < 1:
+		# 	search_user_data = Search_users(user_ip = user_ip, user_query = ip_user_query)
+		# 	db.session.add(search_user_data)
+		# 	db.session.commit()
+		# 	msg = msg + " User search counted!"
+		# else:
+		# 	# repeat user search is not counted 
+		# 	msg = msg + " Repeat user search not counted."
+		# count_1 = (Search_users.query.filter(Search_users.user_query.contains(":</>" + query + "</>"))).count()
+		# count_2 = (Search_terms.query.filter(Search_terms.terms_query.contains(":</>" + keywords + "</>"))).count()
+		# count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
+		# msg = msg + " Retrieved " + str(len(data)) + " tweets. ID: " + str(randint(0, 9999999999))
 
 		return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list, counts=counts, 
 			topic=topic, count_1=count_1, count_2 = count_2, count_3 = count_3, user_ip = user_ip, msg = msg, idx = idx)
