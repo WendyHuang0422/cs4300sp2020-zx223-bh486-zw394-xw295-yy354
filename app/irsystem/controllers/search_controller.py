@@ -68,20 +68,16 @@ def search():
 			date.append(tweet["created_at"])
 			retweets.append(tweet["retweet_count"])
 			like.append(tweet["favorite_count"])
+			tweet_news = []
 			for news in result[1][i]:
-				news_list.append((news["source"], news["description"], news["url"]))
+				tweet_news.append((news["source"], news["description"], news["url"]))
+			tweet_news.append(tweet_news)
 
-
-
-		print(data)
-		print(date)
-		print(retweets)
-		print(like)
 		print(news_list)
 			# else:
 			# 	topic = keywords
 			# 	data = ["Tweet " +  str(i + 1) + " by @" + query + " containing \"" + topic + "\"" for i in range(length_retrieval_tweets)]
-		counts = [(Tweet_checks.query.filter(Tweet_checks.combined_str.contains(user_ip + ":" + tweet))).count() for tweet in data]
+		# counts = [(Tweet_checks.query.filter(Tweet_checks.combined_str.contains(user_ip + ":" + tweet))).count() for tweet in data]
 		# for tweet in data:
 		# 	if (Tweet_checks.query.filter(Tweet_checks.combined_str.contains(tweet))).count() < 1:
 
