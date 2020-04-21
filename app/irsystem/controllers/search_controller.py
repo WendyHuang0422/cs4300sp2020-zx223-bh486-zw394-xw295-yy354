@@ -52,6 +52,7 @@ def search():
 		return render_template("search.html", msg = msg)
 	else:
 		user = query
+		topic = ""
 		result = adhoc_data_crawl.totally_aggregated(query,3,True,N_keyword = 5,num_processed_tweets=10,num_pool_tweets=20,nltk1=True)
 
 		data = []
@@ -62,16 +63,11 @@ def search():
 
 		for i in range(3):
 			# if not keywords:
-			print(i)
 			tweet = result[0][i]
 			data.append(tweet["text"])
-			print(data)
 			date.append(tweet["created_at"])
-			print(date)
 			retweets.append(tweet["retweet_count"])
-			print(retweets)
 			like.append(tweet["favorite_count"])
-			print(like)
 			for news in result[1][i]:
 				news_list.append((news["source"], news["description"], news["url"]))
 
