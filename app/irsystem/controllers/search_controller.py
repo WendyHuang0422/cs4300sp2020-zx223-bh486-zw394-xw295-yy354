@@ -71,7 +71,7 @@ def search():
 			tweet_news = []
 			for news in result[1][i]:
 				tweet_news.append((news["source"], news["description"], news["url"]))
-			tweet_news.append(tweet_news)
+			news_list.append(tweet_news)
 
 		print(news_list)
 			# else:
