@@ -55,15 +55,15 @@
                     {% for i in range(3) %}  
                         <a href="#results_page" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px">
-                                <h5 class="mb-1">[News Title {{i + 1}}]
+                                <h5 class="mb-1">{{news_list[i][1]}}
                                 {% if idx != -1 %} 
                                 	that is relevant to {{data[idx][0:30]}} 
                                 {% else %}
-                                	A says B as X Y's, experts warn that X could soon Z ...
+                                    {{news_list[i][2]}}
                                 {% endif %}
                                 </h5>
                             </div>
-                            <small class="text-muted">[News Source]<br></small>
+                            <small class="text-muted">{{news_list[i][0]}}<br></small>
                             {% if topic %}
                                 <small class="text-muted">Keywords: "{{topic}}"</small> 
                             {% endif %}

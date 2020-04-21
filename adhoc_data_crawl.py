@@ -140,6 +140,9 @@ def retrieve_tweets(N,celeb_name,inc_retweets,api):
   count = 0
   fetched = set()
   test = 0
+
+  print(len(tweepy.Cursor(api.user_timeline,screen_name = celeb_name,count=200,tweet_mode='extended').pages()))
+
   for page in tweepy.Cursor(api.user_timeline,screen_name = celeb_name,count=200,tweet_mode='extended').pages():
         for status in page:
             if status._json['id'] not in fetched:
