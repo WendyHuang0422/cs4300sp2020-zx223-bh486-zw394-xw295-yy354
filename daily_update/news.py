@@ -25,10 +25,6 @@ def mongo_store(source_name, dictionary):
             dict_writer = csv.DictWriter(output_file, keys)
             document = {"dictionary": pd.DataFrame.from_dict(data=dictionary, orient='index').to_csv(
                 'dict_file.csv', header=False)}
-            # for key, value in dictionary.items():
-            #     dict_writer.writerow([key, value])
-            # dict_writer.writeheader()
-            # dict_writer.writerows(dictionary)
 
     if collection.find_one({}) == None:
         collection.insert_one(document)
@@ -60,6 +56,7 @@ if __name__ == '__main__':
     # N = 2
     # gardian_dict = guardian_aggregated(N, None, START_DATE+"T23:11:39Z", TODAY+"T23:11:39Z")
     N = int(sys.argv[1])
+    print(N)
 
     news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
     news_dict = get_mongo_store('news')
