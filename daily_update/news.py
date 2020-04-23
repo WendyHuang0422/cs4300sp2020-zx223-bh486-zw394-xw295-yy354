@@ -10,11 +10,11 @@ import csv
 
 def mongo_store(source_name, dictionary):
     client = pymongo.MongoClient(
-        'mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
+        'mongodb://alicia:alicia1@ds139019-a0.mlab.com:39019,ds139019-a1.mlab.com:39019/heroku_gczdn597?replicaSet=rs-ds139019')
     db = client.get_default_database()
 
     collection = db[source_name]
-    print("source_name")
+    print(source_name)
 
     print("-------------  helooooo  ---------------")
 
@@ -39,17 +39,13 @@ def mongo_store(source_name, dictionary):
 
 def get_mongo_store(source_name):
     client = pymongo.MongoClient(
-        'mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
+        'mongodb://alicia:alicia1@ds139019-a0.mlab.com:39019,ds139019-a1.mlab.com:39019/heroku_gczdn597?replicaSet=rs-ds139019')
     db = client.get_default_database()
 
     collection = db[source_name]
     cursor = collection.find_one({})
     result = cursor['dictionary']
-    if source_name == "inverted_index1":
-        print("gooooooooddddd   ******")
-        print(result)
-        # data = pd.read_csv(result)
-        # result = {col: list(data[col]) for col in data.columns}
+    print(result)
 
     client.close()
     return result
@@ -65,7 +61,7 @@ if __name__ == '__main__':
     # gardian_dict = guardian_aggregated(N, None, START_DATE+"T23:11:39Z", TODAY+"T23:11:39Z")
 
     news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
-    # news_dict = get_mongo_store('news')
+    news_dict = get_mongo_store('news')
     inverted_index, document_norms, idf, dictionaries_without_texts = full_text_integerate(
         news_dict)
     document_norms = {str(key): document_norms[key] for key in document_norms}
