@@ -52,7 +52,7 @@ def get_mongo_store(source_name):
 
 
 if __name__ == '__main__':
-    DURATION = 10
+    DURATION = 20
     TODAY = datetime.today().strftime("%Y-%m-%d")
     START_DATE = (datetime.today() -
                   timedelta(days=DURATION)).strftime("%Y-%m-%d")
