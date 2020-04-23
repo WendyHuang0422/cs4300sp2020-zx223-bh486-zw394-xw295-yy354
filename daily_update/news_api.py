@@ -118,7 +118,6 @@ def news_Aggregated(N, date1, date2, order, query=None):
         data1['content'] = idx['content']
         full1.append(data1)
         count += 1
-    print("count is ***************", count)
     return full1
 
 
