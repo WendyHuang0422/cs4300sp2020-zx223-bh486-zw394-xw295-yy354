@@ -101,6 +101,7 @@ def news_Aggregated(N, date1, date2, order, query=None):
     urllib
     json
     """
+    print("news_api using  N is  ",N)
     instance = retrieve_news_article(
         N, '770d3e15e7234b028da0d84fc0fb6210', date1, date2, order, query)
     wanted = ['source', 'author', 'description',

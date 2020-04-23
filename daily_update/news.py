@@ -52,8 +52,6 @@ if __name__ == '__main__':
     TODAY = datetime.today().strftime("%Y-%m-%d")
     START_DATE = (datetime.today() -
                   timedelta(days=DURATION)).strftime("%Y-%m-%d")
-
-    # N = 2
     # gardian_dict = guardian_aggregated(N, None, START_DATE+"T23:11:39Z", TODAY+"T23:11:39Z")
     N = int(sys.argv[1])
     print(N)
