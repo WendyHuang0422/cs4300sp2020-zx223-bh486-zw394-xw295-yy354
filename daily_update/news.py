@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
     news_dict = get_mongo_store('news')
-    print("retrieved size:  ", news_dict.size())
+    print("retrieved size:  ", len(news_dict))
     inverted_index, document_norms, idf, dictionaries_without_texts = full_text_integerate(
         news_dict)
     document_norms = {str(key): document_norms[key] for key in document_norms}
