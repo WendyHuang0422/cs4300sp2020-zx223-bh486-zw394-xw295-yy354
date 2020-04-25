@@ -1,6 +1,41 @@
-{% extends "search.html" %}
-{% block content %}
-    <a id = "results_page"></a>
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/bootstrap_4_4_1.min.css">
+    <link rel="stylesheet" href="/static/font_awesome/all.min.css">
+
+    <style>
+        #go_back_to_top_button {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 20px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            /*background-color: red;  Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 20px; /* Increase font size */
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <script>
+        $(window).on("load", function(){
+            $(".spinner-growr").fadeOut("slow");
+        });
+    </script>
     <div class = "container">
         <div class="row justify-content-md-center">
             <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
@@ -60,4 +95,4 @@
             </div>
         </div>
     </div>
-{% endblock content %}
+</body>
