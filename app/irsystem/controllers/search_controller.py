@@ -36,7 +36,7 @@ length_retrieval_tweets = 20
 length_retrieval_news = 20
 
 @irsystem.route("/", methods=['GET', 'POST'])
-@irsystem.route("/search", methods=['GET', 'POST'])
+@irsystem.route("results.html", methods=['GET', 'POST'])
 def search():
 	query = request.args.get('search')
 	print(query)

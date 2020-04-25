@@ -36,21 +36,22 @@
             $(".spinner-growr").fadeOut("slow");
         });
     </script>
+
     <div class = "container">
         <div class="row justify-content-md-center">
             <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
                 {% if data %}
                     <div class = "container" style = "margin-bottom: 3%">
                         {% if topic%}
-                            <h4 style = "margin-bottom: 5px">Latest tweets from @<a href="#results_page" style = "color: #222222">
+                            <h4 style = "margin-bottom: 5px">Latest tweets from @<a href="results.html" style = "color: #222222">
                                 <u>{{user}}</u></a> on "{{topic}}":</h4>
                         {% else %}
                             <h4 style = "margin-bottom: 5px">
-                                Latest tweets from @<a href="#results_page" style = "color: #222222"><u>{{user}}</u></a>:</h4>
+                                Latest tweets from @<a href="results.html" style = "color: #222222"><u>{{user}}</u></a>:</h4>
                         {% endif %}
                     </div>
                     {% for i in range(3) %}  
-                        <a class="list-group-item list-group-item-action" href="?search={{user}}&terms={{topic}}&idx={{i}}#results_page" >
+                        <a class="list-group-item list-group-item-action" href="results.html?search={{user}}&terms={{topic}}&idx={{i}}e" >
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
                                 <h5 class="mb-1">{{user}}</h5>
                                 <small class="text-muted">{{date[i]}}</small>
