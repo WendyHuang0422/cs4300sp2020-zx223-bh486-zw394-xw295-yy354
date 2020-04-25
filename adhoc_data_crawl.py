@@ -82,6 +82,9 @@ import nltk
 # nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+nltk.download('wordnet')
+from nltk.stem import WordNetLemmatizer 
+from nltk.corpus import wordnet as wn
 
 def create_ApI(consumer_key,s_consmer_key,access_key,s_acess_key):
   #given the authroization return a tweepy api object for retrieving data
@@ -290,28 +293,30 @@ def retrieve_tweets(N,celeb_name,inc_retweets,api):
   return (None,'the user made no recent tweets, try include retweets')
 
 
-def raw_news_retrieval(query,api_key,date1,date2,N,page,sort):
-  """
-  return a json file specified in
-  query: a tuple or a keyword, the tuple should represent
+def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
+    """
+    return a json file specified in 
+    query: a tuple or a keyword, the tuple should represent
 
-  api_key: the auth key to retrieve the news
-  time_span: a string in the format of 'yyyy-mm-dd:yyyy-mm-dd' indicating the
-            timespan from the first date to the second one
-  """
-  #build the url
-  keys_a = "&apiKey=" + api_key
-  date_a = '&to='+date2+'&from='+date1
-  if not query is None:
-    query = 'everything?q='+query + '&'
-  else:
-    query = 'everything?q='
-  url = "https://newsapi.org/v2/"+query\
-        +'/page='+str(page)+'&pageSize=' +str(N)+'&sortBy='+ sort +date_a+"&language=en"+keys_a
-  print(url)
-  agg_file = json.load(urllib.request.urlopen(url))
+    api_key: the auth key to retrieve the news
+    time_span: a string in the format of 'yyyy-mm-dd:yyyy-mm-dd' indicating the
+              timespan from the first date to the second one
+    """
+    # build the url
+    sources = "abc-news,cbs-news,associated-press,bloomberg,nbc-news,fox-news,reuters,usa-today,business-insider,the-hill,espn,axios,bbc-news"
+    keys_a = "&apiKey=" + api_key
+    date_a = '&to='+date2+'&from='+date1
+    if not query is None:
+        query = 'everything?q='+query + '&'
+    else:
+        query = 'everything?q='
+    url = "https://newsapi.org/v2/"+query\
+          + '/page='+str(page)+'&pageSize=' + str(N) + \
+        '&sortBy=' + sort + date_a+"&language=en"+"&sources="+sources+keys_a
 
-  return agg_file
+    agg_file = json.load(urllib.request.urlopen(url))
+
+    return agg_file
 
 
 def retrieve_news_article(N,key,date1,date2,order,query):
@@ -757,13 +762,13 @@ def idf_topic_cluster(inv_idx,tweet1,tok_tweet_list,idf,doc_norms):
 
   # idf = []
   for tok in query_tok:
-      if(tok in idf):
+      if(tok in idf): 
         temp[tok] += 1
   for tok in temp:
       tweets = inv_idx[tok]
       for tweet in tweets:
         scores[tweet[0]] += (idf[tok])**2*temp[tok]
-  inv_idx = {key: val for key, val in inv_idx.items() if key in idf}
+  inv_idx = {key: val for key, val in inv_idx.items() if key in idf} 
   doc_norms = np.multiply(math.sqrt(query_norm),doc_norms)
   orders = []
   for i in range(len(doc_norms)):
@@ -787,7 +792,7 @@ def recent_surge(word,tweet,total_length,range_per,tok_tweet_list,inv_idx):
   last = 0 if tweet>0 else 1
   count = 0
   while covered_length<segment:
-
+    
     if last ==0 and pre-1 >=0:
       pre = pre -1
       covered_length += len(tok_tweet_list[pre][0])
@@ -803,12 +808,12 @@ def recent_surge(word,tweet,total_length,range_per,tok_tweet_list,inv_idx):
   for pair in inv_idx[word]:
     if pair[0]<=pos and pair[0]>=pre:
       local_wd_count += pair[1]
-
+  
   global_per = global_wd_count/total_length
   local_per = local_wd_count/covered_length
-
+  
   return math.log((local_per/global_per))
-
+  
 
 def keywords(tweet,pool,idf,tok_tweet_list,inv_idx):
   total_length = sum([len(x[0]) for x in tok_tweet_list])
@@ -817,11 +822,11 @@ def keywords(tweet,pool,idf,tok_tweet_list,inv_idx):
 
   for text in pool:
     pool_text = text[0][0]
-
+ 
     for word in pool_text:
       if word in idf.keys():
         surge = recent_surge(word,text[1],total_length,0.1,tok_tweet_list,inv_idx)
-
+       
         score[word] = score.get(word,0) + idf[word]*surge
   score = sorted(list(score.items()), key=lambda x: x[1],reverse=True)
   return [x[0] for x in score]
@@ -843,16 +848,16 @@ def q_generate(combo,news_source):
 
 def retrive_news(list_keywords):
   """
-  the function generates all combinations of the
+  the function generates all combinations of the 
   keyword set to retrieve the related news, if the longest combination
-  have results then just retur that result, otherwise decrease the
+  have results then just retur that result, otherwise decrease the 
   keywords by one until some news are retrieved.
   """
   result = []
   date1 = (datetime.datetime.today() - timedelta(days=30)).strftime("%Y-%m-%d")
   date2 = datetime.datetime.today().strftime("%Y-%m-%d")
   for length in range(len(list_keywords),int(0.4*len(list_keywords)),-1):
-
+  
     combinations = itertools.combinations(list_keywords,length)
     query = ''
     count = 0
@@ -886,9 +891,9 @@ def keywords_per_tweet(list_of_tweets,idx_time,N_tweets,N_keyword,nltk1):
   {tweet index in the list:[list of related news objects]}
 
   list_of_tweets: the list of tweets in the raw list of dictionaries
-  idx_time: the dicitonary that map the index in the list of tweet to the
+  idx_time: the dicitonary that map the index in the list of tweet to the 
             original index in the list of tweets that strictly follows the chronological order
-            for example, 101 to 50 means the 101th item in the list was originally the
+            for example, 101 to 50 means the 101th item in the list was originally the 
             50th most recent tweet we retrieve
   N_tweets: the number of tweets for which we want to retrieve news
   N_keyword: the number of top keywords retrieved for each cluster of tweets
@@ -898,7 +903,7 @@ def keywords_per_tweet(list_of_tweets,idx_time,N_tweets,N_keyword,nltk1):
   tokenized_time_s = [None]*len(tokenized)
   print("tokenized")
   time_idx = {idx_time[x]: x for x in idx_time.keys()}
-
+  
   for idx in range(len(tokenized)):
       tokenized_time_s[idx_time[idx]] = tokenized[idx]
 
@@ -915,7 +920,6 @@ def keywords_per_tweet(list_of_tweets,idx_time,N_tweets,N_keyword,nltk1):
     print('converted')
     pool = idf_topic_cluster(inv_idx,tweet_in_time,tokenized_time_s,idf,doc_norms)
     print('topic clustered')
-    print(pool)
     keyword = keywords(tweet_in_time,pool,idf,tokenized_time_s,inv_idx)[:N_keyword]
     print('got keywords',keyword)
     result[tweet_idx] = retrive_news(keyword)
@@ -924,67 +928,119 @@ def keywords_per_tweet(list_of_tweets,idx_time,N_tweets,N_keyword,nltk1):
 
 
 
-def tweet_match_db(tok_tweet,inverted_idx,idf,doc_norms,list_of_news):
+def tweet_match_db(tok_tweet,inverted_idx,idf,doc_norms,list_of_news,doc_overlap):
   scores = []    # sorted list of similarities
   query_tok  = tok_tweet
   query_norm, scores= 0, [0]*len(doc_norms.keys())
   temp = defaultdict(lambda: 0, {})
   # idf = []
+  print(set(idf.keys()).difference(set(inverted_idx.keys())))
   for tok in query_tok:
-      if(tok in idf.keys()):
+      if(tok in idf.keys()): 
         temp[tok] += 1
   for tok in temp:
       query_norm += (temp[tok]*idf[tok])**2
       documents = inverted_idx[tok]
       for ind in documents:
-
-          scores[ind[0]] += ind[1]*(idf[tok])**2*temp[tok]
-
+          if ind[0] in doc_overlap.keys():
+            scores[ind[0]] += ind[1]*(idf[tok])**2*temp[tok]
+  maxium = max([len(x) for x in doc_overlap.values()])
   orders = []
   for i in range(len(doc_norms)):
-      if(doc_norms[str(i)]!=0 and scores[i]):
-          orders.append((1.0*scores[i]/doc_norms[str(i)],i))
+    if i in doc_overlap.keys():
+      over_score = len(doc_overlap[i])/maxium
+      if(doc_norms[str(i)]!=0 and scores[i]!=0):
+          sc = 1.0*scores[i]/doc_norms[str(i)]
+          orders.append((sc+sc*over_score,i))
   # print(orders)
   scores = sorted(orders, key=lambda x: x[0],reverse=True)
-  result = [list_of_news[record[1]] for record in scores]
+  print(scores)
+  result = [(list_of_news[record[1]],doc_overlap[record[1]]) for record in scores]
+  # the results are tuples consisting of two parts, 1: the info list as before
+  #2: the number of covered keywords
   return result
 
+def keywords_expansion(list_query):
+  result = []
+  for word in list_query:
+    temp = [word]
+    result.append(temp)
+  return result
+
+def find_overlap_doc(inverted_idx,key_words_cluster):
+  doc_overlap = {}# a dicitonary showing 
+  for cluster in key_words_cluster:
+      temp = set()
+      for key_word in cluster:
+        l_o_key = lemmatizer.lemmatize(key_word)
+        for keys in inverted_idx.keys():
+          l_key = lemmatizer.lemmatize(keys)
+          if l_o_key == l_key:
+            for doc in inverted_idx[keys]:
+              temp.add(doc[0])
+      for doc1 in list(temp):
+        doc_overlap[doc1] = doc_overlap.get(doc1,[])+[cluster[0]]
+  return doc_overlap
+
+def find_overlap_tweet(tokens,key_words_cluster):
+  overlap_list = []
+  idx_dict = {}
+  for cluster in key_words_cluster:
+      temp = set()
+      for key_word in cluster:
+        l_o_key = lemmatizer.lemmatize(key_word)
+        for idx in range(len(tokens)):
+          tok,_ = tokens[idx]
+          for word in tok:
+            l_word = lemmatizer.lemmatize(word)
+            if l_o_key == l_word:
+              temp.add(idx)
+      for doc1 in list(temp):
+        idx_dict[doc1] = idx_dict.get(doc1,[])+[cluster[0]]
+  for keys,value in idx_dict.items():
+    overlap_list.append((tokens[keys],len(value),keys,value))
+  return overlap_list
 
 
 
-def db_news_retrieval(list_of_tweets,N_news):
+def db_news_retrieval(list_of_tweets,N_news,input_keys,N_tweets):
   #list of interested tweets dictionaries
   list_of_news = get_mongo_store('news')
-
-  print(list_of_news)
+  
   inverted_idx = get_mongo_store('inverted_index')
-  print('inverted_index')
   doc_norms = get_mongo_store('document_norms')
-  print('alright here')
   idf = get_mongo_store('idf')
-
   tokenized,tweetList_raw = tokenize_tweets(list_of_tweets,stemming=False,pos=True,lower=True,remove_stop=True,nltk1=False)
-
+  
+  
+  if input_keys is not None:
+    input_keys = re.split('\s*,\s*',input_keys.lower())
+    key_words_cluster = keywords_expansion(input_keys)
+    lemmatizer = WordNetLemmatizer() 
+    doc_overlap = find_overlap_doc(inverted_idx,key_words_cluster)
+    
+    tokenized = sorted(find_overlap_tweet(tokenized,key_words_cluster), key=lambda x: x[1],reverse=True)
+    recog_doc = doc_overlap.keys()
+    filtered_tweets = [(tweetList_raw[x[2]],x[3]) for x in tokenized][:N_tweets]
+  else:
+    recog_doc = [int(k) for k in doc_norms.keys()]
+    tokenized = [(tokenized[x],0,x,[None]) for x in range(len(tokenized))]
+    doc_overlap = {x:[None] for x in recog_doc}
+    filtered_tweets = [(tweetList_raw[x[2]],x[3]) for x in tokenized][:N_tweets]
   temp = {}
-  for tweet_idx in range(len(tokenized)):
-    tweet = tokenized[tweet_idx]
+  for tweet_idx in range(len(tokenized[:N_tweets])):
+    tweet,t_overlap,t_idx,_ = tokenized[tweet_idx]
     text = tweet[0]
-    top_n = tweet_match_db(text,inverted_idx,idf,doc_norms,list_of_news)
+    top_n = tweet_match_db(text,inverted_idx,idf,doc_norms,list_of_news,doc_overlap)[:N_news]
     for result in top_n:
       info = result
       if tweet_idx in temp.keys():
         temp[tweet_idx].append(info)
       else:
         temp[tweet_idx] = [info]
-  return temp
+  return temp,filtered_tweets
 
-
-
-
-
-
-
-def totally_aggregated(celeb_name,N_tweets,ad_hoc,N_keyword = 5,num_processed_tweets=200,num_pool_tweets=300,nltk1=False):
+def totally_aggregated(celeb_name,N_tweets,ad_hoc,input_keys,N_keyword = 5,num_processed_tweets=200,num_pool_tweets=300,nltk1=False):
   """
   the funciton should be called by the frontend as the ONLY connection point with the backend
   no other function, optimally, shoule be called by the frontend
@@ -1013,8 +1069,12 @@ def totally_aggregated(celeb_name,N_tweets,ad_hoc,N_keyword = 5,num_processed_tw
   retrieved_num = num_processed_tweets
   pool_size = num_pool_tweets
   if not ad_hoc:
-    retrieved_num = N_tweets
-    pool_size = N_tweets*2
+    if input_keys is None:
+      retrieved_num = N_tweets
+      pool_size = N_tweets*2
+    else:
+      retrieved_num = 100
+      pool_size = 100
   data,idx_time=twittter_aggregated(retrieved_num,pool_size,celeb_name,False)
   if ad_hoc:
     time_idx = {idx_time[x]:x for x in idx_time.keys()}
@@ -1022,13 +1082,14 @@ def totally_aggregated(celeb_name,N_tweets,ad_hoc,N_keyword = 5,num_processed_tw
 
     for idx in range(len(fall_in_range)):
       idx_time[time_idx[fall_in_range[idx]]] = idx
-
+  
   #rehashing the range of time stamp back to the same size of the retrieved results
   if ad_hoc:
     result = keywords_per_tweet(data,idx_time,N_tweets,N_keyword,nltk1)
+    filtered_tweets = data[:N]
   else:
-    result = db_news_retrieval(data,10)
-  return data[:N_tweets],result
+    result,filtered_tweets = db_news_retrieval(data,10,input_keys,N_tweets)
+  return filtered_tweets,result
 
 # b=db_news_retrieval(examples[0],5)
 
