@@ -92,8 +92,8 @@ if __name__ == '__main__':
     TODAY = datetime.today().strftime("%Y-%m-%d")
     START_DATE = (datetime.today() -
                   timedelta(days=DURATION)).strftime("%Y-%m-%d")
-    # N = int(sys.argv[1])
-    N = 1500
+    N = int(sys.argv[1])
+    # N = 1500
     print(N)
 
     news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
