@@ -93,7 +93,7 @@
                         {% endif %}
                     </div>
                     
-                    {% for i in range(3) %}  
+                    {% for i in range(length) %}  
                         <a class="list-group-item list-group-item-action" href="results.html?search={{user}}&terms={{topic}}&idx={{i}}e" >
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
                                 <h5 class="mb-1">{{user}}</h5>
@@ -116,7 +116,7 @@
                         	Recent news articles:
                         </h4>
                     </div>
-                    {% for i in range(3) %}  
+                    {% for i in range(length) %}  
                         <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px;">
                                 <h5 class="mb-1">{{news_list[i][0][1]}}</h5>

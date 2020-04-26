@@ -43,6 +43,7 @@ def search():
 def search_for():
 	user = request.args.get('search')
 	topic = request.args.get('terms')
+	print(topic)
 
 	leaning = {"abc-news":1, "associated-press":2, "bloomberg":2, "cbs-news":1, "nbc-news":1, 'fox-news':3, 'reuters':2, 'usa-today':2, 'business-insider':2, 'the-hill':2, 'espn':1, 'axios':1, 'bbc':2}
 	leaning_ref = ["left", "lean-left", "central", 'lean-right', 'right']
@@ -60,6 +61,8 @@ def search_for():
 	if topic == "":
 		topic = None
 	result = adhoc_data_crawl.totally_aggregated(user,3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=True)
+	
+	length = min(len(result[0]), 3)
 
 	data = []
 	date = []
@@ -67,7 +70,7 @@ def search_for():
 	like = []
 	news_list = []
 
-	for i in range(3):
+	for i in range(length):
 		tweet = result[0][i][0]
 		data.append(tweet["text"])
 		date.append(tweet["created_at"])
@@ -121,7 +124,7 @@ def search_for():
 		# count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
 		# msg = msg + " Retrieved " + str(len(data)) + " tweets. ID: " + str(randint(0, 9999999999))
 
-	return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list)
+	return render_template("results.html", user=user, data=data, length=length, date=date, retweets=retweets, like=like, news_list=news_list)
 
 # @irsystem.route("/view_tweet", methods=['GET', 'POST'])
 # def view_tweet():
