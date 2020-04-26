@@ -36,44 +36,58 @@ length_retrieval_tweets = 20
 length_retrieval_news = 20
 
 @irsystem.route("/", methods=['GET', 'POST'])
-@irsystem.route("/search", methods=['GET', 'POST'])
 def search():
-	query = request.args.get('search')
-	print(query)
-	keywords = request.args.get('terms', None)
+	return render_template("search.html")
 
-	idx = request.args.get('idx', "-1")
-	idx = int(idx)
-	user_ip = request.remote_addr
-	msg = ""
-	if not query:
-		user = ""
-		topic = ""
-		return render_template("search.html", msg = msg)
-	else:
-		user = query
-		topic = ""
-		result = adhoc_data_crawl.totally_aggregated(query,3,True,N_keyword = 5,num_processed_tweets=10,num_pool_tweets=20,nltk1=True)
+@irsystem.route("/results", methods=['GET', 'POST'])
+def search_for():
+	user = request.args.get('search')
+	topic = request.args.get('terms')
 
-		data = []
-		date = []
-		retweets = []
-		like = []
-		news_list = []
+	leaning = {"abc-news":1, "associated-press":2, "bloomberg":2, "cbs-news":1, "nbc-news":1, 'fox-news':3, 'reuters':2, 'usa-today':2, 'business-insider':2, 'the-hill':2, 'espn':1, 'axios':1, 'bbc':2}
+	leaning_ref = ["left", "lean-left", "central", 'lean-right', 'right']
+	color = {"left": "#e97676", "lean-left": "#e4a5a5", "central": "#d1d1d1", "lean-right": "#a5c0e4", "right": "#7fa2d1"}
 
-		for i in range(3):
-			# if not keywords:
-			tweet = result[0][i]
-			data.append(tweet["text"])
-			date.append(tweet["created_at"])
-			retweets.append(tweet["retweet_count"])
-			like.append(tweet["favorite_count"])
-			tweet_news = []
-			for news in result[1][i]:
-				tweet_news.append((news["source"], news["description"], news["url"]))
-			news_list.append(tweet_news)
+	# idx = request.args.get('idx', "-1")
+	# idx = int(idx)
+	# user_ip = request.remote_addr
+	# msg = ""
+	# if not query:
+	# 	user = ""
+	# 	topic = ""
+	# 	return render_template("search.html", msg = msg)
+	# else:
+	if topic == "":
+		topic = None
+	result = adhoc_data_crawl.totally_aggregated(user,3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=True)
+	
+	length = min(len(result[0]), 3)
 
-		print(news_list)
+	data = []
+	date = []
+	retweets = []
+	like = []
+	news_list = []
+
+	for i in range(length):
+		tweet = result[0][i][0]
+		data.append(tweet["text"])
+		date.append(tweet["created_at"])
+		retweets.append(tweet["retweet_count"])
+		like.append(tweet["favorite_count"])
+		tweet_news = []
+
+		for news in result[1][i]:
+			source = news[0]["source"]
+			if source in leaning.keys():
+				source_leaning = leaning_ref[leaning[source]]
+				source_color = color[source_leaning]
+			else:
+				source_color = "white"
+			tweet_news.append((source, news[0]["description"], news[0]["url"], source_color, news[1]))
+		news_list.append(tweet_news)
+
+
 			# else:
 			# 	topic = keywords
 			# 	data = ["Tweet " +  str(i + 1) + " by @" + query + " containing \"" + topic + "\"" for i in range(length_retrieval_tweets)]
@@ -109,7 +123,7 @@ def search():
 		# count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
 		# msg = msg + " Retrieved " + str(len(data)) + " tweets. ID: " + str(randint(0, 9999999999))
 
-		return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list, msg = msg, idx = idx)
+	return render_template("results.html", user=user, topic=topic, data=data, length=length, date=date, retweets=retweets, like=like, news_list=news_list)
 
 # @irsystem.route("/view_tweet", methods=['GET', 'POST'])
 # def view_tweet():

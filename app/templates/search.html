@@ -24,10 +24,19 @@
             font-size: 20px; /* Increase font size */
         }
 
-        #go_back_to_top_button:hover {
-            /*background-color: #555;  Add a dark-grey background on hover */
+        h1{
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        h2{
+            font-size: 25px;
         }
     </style>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 </head>
 
@@ -41,16 +50,16 @@
         <button onclick="topFunction()" id="go_back_to_top_button" class="btn btn-info"><i class="fas fa-chevron-double-up"></i></button>
         <div class = "text-center">
             <a href = "/">
-                <img src = "/static/media/logo_600x350px.png" class = "img-fluid" alt = "">
+                <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo">
             </a>
+            <h1>Tweeted Facts</h1>
+            <h2>Your Trusted Fact Checker for Untrusted Fact Spreaders</h2>
         </div>
-        <a id = "results_page"></a>
-        <form action = "/search#results_page">
+
+        <form action = "/results">
             <div class="row d-flex justify-content-center" style = "margin-top: 10px">
                 <div class="col-md-8">
-                    <input id="input" type="text" name="search" 
-                    class="form-control" placeholder="Twitter Celebrity" 
-                    value = "{{user}}" required>
+                    <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
                 </div>
             </div>
             <div class="row d-flex justify-content-center" style = "margin-top: 5px">
@@ -67,12 +76,10 @@
             </div>
             <div class="row d-flex justify-content-center" style = "margin-top: 5px">
                 <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
-                <!-- class="btn btn-primary mb-2" >Feeling Lucky! &nbsp; <i class="far fa-dice-d20"></i></button> -->
             </div>
         </form>
 
         <!-- block content -->
-
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -84,7 +91,6 @@
             {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
-
 
     </main>
 
@@ -109,14 +115,6 @@
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
     </script>
-
-    <!-- <script src="/static/zx.js"></script> -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
 </body>
 
 
