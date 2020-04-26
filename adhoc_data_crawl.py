@@ -85,6 +85,7 @@ from nltk.stem import PorterStemmer
 nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
+from collections import defaultdict
 
 def create_ApI(consumer_key,s_consmer_key,access_key,s_acess_key):
   #given the authroization return a tweepy api object for retrieving data
@@ -543,20 +544,20 @@ def guardian_aggregated(N, query,date1,date2):
     result.append(temp)
   return result
 
-import re
-import urllib
-import json
+# import re
+# import urllib
+# import json
 # print(guardian_aggregated(1, None,'2020-04-14','2020-04-16')[0]['webPublicationDate'])
 
 """# Representation And Mathcing"""
 
 ### 1.step in search engine, after the user types the celevrity_name and topic
-import tweepy
-import math
-from IPython.core.display import HTML
-import re
-from nltk.tokenize import RegexpTokenizer
-from collections import defaultdict
+# import tweepy
+# import math
+# from IPython.core.display import HTML
+# import re
+# from nltk.tokenize import RegexpTokenizer
+# from collections import defaultdict
 
 ## this function CONNECTS TO FRONT END
 def retrive_twitt_post_url(top_num, N, celebrity_name, topics):
@@ -740,16 +741,16 @@ def build_inverted_ind(docList):
 # !python -m spacy.en.download all
 
 #experimenting clustering by topics
-import nltk
-from collections import defaultdict
-import numpy as np
-import math
-import itertools
-nltk.download('stopwords')
-from nltk.corpus import stopwords
-#import spacy
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+# import nltk
+# from collections import defaultdict
+# import numpy as np
+# import math
+# import itertools
+# nltk.download('stopwords')
+# from nltk.corpus import stopwords
+# #import spacy
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger')
 
 
 
@@ -1174,17 +1175,17 @@ def find_related_post(top_num, topics, post_url,inv_idx):
   return result
 
 ### 2.step in search engine, after the user chooses the twitts, showing the related news
-import urllib
-import json
-from datetime import datetime
-from dateutil.parser import parse
-from datetime import timedelta
-from nltk.tokenize import RegexpTokenizer
-import nltk
-nltk.download('stopwords')
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-import numpy as np
+# import urllib
+# import json
+# from datetime import datetime
+# from dateutil.parser import parse
+# from datetime import timedelta
+# from nltk.tokenize import RegexpTokenizer
+# import nltk
+# nltk.download('stopwords')
+# from nltk.corpus import stopwords
+# from nltk.stem import PorterStemmer
+# import numpy as np
 
 
 
@@ -1255,37 +1256,42 @@ def related_news(post_url, top_n):
 (if you want to store more dictionary, feel free to add them to the file news.py in {daily_update} folder)
 """
 
-import pymongo
-from pymongo import MongoClient
-import datetime
-from datetime import timedelta
+# import pymongo
+# from pymongo import MongoClient
+# import datetime
+# from datetime import timedelta
 
-def get_mongo_store(source_name):
-    """
-    extract from the daily store of the [source_name] in backend db
-    return list of dictionary
-    [{source1:,  author1:, url1:}, {source2:, author2:, url2:},...]
-    (currently acceptable [source_name]: "news")
-    """
-
+"""
+Please copy this function if you want to get the mongo store elements
+"""
+def get_mongo_store(source_name,frac=6):
     client = pymongo.MongoClient(
-        'mongodb://alicia:alicia1@ds139944.mlab.com:39944/heroku_4pflvg1c')
+        'mongodb://alicia:alicia1@ds139019-a0.mlab.com:39019,ds139019-a1.mlab.com:39019/heroku_gczdn597?replicaSet=rs-ds139019')
     db = client.get_default_database()
+    result = {}
+    if source_name=="inverted_index":
+      for i in range(frac):
+        collection = db[source_name+str(i)]
+        cursor = collection.find_one({})
+        result.update(cursor['dictionary'])
+    else:
+      collection = db[source_name]
+      cursor = collection.find_one({})
+      result = cursor['dictionary']
+    # print(result)
 
-    collection = db[source_name]
-    cursor = collection.find_one({})
-    result = cursor['dictionary']
     client.close()
     return result
+
 
 # a = get_mongo_store("news")
 # print(len(a))
 
 """# Get news text from a list of url"""
 
-import nltk
-nltk.download('punkt')
-from newspaper import Article
+# import nltk
+# nltk.download('punkt')
+# from newspaper import Article
 
 def get_news_text(url_list):
   """

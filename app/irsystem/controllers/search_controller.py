@@ -41,8 +41,12 @@ def search():
 
 @irsystem.route("/results", methods=['GET', 'POST'])
 def search_for():
-	query = request.args.get('search')
+	user = request.args.get('search')
 	topic = request.args.get('terms')
+
+	leaning = {"abc-news":1, "associated-press":2, "bloomberg":2, "cbs-news":1, "nbc-news":1, 'fox-news':3, 'reuters':2, 'usa-today':2, 'business-insider':2, 'the-hill':2, 'espn':1, 'axios':1, 'bbc':2}
+	leaning_ref = ["left", "lean-left", "central", 'lean-right', 'right']
+	color = {"left": "#e97676", "lean-left": "#e4a5a5", "central": "#d1d1d1", "lean-right": "#a5c0e4", "right": "#7fa2d1"}
 
 	# idx = request.args.get('idx', "-1")
 	# idx = int(idx)
@@ -55,7 +59,7 @@ def search_for():
 	# else:
 	if topic == "":
 		topic = None
-	result = adhoc_data_crawl.totally_aggregated("realDonaldTrump",3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=True)
+	result = adhoc_data_crawl.totally_aggregated(user,3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=True)
 
 	data = []
 	date = []
@@ -65,7 +69,6 @@ def search_for():
 
 	for i in range(3):
 		tweet = result[0][i][0]
-		print(tweet, "tweet")
 		data.append(tweet["text"])
 		date.append(tweet["created_at"])
 		retweets.append(tweet["retweet_count"])
@@ -73,8 +76,13 @@ def search_for():
 		tweet_news = []
 
 		for news in result[1][i]:
-			print(news, "news")
-			tweet_news.append((news[0]["source"], news[0]["description"], news[0]["url"]))
+			source = news[0]["source"]
+			if source in leaning.keys():
+				source_leaning = leaning_ref[leaning[source]]
+				source_color = color[source_leaning]
+			else:
+				source_color = "white"
+			tweet_news.append((source, news[0]["description"], news[0]["url"], source_color))
 		news_list.append(tweet_news)
 
 

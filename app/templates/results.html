@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="/static/font_awesome/all.min.css">
 
     <style>
+        main{
+            background-image: url("/static/media/background.png");
+            background-repeat: repeat;
+            background-repeat: repeat;
+            padding: 0% 8%;
+            width: 100%;
+            height: 100%;
+        }
+
         #go_back_to_top_button {
             display: none; /* Hidden by default */
             position: fixed; /* Fixed/sticky position */
@@ -29,6 +38,7 @@
             flex-direction: row;
             width: 93%;
             margin: 1.5% 3%;
+            background-color: white;
         }
 
         form{
@@ -68,9 +78,10 @@
         </form>
       </div>
 
-    <div class = "container">
+    <main>
         <div class="row justify-content-md-center">
             <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+
                 {% if data %}
                     <div class = "container" style = "margin-bottom: 3%">
                         {% if topic%}
@@ -81,6 +92,7 @@
                                 Latest tweets from @<a href="results.html" style = "color: #222222"><u>{{user}}</u></a>:</h4>
                         {% endif %}
                     </div>
+                    
                     {% for i in range(3) %}  
                         <a class="list-group-item list-group-item-action" href="results.html?search={{user}}&terms={{topic}}&idx={{i}}e" >
                             <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
@@ -101,12 +113,12 @@
                 {% if data %}
                     <div class = "container" style = "margin-bottom: 3%">
                     	<h4 style = "color: #222222; margin-bottom: 5px">
-                        	Recent news articles on {{user}}:
+                        	Recent news articles:
                         </h4>
                     </div>
                     {% for i in range(3) %}  
                         <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action">
-                            <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px">
+                            <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px;">
                                 <h5 class="mb-1">{{news_list[i][0][1]}}</h5>
                             </div>
                             <small class="text-muted">{{news_list[i][0][0]}}<br></small>
@@ -115,16 +127,12 @@
                 {% endif %}
             </div>
         </div>
-    </div>
 
-    <!-- debug counter -->
-
-    <div class = "container">
         <div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
             <div class = "text-center text-muted">
             	You searched: [{{user}}, "{{topic}}"] <br>
             	{{msg}} <br>
             </div>
         </div>
-    </div>
+    </main>
 </body>
