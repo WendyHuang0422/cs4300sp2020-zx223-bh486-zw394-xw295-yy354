@@ -26,6 +26,7 @@ def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
               timespan from the first date to the second one
     """
     # build the url
+    sources = "abc-news,cbs-news,associated-press,bloomberg,nbc-news,fox-news,reuters,usa-today,business-insider,the-hill,espn,axios,bbc-news"
     keys_a = "&apiKey=" + api_key
     date_a = '&to='+date2+'&from='+date1
     if not query is None:
@@ -34,14 +35,18 @@ def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
         query = 'everything?q='
     url = "https://newsapi.org/v2/"+query\
           + '/page='+str(page)+'&pageSize=' + str(N) + \
-        '&sortBy=' + sort + date_a+keys_a
+        '&sortBy=' + sort + date_a+"&language=en"+"&sources="+sources+keys_a
 
     agg_file = json.load(urllib.request.urlopen(url))
+    time.sleep(1)
 
     return agg_file
 
 
-def retrieve_news_article(N, key, date1, date2, order, query):
+results = []
+
+
+def retrieve_news_article(N, keys, date1, date2, order, query):
     """
     retrieve N top results from the news API pool of news report
 
@@ -58,19 +63,50 @@ def retrieve_news_article(N, key, date1, date2, order, query):
     date2: the end date of the time span from which we retrieve news
     order: one of 'pubishedAt', 'relevancy',or 'popularity' 
     """
-    results = []
+    # results = []
     date = date1+':'+date2
     results_left = 1
     page = 0
-    while results_left != 0:
-        instance = raw_news_retrieval(
-            query, key, date1, date2, 100, page, 'publishedAt')
-        totalSize = instance['totalResults']
-        results.extend(instance['articles'])
-        results_left = totalSize-len(results)
-        if len(results) >= N:
-            return results[:N]
-        page = page + 1
+
+    count = 0
+    i = 0
+    key = keys[i]
+    # instance = raw_news_retrieval(
+    #         query, key, date1, date2, 100, page, 'publishedAt')
+    # limit = instance['status'] == 'ok'
+    limit = True
+    retrieved = set()
+    while limit == True:
+        try:
+            key = keys[i]
+            instance = raw_news_retrieval(
+                query, key, date1, date2, 100, page, 'publishedAt')
+            limit = instance['status'] == 'ok'
+            for article in instance['articles']:
+                if count % 100 == 0:
+                    print(count)
+                if article['url'] not in retrieved:
+                    count += 1
+                    results.append(article)
+                    retrieved.add(article['url'])
+            if len(results) >= N:
+                return results[:N]
+            page = page + 1
+            instance = raw_news_retrieval(
+                query, keys[i], date1, date2, 100, page, 'publishedAt')
+            limit = instance['status'] == 'ok'
+        except:
+            print("------=========   heloo ======")
+            print(len(results))
+            i += 1
+            if i == len(keys):
+                return results
+            pass
+            # key = keys[i]
+            # instance = raw_news_retrieval(
+            #     query, key, date1, date2, 100, page, 'publishedAt')
+            # limit = instance['status'] == 'ok'
+
     print("there are not enoguh results that can be retrieved, returning as many as we can")
     return (results)
 
@@ -101,9 +137,20 @@ def news_Aggregated(N, date1, date2, order, query=None):
     urllib
     json
     """
-    print("news_api using  N is  ", N)
     instance = retrieve_news_article(
-        N, '770d3e15e7234b028da0d84fc0fb6210', date1, date2, order, query)
+        N, ["a0c45775a6714e06b7dd975a7757997d", "c33d4fa299fb48548e55d405eb842066", "1c65f25827d745649be0ea2818ca2667",
+            "be0df2da3eb84d5eae22ae1c4443f710", "40aa19742fb54d1a806a7c7785068ab1",
+            "681b44cc0dea4b3baa66f6e2ecdf7161", "b5a15ccfd37149fbbeec4d9177d163e9"
+            "5af3cde7a82f43998721f7a36f69a6be", "58cacb81c6424e4494857fa0de0a422f",
+            "3af999d7b5d241429f6c5437e55b0244", "7ae791fb7ff447d4b8b773766d8891f0",
+            "7d1aa6b9b6404411959be508a620be08", "c1b13c06d9634e33b015c7174485ea71",
+            "20e6fd42ed5c41638ab913765936c2eb",
+            "770d3e15e7234b028da0d84fc0fb6210", "faaccca75145413bb1afe5f9742e34be",
+            "ac4e23f90a0e40eeb1732a4507f768ed", "9f2590eef62045aead200877ef8e16f1",
+            "B8073fe826ee44b48ebf71b767901a43", "7ae791fb7ff447d4b8b773766d8891f0",
+            "3ebcb31788484caca0186832bdbbba63", "0ab86b9133554662bd5577593b2a5b50",
+            "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"
+            ], date1, date2, order, query)
     wanted = ['source', 'author', 'description',
               'publi_time', 'url', 'content']
     full1 = []
