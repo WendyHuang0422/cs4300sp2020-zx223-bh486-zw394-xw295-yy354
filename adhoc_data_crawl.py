@@ -83,7 +83,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 nltk.download('wordnet')
-from nltk.stem import WordNetLemmatizer 
+from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet as wn
 
 def create_ApI(consumer_key,s_consmer_key,access_key,s_acess_key):
@@ -969,6 +969,7 @@ def keywords_expansion(list_query):
 
 def find_overlap_doc(inverted_idx,key_words_cluster):
   doc_overlap = {}# a dicitonary showing 
+  lemmatizer = WordNetLemmatizer() 
   for cluster in key_words_cluster:
       temp = set()
       for key_word in cluster:
@@ -985,6 +986,7 @@ def find_overlap_doc(inverted_idx,key_words_cluster):
 def find_overlap_tweet(tokens,key_words_cluster):
   overlap_list = []
   idx_dict = {}
+  lemmatizer = WordNetLemmatizer() 
   for cluster in key_words_cluster:
       temp = set()
       for key_word in cluster:
@@ -1040,7 +1042,7 @@ def db_news_retrieval(list_of_tweets,N_news,input_keys,N_tweets):
         temp[tweet_idx] = [info]
   return temp,filtered_tweets
 
-def totally_aggregated(celeb_name,N_tweets,ad_hoc,input_keys,N_keyword = 5,num_processed_tweets=200,num_pool_tweets=300,nltk1=False):
+def totally_aggregated(celeb_name,N_tweets,ad_hoc,input_keys,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=False):
   """
   the funciton should be called by the frontend as the ONLY connection point with the backend
   no other function, optimally, shoule be called by the frontend
@@ -1086,7 +1088,7 @@ def totally_aggregated(celeb_name,N_tweets,ad_hoc,input_keys,N_keyword = 5,num_p
   #rehashing the range of time stamp back to the same size of the retrieved results
   if ad_hoc:
     result = keywords_per_tweet(data,idx_time,N_tweets,N_keyword,nltk1)
-    filtered_tweets = data[:N]
+    filtered_tweets = data[:N_tweets]
   else:
     result,filtered_tweets = db_news_retrieval(data,10,input_keys,N_tweets)
   return filtered_tweets,result

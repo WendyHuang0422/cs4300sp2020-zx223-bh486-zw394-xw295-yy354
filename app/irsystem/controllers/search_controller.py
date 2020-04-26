@@ -36,7 +36,7 @@ length_retrieval_tweets = 20
 length_retrieval_news = 20
 
 @irsystem.route("/", methods=['GET', 'POST'])
-@irsystem.route("results.html", methods=['GET', 'POST'])
+@irsystem.route("/results.html", methods=['GET', 'POST'])
 def search():
 	query = request.args.get('search')
 	print(query)
@@ -52,8 +52,12 @@ def search():
 		return render_template("search.html", msg = msg)
 	else:
 		user = query
-		topic = ""
-		result = adhoc_data_crawl.totally_aggregated(query,3,True,N_keyword = 5,num_processed_tweets=10,num_pool_tweets=20,nltk1=True)
+		topic = keywords
+		if len(topic) == "":
+			topic = None
+		result = adhoc_data_crawl.totally_aggregated(query,3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=False)
+		# totally_aggregated(celeb_name,N_tweets,ad_hoc,input_keys,N_keyword = 5,num_processed_tweets=200,num_pool_tweets=300,nltk1=False)
+		print(result)
 
 		data = []
 		date = []
