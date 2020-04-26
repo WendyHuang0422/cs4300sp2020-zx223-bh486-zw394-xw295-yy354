@@ -544,20 +544,20 @@ def guardian_aggregated(N, query,date1,date2):
     result.append(temp)
   return result
 
-# import re
-# import urllib
-# import json
+import re
+import urllib
+import json
 # print(guardian_aggregated(1, None,'2020-04-14','2020-04-16')[0]['webPublicationDate'])
 
 """# Representation And Mathcing"""
 
 ### 1.step in search engine, after the user types the celevrity_name and topic
-# import tweepy
-# import math
-# from IPython.core.display import HTML
-# import re
-# from nltk.tokenize import RegexpTokenizer
-# from collections import defaultdict
+import tweepy
+import math
+from IPython.core.display import HTML
+import re
+from nltk.tokenize import RegexpTokenizer
+from collections import defaultdict
 
 ## this function CONNECTS TO FRONT END
 def retrive_twitt_post_url(top_num, N, celebrity_name, topics):
@@ -726,10 +726,10 @@ def build_inverted_ind(docList):
 
 """# Experimenting Clustering By Topic"""
 
-# import tweepy
-# import re
-# import datetime
-# import time
+import tweepy
+import re
+import datetime
+import time
 
 
 # print(len(examples))
@@ -741,16 +741,16 @@ def build_inverted_ind(docList):
 # !python -m spacy.en.download all
 
 #experimenting clustering by topics
-# import nltk
-# from collections import defaultdict
-# import numpy as np
-# import math
-# import itertools
-# nltk.download('stopwords')
-# from nltk.corpus import stopwords
-# #import spacy
-# nltk.download('punkt')
-# nltk.download('averaged_perceptron_tagger')
+import nltk
+from collections import defaultdict
+import numpy as np
+import math
+import itertools
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+#import spacy
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 
 
@@ -1175,17 +1175,17 @@ def find_related_post(top_num, topics, post_url,inv_idx):
   return result
 
 ### 2.step in search engine, after the user chooses the twitts, showing the related news
-# import urllib
-# import json
-# from datetime import datetime
-# from dateutil.parser import parse
-# from datetime import timedelta
-# from nltk.tokenize import RegexpTokenizer
-# import nltk
-# nltk.download('stopwords')
-# from nltk.corpus import stopwords
-# from nltk.stem import PorterStemmer
-# import numpy as np
+import urllib
+import json
+from datetime import datetime
+from dateutil.parser import parse
+from datetime import timedelta
+from nltk.tokenize import RegexpTokenizer
+import nltk
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+import numpy as np
 
 
 
@@ -1256,10 +1256,10 @@ def related_news(post_url, top_n):
 (if you want to store more dictionary, feel free to add them to the file news.py in {daily_update} folder)
 """
 
-# import pymongo
-# from pymongo import MongoClient
-# import datetime
-# from datetime import timedelta
+import pymongo
+from pymongo import MongoClient
+import datetime
+from datetime import timedelta
 
 """
 Please copy this function if you want to get the mongo store elements
