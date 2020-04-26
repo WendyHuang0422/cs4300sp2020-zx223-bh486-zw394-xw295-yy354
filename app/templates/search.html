@@ -49,8 +49,8 @@
     <main class = "container" style = "margin-top: 5%">
         <button onclick="topFunction()" id="go_back_to_top_button" class="btn btn-info"><i class="fas fa-chevron-double-up"></i></button>
         <div class = "text-center">
-            <a href = "search.html">
-                <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Logo">
+            <a href = "/">
+                <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo">
             </a>
             <h1>Tweeted Facts</h1>
             <h2>Your Trusted Fact Checker for Untrusted Fact Spreaders</h2>
@@ -59,9 +59,7 @@
         <form action = "/results">
             <div class="row d-flex justify-content-center" style = "margin-top: 10px">
                 <div class="col-md-8">
-                    <input id="input" type="text" name="search" 
-                    class="form-control" placeholder="Twitter Celebrity" 
-                    value = "{{user}}" required>
+                    <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
                 </div>
             </div>
             <div class="row d-flex justify-content-center" style = "margin-top: 5px">

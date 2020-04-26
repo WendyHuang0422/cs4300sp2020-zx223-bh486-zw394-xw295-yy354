@@ -23,8 +23,26 @@
             border-radius: 10px; /* Rounded corners */
             font-size: 20px; /* Increase font size */
         }
-    </style>
 
+        .search{
+            display: flex;
+            flex-direction: row;
+            width: 93%;
+            margin: 1.5% 3%;
+        }
+
+        form{
+            display: flex;
+            width: 95%;
+            flex-direction: row;
+        }
+
+        #bar{
+            width: 87%;
+            max-width: unset;
+            flex: unset;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,6 +54,19 @@
             $(".spinner-growr").fadeOut("slow");
         });
     </script> -->
+    <div class="search">
+        <a href = "/">
+            <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo" style="height: 50px;">
+        </a>
+        <form method="get" id="search-bar">
+            <div class="col-md-8" id="bar">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
+            </div>
+        </form>
+      </div>
 
     <div class = "container">
         <div class="row justify-content-md-center">

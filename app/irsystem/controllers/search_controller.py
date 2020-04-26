@@ -42,7 +42,7 @@ def search():
 @irsystem.route("/results", methods=['GET', 'POST'])
 def search_for():
 	query = request.args.get('search')
-	topic = request.args.get('terms', None)
+	topic = request.args.get('terms')
 
 	# idx = request.args.get('idx', "-1")
 	# idx = int(idx)
@@ -53,11 +53,9 @@ def search_for():
 	# 	topic = ""
 	# 	return render_template("search.html", msg = msg)
 	# else:
-	if len(topic) == "":
+	if topic == "":
 		topic = None
-	result = adhoc_data_crawl.totally_aggregated(query,3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=False)
-		# totally_aggregated(celeb_name,N_tweets,ad_hoc,input_keys,N_keyword = 5,num_processed_tweets=200,num_pool_tweets=300,nltk1=False)
-	print(result)
+	result = adhoc_data_crawl.totally_aggregated("realDonaldTrump",3,False,topic,N_keyword = 5,num_processed_tweets=100,num_pool_tweets=200,nltk1=True)
 
 	data = []
 	date = []
@@ -66,17 +64,20 @@ def search_for():
 	news_list = []
 
 	for i in range(3):
-		tweet = result[0][i]
+		tweet = result[0][i][0]
+		print(tweet, "tweet")
 		data.append(tweet["text"])
 		date.append(tweet["created_at"])
 		retweets.append(tweet["retweet_count"])
 		like.append(tweet["favorite_count"])
 		tweet_news = []
+
 		for news in result[1][i]:
-			tweet_news.append((news["source"], news["description"], news["url"]))
+			print(news, "news")
+			tweet_news.append((news[0]["source"], news[0]["description"], news[0]["url"]))
 		news_list.append(tweet_news)
 
-	print(news_list)
+
 			# else:
 			# 	topic = keywords
 			# 	data = ["Tweet " +  str(i + 1) + " by @" + query + " containing \"" + topic + "\"" for i in range(length_retrieval_tweets)]
@@ -112,7 +113,7 @@ def search_for():
 		# count_3 = (Search_terms.query.filter(Search_terms.combined_query.contains(combined_query))).count()
 		# msg = msg + " Retrieved " + str(len(data)) + " tweets. ID: " + str(randint(0, 9999999999))
 
-	return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list, msg = msg, idx = idx)
+	return render_template("results.html", user=user, data=data, date=date, retweets=retweets, like=like, news_list=news_list)
 
 # @irsystem.route("/view_tweet", methods=['GET', 'POST'])
 # def view_tweet():
