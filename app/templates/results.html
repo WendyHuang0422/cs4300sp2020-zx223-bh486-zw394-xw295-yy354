@@ -80,16 +80,18 @@
             <div class = "container" style = "margin-bottom: 10px">
                 <h4 style = "font-size: 23.5px; margin-bottom: 2px">Latest tweets from 
                     <a href="#" data-toggle="modal" data-target="#userProfileModal"
-                     style = "color: #222222">@<u>{{user}}</u></a> and relevant news articles:</h4>
+                     style = "color: #222222">{{tw_user_data[0]}}</a> (@
+                    <a href="#" data-toggle="modal" data-target="#userProfileModal"
+                     style = "color: #222222"><u>{{user}}</u></a>) and relevant news articles:</h4>
                 <!-- {{tw_user_data}} <br>
                 {{tw_user_counts}} <br>
                 {{tw_user_media_obj}} -->
                 {% if topic != None %}
                     <small class="text-muted" style = "margin-bottom: 5px;">
-                        Showing Tweets containing: "{{topic}}"<br></small>
+                        Showing Tweets containing: "{{topic}}" and associated article(s) to fact check each Tweet.<br></small>
                 {% else %}
                     <small class="text-muted" style = "margin-bottom: 5px;">
-                        Showing Tweets containing: "{{topic}}"<br></small>
+                        Showing Tweets and associated article(s) to fact check each Tweet.<br></small>
                 {% endif %}
             </div>
             
