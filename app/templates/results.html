@@ -1,139 +1,111 @@
-<html>
+{% extends "layout.html" %}
+{% block content %}
+<!-- <div class="search">
+    <a href = "/">
+        <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo" style="height: 50px;">
+    </a>
+    <form method="get" id="search-bar">
+        <div class="col-md-8" id="bar">
+            <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
+        </div>
+    </form>
+</div> -->
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/static/bootstrap_4_4_1.min.css">
-    <link rel="stylesheet" href="/static/font_awesome/all.min.css">
-
-    <style>
-        main{
-            background-image: url("/static/media/background.png");
-            background-repeat: repeat;
-            background-repeat: repeat;
-            padding: 0% 8%;
-            width: 100%;
-            height: 100%;
-        }
-
-        #go_back_to_top_button {
-            display: none; /* Hidden by default */
-            position: fixed; /* Fixed/sticky position */
-            bottom: 20px; /* Place the button at the bottom of the page */
-            right: 30px; /* Place the button 30px from the right */
-            z-index: 99; /* Make sure it does not overlap */
-            border: none; /* Remove borders */
-            outline: none; /* Remove outline */
-            /*background-color: red;  Set a background color */
-            color: white; /* Text color */
-            cursor: pointer; /* Add a mouse pointer on hover */
-            padding: 15px; /* Some padding */
-            border-radius: 10px; /* Rounded corners */
-            font-size: 20px; /* Increase font size */
-        }
-
-        .search{
-            display: flex;
-            flex-direction: row;
-            width: 93%;
-            margin: 1.5% 3%;
-            background-color: white;
-        }
-
-        form{
-            display: flex;
-            width: 95%;
-            flex-direction: row;
-        }
-
-        #bar{
-            width: 87%;
-            max-width: unset;
-            flex: unset;
-        }
-    </style>
-</head>
-
-<body>
-    <!-- <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
-        <span class="sr-only">Loading...</span>
+<form action = "/results">
+    <a href = "/">
+        <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo" style="height: 50px;">
+    </a>
+    <div class="row d-flex justify-content-center" style = "margin-top: 10px">
+        <div class="col-md-8">
+            <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+        </div>
     </div>
-    <script>
-        $(window).on("load", function(){
-            $(".spinner-growr").fadeOut("slow");
-        });
-    </script> -->
-    <div class="search">
-        <a href = "/">
-            <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo" style="height: 50px;">
-        </a>
-        <form method="get" id="search-bar">
-            <div class="col-md-8" id="bar">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
-            </div>
-        </form>
-      </div>
-
-    <main>
-        <div class="row justify-content-md-center">
-            <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
-
-                {% if data %}
-                    <div class = "container" style = "margin-bottom: 3%">
-                        <h4 style = "margin-bottom: 5px">Latest tweets from @<a href="results.html" style = "color: #222222"><u>{{user}}</u></a>:</h4>
-                    </div>
-                    
-                    {% for i in range(length) %}  
-                        <a class="list-group-item list-group-item-action" href="results.html?search={{user}}&terms={{topic}}&idx={{i}}e" >
-                            <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
-                                <h5 class="mb-1">{{user}}</h5>
-                                <small class="text-muted">{{date[i]}}</small>
-                            </div>
-                            <p class="mb-1" style = "margin-top: 1px">{{data[i]}}</p>
-                            <small class="text-muted">
-                                <i class="far fa-retweet"></i>&nbsp;{{retweets[i]}}&nbsp;&nbsp;
-                                <i class="far fa-heart"></i>&nbsp;{{like[i]}}&nbsp;&nbsp;
-                            <br></small>
-                        </a>
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
-                {% if data %}
-                    <div class = "container" style = "margin-bottom: 3%">
-                        <h4 style = "color: #222222; margin-bottom: 5px">
-                            {% if topic != None %}
-                                Recent news articles related to {{topic}}:
-                            {% else %}
-                                Recent news articles:
-                            {% endif %}
-                        </h4>
-                    </div>
-                    {% for i in range(length) %}  
-                        <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action">
-                            {% if news_list[i][0][4] != None %}
-                                <small class="text-muted" style = "color: #222222"><strong>Keyword: </strong>{{news_list[i][0][4]}}<br></small>
-                            {% endif %}
-                            <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 7px;">
-                                <h5 class="mb-1">{{news_list[i][0][1]}}</h5>
-                            </div>
-                            <small class="text-muted">{{news_list[i][0][0]}}<br></small>
-                        </a>
-                    {% endfor %}
-                {% endif %}
-            </div>
+    <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+        <div class="col-md-8">
+            {% if topic%}
+                <input id="input_2" type="text" name="terms" 
+                class="form-control" placeholder="Topic or Keywords (optional)"
+                value = "{{topic}}">
+            {% else %}
+                <input id="input_2" type="text" name="terms" 
+                class="form-control" placeholder="Topic or Keywords (optional): feature coming soon!" disabled>
+            {% endif %}
         </div>
+    </div>
+    <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+        <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
+    </div>
+</form>
 
-        <div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
-            <div class = "text-center text-muted">
-            	You searched: [{{user}}, "{{topic}}"] <br>
-            	{{msg}} <br>
+<div class="row justify-content-md-center">
+    <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+
+        {% if data %}
+            <div class = "container" style = "margin-bottom: 3%">
+                <h4 style = "font-size: 23.5px; margin-bottom: 5px">Latest tweets from @<a href="results.html" style = "color: #222222"><u>{{user}}</u></a>:</h4>
             </div>
-        </div>
-    </main>
-</body>
+            
+            {% for i in range(length) %}  
+                <a class="list-group-item list-group-item-action" href="results.html?search={{user}}&terms={{topic}}&idx={{i}}e" >
+                    <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
+                        <h5 class="mb-1" style = "margin-bottom: 5px">{{user}}</h5>
+                        <small class="text-muted">{{date[i]}}</small>
+                    </div>
+                    <p class="mb-1" style = "margin-top: 3px; margin-bottom: 3px">{{data[i]}}</p>
+                    <small class="text-muted">
+                        <i class="far fa-retweet"></i>&nbsp;{{retweets[i]}}&nbsp;&nbsp;
+                        <i class="far fa-heart"></i>&nbsp;{{like[i]}}&nbsp;&nbsp;
+                    <br></small>
+                </a>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
+        {% if data %}
+            <div class = "container" style = "margin-bottom: 3%">
+                <h4 style = "color: #222222; font-size: 23.5px; margin-bottom: 5px">
+                    {% if topic != None %}
+                        Recent news articles related to {{topic}}:
+                    {% else %}
+                        Recent news articles:
+                    {% endif %}
+                </h4>
+            </div>
+            {% for i in range(length) %}  
+                <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action">
+                    {% if topic != None %}
+                        {% if news_list[i][0][4] != None %}
+                            <small class="text-muted" style = "margin-bottom: 5px;"><strong>Keyword: </strong>{{news_list[i][0][4]}}<br></small>
+                        {% endif %}
+                    {% endif %}
+                    <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 5px;">
+                        <h6 class="mb-1">{{news_list[i][0][1]}}</h6>
+                    </div>
+                    <small class="text-muted"><strong>Source: </strong>{{news_list[i][0][0]}}<br></small>
+                </a>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+</div>
+
+{% if error %}
+    <div class = "container" style = "margin-bottom: 3%">
+    {% for error_msg_entry in error %}  
+        <h4 style = "margin-bottom: 5px">{{error_msg_entry}}</h4>
+    {% endfor %}
+    </div>
+{% endif %}
+
+<div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
+    <div class = "text-center text-muted">
+    	You searched: [{{user}}, "{{topic}}"] <br>
+        Returned in: {{time_taken}} seconds.
+    	{{msg}} <br>
+    </div>
+</div>
+{% endblock content %}
