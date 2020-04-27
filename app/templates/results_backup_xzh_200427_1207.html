@@ -74,31 +74,24 @@
 <div class = "bg_tile">
 <main class = "container" style = "padding-top: 2%; padding-bottom: 4%;">
 <div class="row justify-content-md-center">
-    <div class="col-lg-12" style = "margin-top: 20px; margin-bottom: 20px">
+    <div class="col-lg-7" style = "margin-top: 20px; margin-bottom: 20px">
 
         {% if tw_text %}
             <div class = "container" style = "margin-bottom: 10px">
                 <h4 style = "font-size: 23.5px; margin-bottom: 2px">Latest tweets from 
                     <a href="#" data-toggle="modal" data-target="#userProfileModal"
-                     style = "color: #222222">{{tw_user_data[0]}}</a> (@
-                    <a href="#" data-toggle="modal" data-target="#userProfileModal"
-                     style = "color: #222222"><u>{{user}}</u></a>) and relevant news articles:</h4>
+                     style = "color: #222222">@<u>{{user}}</u></a>:</h4>
                 <!-- {{tw_user_data}} <br>
                 {{tw_user_counts}} <br>
                 {{tw_user_media_obj}} -->
                 {% if topic != None %}
                     <small class="text-muted" style = "margin-bottom: 5px;">
-                        Showing Tweets containing: "{{topic}}" and associated article(s) to fact check each Tweet.<br></small>
-                {% else %}
-                    <small class="text-muted" style = "margin-bottom: 5px;">
-                        Showing Tweets and associated article(s) to fact check each Tweet.<br></small>
+                        Showing Tweets containing: "{{topic}}"<br></small>
                 {% endif %}
             </div>
             
             {% for i in range(length) %}  
-                <div class = "row" style = "margin-bottom: 10px">
-                <div class = "col-lg-7" style = "padding: 1px 3px">
-                <a href="{{tw_user_data[1]}}/status/{{tw_id_str[i]}}" style = "height: 100%" class="list-group-item list-group-item-action">
+                <a class="list-group-item list-group-item-action" href="view_tweet.html?idx={{i}}">
                     <div class = "d-flex w-100 justify-content-start align-items-center" style = "margin-bottom: 0px">
                         <img src = "{{tw_user_media_obj[1]}}" class = "rounded-circle" 
                             alt = "User_Profile_Pic" style = "height: 20px; margin-bottom: 0px">
@@ -110,33 +103,18 @@
                         {% endif %}
                     </div>
                     <small class="text-muted" style = "margin-top: 0px">@{{user}}</small>
-                    <p style = "margin-top: 6px; padding-bottom: 8px">{{tw_text_trunc[i]}}</p>
+                    <p style = "margin-top: 6px; margin-bottom: 8px">{{tw_text_trunc[i]}}</p>
                     <small class="text-muted">
                         <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
                         <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
                         <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
                     <br></small>
                 </a>
-                </div>
-                <div class = "col-lg-5" style = "padding: 1px 3px">
-                <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%">
-                    <h5 style = "margin-bottom: 0px">
-                        <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
-                    Article relevant to Tweet:</h5>
-                    <!-- <small class="text-muted">Keyword(s): "{{topic}}"<br></small> -->
-                    <small class="text-muted">Source: <strong>{{news_list[i][0][0]}}</strong><br></small>
-                    <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
-                        <h6 class="mb-1">{{news_list[i][0][1]}}</h6>
-                    </div>
-                    <!-- <small class="text-muted"><strong>Source: </strong>{{news_list[i][0][0]}}<br></small> -->
-                </a>
-                </div>
-                </div>
             {% endfor %}
         {% endif %}
     </div>
 
-<!--     <div class="col-lg-5" style = "margin-top: 20px; margin-bottom: 20px">
+    <div class="col-lg-5" style = "margin-top: 20px; margin-bottom: 20px">
         {% if tw_text %}
             <div class = "container" style = "margin-bottom: 10px">
                 <h4 style = "color: #222222; font-size: 23.5px; margin-bottom: 2px">
@@ -149,6 +127,11 @@
             </div>
             {% for i in range(length) %}  
                 <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action">
+                    <!-- {% if topic != None %}
+                        {% if news_list[i][0][4] != None %}
+                            <small class="text-muted" style = "margin-bottom: 5px;"><strong>Keyword: </strong>{{news_list[i][0][4]}}<br></small>
+                        {% endif %}
+                    {% endif %} -->
                     <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 5px;">
                         <h6 class="mb-1">{{news_list[i][0][1]}}</h6>
                     </div>
@@ -157,7 +140,7 @@
             {% endfor %}
         {% endif %}
         
-    </div> -->
+    </div>
 </div>
 </main>
 </div>
