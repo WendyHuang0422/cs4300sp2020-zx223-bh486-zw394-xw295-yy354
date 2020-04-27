@@ -1,5 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
+
+
+<style>
+
+.btn-sq-lg {
+    height: 60px;
+    width: 60px;
+    margin: 0px;
+    }
+
+</style>
+
 <!-- <div class="search">
     <a href = "/">
         <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo" style="height: 50px;">
@@ -13,17 +25,56 @@
         </div>
     </form>
 </div> -->
+<main class = "container" style = "margin-top: 30px">
 
 <form action = "/results">
-    <a href = "/">
-        <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo" style="height: 50px;">
-    </a>
-    <div class="row d-flex justify-content-center" style = "margin-top: 10px">
+    <div class = "row justify-content-center align-items-center">
+        <div class = "col-auto" style = "padding: 0px">
+            <a href = "/">
+                <img src = "/static/media/logo_r2_h_60px_cropped.png" class = "img-fluid" 
+                alt = "Tweeted Facts Logo" style = "height: 60px;">
+            </a>
+        </div>
+        <div class = "col-7" style = "margin: 0px 5px">
+            <div class = "row" style = "margin-bottom: 4px">
+
+                <input id="input" type="text" name="search" class="form-control form-control-sm" 
+                placeholder="Twitter Celebrity" value = "{{user}}" required>
+
+            </div>
+            <div class = "row" style = "margin-bottom: 0px">
+                {% if topic%}
+                    <input id="input_2" type="text" name="terms" 
+                    class="form-control form-control-sm" 
+                    placeholder="Topic or Keywords (optional)" value = "{{topic}}">
+                {% else %}
+                    <input id="input_2" type="text" name="terms" 
+                    class="form-control form-control-sm" 
+                    placeholder="Topic or Keywords (optional): feature coming soon!" disabled>
+                    <!-- <input id="input_2" type="text" name="terms" 
+                    class="form-control form-control-sm" 
+                    placeholder="Topic or Keywords (optional)"> -->
+                {% endif %}
+            </div>
+        </div>
+        <div class = "col-auto" style = "padding: 0px">
+            <button type="submit" class="btn btn-sq-lg btn-primary">
+                <span style = "font-size: 20px"><i class="far fa-search"></i></span></button>
+        </div>
+    </div>
+
+    <!-- <div class="row d-flex justify-content-center" style = "margin-top: 10px">
         <div class="col-md-8">
             <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
         </div>
     </div>
     <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+        <div class = "col-md-auto">
+            <a href = "/">
+                <img src = "/static/media/logo_r2_h_85px.png" class = "img-fluid" 
+                alt = "Tweeted Facts Logo" style="height: 85px;">
+            </a>
+        </div>
         <div class="col-md-8">
             {% if topic%}
                 <input id="input_2" type="text" name="terms" 
@@ -37,35 +88,50 @@
     </div>
     <div class="row d-flex justify-content-center" style = "margin-top: 5px">
         <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
-    </div>
+    </div> -->
 </form>
-
 <div class="row justify-content-md-center">
-    <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
 
-        {% if data %}
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-lg-7" style = "margin-top: 20px; margin-bottom: 10px">
+
+        {% if tw_text %}
             <div class = "container" style = "margin-bottom: 3%">
-                <h4 style = "font-size: 23.5px; margin-bottom: 5px">Latest tweets from @<a href="results.html" style = "color: #222222"><u>{{user}}</u></a>:</h4>
+                <h4 style = "font-size: 23.5px; margin-bottom: 5px">Latest tweets from 
+                    <a href="{{tw_user_data[1]}}" style = "color: #222222"><u>@{{user}}</u></a>:</h4>
+                <!-- {{tw_user_data}} <br>
+                {{tw_user_counts}} <br>
+                {{tw_user_media_obj}} -->
             </div>
             
             {% for i in range(length) %}  
-                <a class="list-group-item list-group-item-action" href="results.html?search={{user}}&terms={{topic}}&idx={{i}}e" >
-                    <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 0px">
-                        <h5 class="mb-1" style = "margin-bottom: 5px">{{user}}</h5>
-                        <small class="text-muted">{{date[i]}}</small>
+                <a class="list-group-item list-group-item-action" href="view_tweet.html?idx={{i}}">
+                    <div class = "d-flex w-100 justify-content-start align-items-center" style = "margin-bottom: 0px">
+                            <img src = "{{tw_user_media_obj[1]}}" class = "rounded-circle" 
+                                alt = "User_Profile_Pic" style = "height: 20px; margin-bottom: 0px">
+                            <h5 style = "margin-bottom: 0px">&nbsp;{{tw_user_data[0]}}</h5>
+                            {% if tw_user_data[2] %}
+                                &nbsp;&nbsp;<i class="far fa-user-check" style = "margin-bottom: 0px"></i>&nbsp;&nbsp;
+                            {% else %}
+                                &nbsp;&nbsp;
+                            {% endif %}
+                            
                     </div>
-                    <p class="mb-1" style = "margin-top: 3px; margin-bottom: 3px">{{data[i]}}</p>
+                    <small class="text-muted" style = "margin-top: 0px">@{{user}}</small>
+                    <p style = "margin-top: 6px; margin-bottom: 8px">{{tw_text[i]}}</p>
                     <small class="text-muted">
-                        <i class="far fa-retweet"></i>&nbsp;{{retweets[i]}}&nbsp;&nbsp;
-                        <i class="far fa-heart"></i>&nbsp;{{like[i]}}&nbsp;&nbsp;
+                        <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
+                        <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
+                        <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
                     <br></small>
                 </a>
             {% endfor %}
         {% endif %}
     </div>
 
-    <div class="col-lg" style = "margin-top: 10px; margin-bottom: 10px">
-        {% if data %}
+    <div class="col-lg-5" style = "margin-top: 20px; margin-bottom: 10px">
+        {% if tw_text %}
             <div class = "container" style = "margin-bottom: 3%">
                 <h4 style = "color: #222222; font-size: 23.5px; margin-bottom: 5px">
                     {% if topic != None %}
@@ -93,19 +159,27 @@
     </div>
 </div>
 
+</main>
+
 {% if error %}
-    <div class = "container" style = "margin-bottom: 3%">
-    {% for error_msg_entry in error %}  
-        <h4 style = "margin-bottom: 5px">{{error_msg_entry}}</h4>
-    {% endfor %}
+    <div class="p-3 mb-2 bg-warning text-dark">
+        <div class = "container">
+        {% for error_msg_entry in error %}  
+            <h4 style = "margin-bottom: 5px">{{error_msg_entry}}</h4>
+        {% endfor %}
+        <small><br>###TEMPORARY### <br> I'll come up with a better design to show this info.</small>
+        </div>
     </div>
 {% endif %}
 
-<div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
-    <div class = "text-center text-muted">
-    	You searched: [{{user}}, "{{topic}}"] <br>
-        Returned in: {{time_taken}} seconds.
-    	{{msg}} <br>
+<div class = "container">
+    <div class="card card-body" style = "margin-top: 100px; margin-bottom: 10px">
+        <div class = "text-center text-muted">
+        	You searched: [User: {{user}}, Topic(s): "{{topic}}"] <br>
+            Returned in: {{time_taken}} seconds.
+        	{{msg}} <br>
+        </div>
     </div>
 </div>
+
 {% endblock content %}

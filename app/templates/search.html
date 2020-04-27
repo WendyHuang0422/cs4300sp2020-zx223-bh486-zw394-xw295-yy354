@@ -1,36 +1,69 @@
 {% extends "layout.html" %}
 {% block content %}
-        
-<div class = "text-center">
-    <a href = "/">
-        <img src = "/static/media/logo.jpg" class = "img-fluid" alt = "Tweeted Facts Logo">
-    </a>
-    <h1>Tweeted Facts</h1>
-    <h2>Your Trusted Fact Checker for Untrusted Fact Spreaders</h2>
+
+<style>
+    h1{
+        font-size: 45px;
+        font-weight: bold;
+    }
+
+    h2{
+        font-size: 24px;
+    }
+
+
+/*    .input-group-prepend {
+        background-color: #458ec4;
+    }
+*/
+</style>
+<div class = "container">
+    <div class="text-right" style="margin-top: 10px">
+        <small>Project Name: Tweeted Facts (DEVELOPMENT VERSION)<br>
+        Student Name: Zenong Wang: zw394, Wendy Huang: bh486, 
+        Alicia Yang: yy354, Zi Heng Xu: zx223, Iris Wang: zw295</small>
+    </div>
 </div>
 
-<form action = "/results">
-    <div class="row d-flex justify-content-center" style = "margin-top: 10px">
-        <div class="col-md-8">
-            <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+<main class = "container" style = "margin-top: 6%">
+    <div class = "text-center" style = "margin-bottom: 10px">
+        <a href = "/">
+            <img src = "/static/media/logo_r2_w_300px.png" class = "img-fluid" alt = "Tweeted Facts Logo">
+        </a>
+        <h1 style = "margin-bottom: 3px">Tweeted Facts</h1>
+        <h2>Your Trusted Fact Checker for Untrusted Fact Spreaders</h2>
+    </div>
+
+    <form action = "/results">
+        <div class="row d-flex justify-content-center" style = "margin-top: 18px">
+
+            <div class="col-md-8">
+                <div class = "input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">@</div>
+                    </div>
+                    <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row d-flex justify-content-center" style = "margin-top: 5px">
-        <div class="col-md-8">
-            {% if topic%}
-                <input id="input_2" type="text" name="terms" 
-                class="form-control" placeholder="Topic or Keywords (optional)"
-                value = "{{topic}}">
-            {% else %}
-<!--                 <input id="input_2" type="text" name="terms" 
-                class="form-control" placeholder="Topic or Keywords (optional)"> -->
-                <input id="input_2" type="text" name="terms" 
-                class="form-control" placeholder="Topic or Keywords (optional) feature coming soon!" disabled>
-            {% endif %}
+        <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+            <div class="col-md-8">
+                {% if topic%}
+                    <input id="input_2" type="text" name="terms" 
+                    class="form-control" placeholder="Topic or Keywords (optional)"
+                    value = "{{topic}}">
+                {% else %}
+    <!--                 <input id="input_2" type="text" name="terms" 
+                    class="form-control" placeholder="Topic or Keywords (optional)"> -->
+                    <input id="input_2" type="text" name="terms" 
+                    class="form-control" placeholder="Topic or Keywords (optional) feature coming soon!" disabled>
+                {% endif %}
+            </div>
         </div>
-    </div>
-    <div class="row d-flex justify-content-center" style = "margin-top: 5px">
-        <button type="submit" class="btn btn-primary mb-2" >Fact Check &nbsp; <i class="far fa-search"></i></button>
-    </div>
-</form>
+        <div class="row d-flex justify-content-center" style = "margin-top: 5px">
+            <button type="submit" class="btn btn-primary mb-2" style = "">Fact Check &nbsp; <i class="far fa-search"></i></button>
+        </div>
+    </form>
+</main>
+
 {% endblock content %}
