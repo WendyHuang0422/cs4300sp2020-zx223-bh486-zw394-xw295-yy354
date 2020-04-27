@@ -1,0 +1,155 @@
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/bootstrap_4_4_1.min.css">
+    <link rel="stylesheet" href="/static/font_awesome/all.min.css">
+
+    <style>
+        :root {
+            --tw_blue_10h: #d1edff;
+            --tw_blue_9h: #c4e8ff;
+            --tw_blue_7h: #abd8f5;
+            --tw_blue_6h: #9dd2f5;
+            --tw_blue_3h: #66b2e6;
+            --tw_blue_2h: #56a2d6;
+            --tw_blue_hb: #4fa0e0;
+            --tw_blue_2b: #3f90d0;
+            --tw_blue_border_2b: #3f80b0;
+            --tw_blue_border_3b: #2f70a0;
+        }
+
+        #go_back_to_top_button {
+            display: none; /* Hidden by default */
+            position: fixed; /* Fixed/sticky position */
+            bottom: 20px; /* Place the button at the bottom of the page */
+            right: 30px; /* Place the button 30px from the right */
+            z-index: 99; /* Make sure it does not overlap */
+            border: none; /* Remove borders */
+            outline: none; /* Remove outline */
+            /*background-color: red;  Set a background color */
+            color: white; /* Text color */
+            cursor: pointer; /* Add a mouse pointer on hover */
+            padding: 15px; /* Some padding */
+            border-radius: 10px; /* Rounded corners */
+            font-size: 20px; /* Increase font size */
+        }
+
+        .btn-primary {
+            /*background-color: #56a2d6;*/
+            color: white;
+            transition-duration: 0.3s;
+            background-color: var(--tw_blue_hb);
+            border-color: var(--tw_blue_border_2b);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--tw_blue_2b);
+            border-color: var(--tw_blue_border_3b);
+
+        }
+        .navbar-toggler {
+            padding: .15rem .55rem;
+            font-size: 1rem;
+        /*  navbar-toggler{padding:.25rem .75rem;font-size:1.25rem;line-height:1;background-color:transparent;border:1px solid transparent;border-radius:.25rem}*/
+        }
+        /*.navbar-toggler:focus,.navbar-toggler:hover{text-decoration:none}
+        .navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;content:"";background:no-repeat center center;background-size:100% 100%}
+        }*/
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+<!--     <div class="pos-f-t" style = "background-color: var(--tw_blue_2h)"> -->
+<!--     <div class="pos-f-t">
+        <div class = "container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <div class="collapse" id="navbarToggleExternalContent">
+                        <div class="container">
+                            <div class = "row justify-content-between">
+                                <div class="col-md-auto">
+                                    <img src="/static/media/logo_r2_w_300px.png" style = "margin-top: 10px" height="35" alt="">
+                                </div>
+                                <div class="col-md-auto">
+                                    <div class="text-right" style="margin-top: 10px">
+                                        <small>Project Name: Tweeted Facts (DEVELOPMENT VERSION)<br>
+                                        Student Name: Zenong Wang: zw394, Wendy Huang: bh486, 
+                                        Alicia Yang: yy354, Zi Heng Xu: zx223, Iris Wang: zw295</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row justify-content-end">
+                            <nav class="navbar navbar-light">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+<!--     <div class="text-right" style = "margin-top: 10px">
+        <h6>Project Name: Tweeted Facts (DEVELOPMENT VERSION)</h6>
+        <h6>Student Name: Zenong Wang: zw394, Wendy Huang: bh486, Alicia Yang: yy354, Zi Heng Xu: zx223, Iris Wang: zw295</h6>
+    </div> -->
+
+    <button onclick="topFunction()" id="go_back_to_top_button" class="btn btn-info"><i class="fas fa-chevron-double-up"></i></button>
+
+    <!-- <main class = "container" style = "margin-top: 6%"> -->
+    <!-- block content -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+
+    <!-- </main> -->
+
+    <script>
+        //Get the button:
+        mybutton = document.getElementById("go_back_to_top_button");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();   
+        });
+
+    </script>
+</body>
+
+</html>
