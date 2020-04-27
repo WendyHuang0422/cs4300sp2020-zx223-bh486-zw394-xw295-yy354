@@ -1,0 +1,3 @@
+database_preprocess_text.txt_0_116	obj
+database_preprocess_text.txt_126_264	obj
+database_preprocess_text.txt_274_297	obj
