@@ -231,7 +231,7 @@ def twittter_aggregated(N,pool_size,celeb_name,inc_retweets):
   data = []
 
 
-  wanted = ['text','created_at','id','retweet_count','favorite_count', "user"]
+  wanted = ['text', "id_str", 'created_at','id','retweet_count','favorite_count', "user"]
   # xzh_wanted_keys = ["user"]
   # xzh_wanted_user_keys = ["followers_count", "friends_count", "listed_count", "favourites_count", "statuses_count", \
   # "profile_banner_url", "profile_image_url_https"]

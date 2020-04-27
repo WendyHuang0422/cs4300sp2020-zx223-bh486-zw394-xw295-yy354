@@ -27,6 +27,18 @@ import time
 length_retrieval_tweets = 20
 length_retrieval_news = 20
 
+
+def helper_string_trunc (long_str, trunc_len):
+	if len(long_str) < trunc_len:
+		return long_str
+	else:
+		short_str = long_str[ : trunc_len]
+		last_space_idx = short_str.rfind(" ")
+		if last_space_idx != -1:
+			short_str = long_str[ : last_space_idx]
+		return short_str + " ... "
+
+
 @irsystem.route("/", methods=['GET', 'POST'])
 def search():
 	return render_template("search.html")
@@ -52,7 +64,9 @@ def search_for():
 	tw_user_counts = []
 	# contains links for user media objects: [profile_banner_url, profile_image_url_https]
 	tw_user_media_obj = []
+	tw_id_str = []
 	tw_text = []
+	tw_text_trunc = []
 	tw_date = []
 	tw_retweets = []
 	tw_like = []
@@ -84,7 +98,9 @@ def search_for():
 				tw_user_media_obj = [tweet_author["profile_banner_url"], \
 				tweet_author["profile_image_url_https"]]
 
+			tw_id_str.append(tweet["id_str"])
 			tw_text.append(tweet["text"])
+			tw_text_trunc.append(helper_string_trunc(tweet["text"], 170))
 			time_stamp = tweet["created_at"].split(" ")
 			time_o_clock = time_stamp[3].split(":")
 			am_pm_time = ""
@@ -111,9 +127,7 @@ def search_for():
 				else:
 					source_color = "white"
 				# title truncator
-				title = news[0]["description"]
-				if len(title) > 154:
-					title = title[0 : 150] + " ..."
+				title = helper_string_trunc(news[0]["description"], 200)
 				tweet_news.append((source, title, news[0]["url"], \
 					source_color, news[1]))
 			news_list.append(tweet_news)
@@ -131,8 +145,9 @@ def search_for():
 	time_taken = round(time.time() - start_time, 5)
 	
 	return render_template("results.html", \
-		user = user, topic = topic, \
-		tw_text = tw_text, length = length, tw_date = tw_date, tw_retweets = tw_retweets, tw_like = tw_like, \
+		user = user, topic = topic, length = length, \
+		tw_id_str = tw_id_str, tw_text = tw_text, tw_text_trunc = tw_text_trunc, \
+		tw_date = tw_date, tw_retweets = tw_retweets, tw_like = tw_like, \
 		tw_user_data = tw_user_data, tw_user_counts = tw_user_counts, tw_user_media_obj = tw_user_media_obj, \
 		news_list = news_list, \
 		error = error, time_taken = time_taken)

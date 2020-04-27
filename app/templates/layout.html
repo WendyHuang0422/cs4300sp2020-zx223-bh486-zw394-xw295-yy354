@@ -9,6 +9,11 @@
 
     <style>
         :root {
+            --tw_blue_10h: #d1edff;
+            --tw_blue_9h: #c4e8ff;
+            --tw_blue_7h: #abd8f5;
+            --tw_blue_6h: #9dd2f5;
+            --tw_blue_3h: #66b2e6;
             --tw_blue_2h: #56a2d6;
             --tw_blue_hb: #4fa0e0;
             --tw_blue_2b: #3f90d0;
@@ -139,6 +144,11 @@
             document.body.scrollTop = 0; // For Safari
             document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
+
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();   
+        });
+
     </script>
 </body>
 
