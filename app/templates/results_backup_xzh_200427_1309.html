@@ -98,8 +98,9 @@
             {% for i in range(length) %}  
                 <div class = "row" style = "margin-bottom: 10px">
                 <div class = "col-lg-7" style = "padding: 1px 3px">
+                <a href="{{tw_user_data[1]}}/status/{{tw_id_str[i]}}" style = "height: 100%" class="list-group-item list-group-item-action">
                 <a href="#" style = "height: 100%" class="list-group-item list-group-item-action" 
-                data-toggle="modal" data-target="#tweetNewsModal{{i}}">
+                data-toggle="modal" data-target="#tweetNewsModal">
                     <div class = "d-flex w-100 justify-content-start align-items-center" style = "margin-bottom: 0px">
                         <img src = "{{tw_user_media_obj[1]}}" class = "rounded-circle" 
                             alt = "User_Profile_Pic" style = "height: 20px; margin-bottom: 0px">
@@ -133,107 +134,38 @@
                 </a>
                 </div>
                 </div>
-                <!-- Tweet News Articles Modal -->
-
-                <div class="modal fade bd-example-modal-xl" id = "tweetNewsModal{{i}}" tabindex="-1" role="dialog" 
-                aria-labelledby="tweetNewsArticlesModalTitle_{{i}}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
-                        <div class="modal-content">
-                            <!-- <div class="modal-body"> -->
-                            <div class="container">
-                                <div class = "container" style = "margin-bottom: 0px; margin-top: 15px;">
-                                    <h4 style = "font-size: 22px; margin-bottom: 2px">Selected Tweet: </h4>
-                                    {% if topic != None %}
-                                        <small class="text-muted" style = "margin-bottom: 0px;">
-                                            The selected Tweet contains: "{{topic}}".<br></small>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="modal-header">
-                                <!-- <div class = "col-lg-12" style = "padding: 1px 3px"> -->
-                                <a href="{{tw_user_data[1]}}/status/{{tw_id_str[i]}}" class="list-group-item list-group-item-action">
-                                    <div class = "d-flex w-100 justify-content-start align-items-center" style = "margin-bottom: 0px">
-                                        <img src = "{{tw_user_media_obj[1]}}" class = "rounded-circle" 
-                                            alt = "User_Profile_Pic" style = "height: 20px; margin-bottom: 0px">
-                                        <h5 style = "margin-bottom: 0px">&nbsp;{{tw_user_data[0]}}</h5>
-                                        {% if tw_user_data[2] %}
-                                            &nbsp;&nbsp;<i class="far fa-user-check" style = "margin-bottom: 0px"></i>&nbsp;&nbsp;
-                                        {% else %}
-                                            &nbsp;&nbsp;
-                                        {% endif %}
-                                    </div>
-                                    <small class="text-muted" style = "margin-top: 0px">@{{user}}</small>
-                                    <p style = "margin-top: 6px; padding-bottom: 8px">{{tw_text_trunc[i]}}</p>
-                                    <small class="text-muted">
-                                        <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
-                                        <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
-                                        <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
-                                    <br></small>
-                                </a>
-                                <!-- </div> -->
-                            </div>
-                            <div class = "modal-body">
-                                <div class = "container" style = "margin-bottom: 15px; margin-top: 10px">
-                                    <h4 style = "font-size: 22px; margin-bottom: 2px">Top 
-                                        {% if tw_news_num[i] < 10 %}{{tw_news_num[i]}} 
-                                        {% else %}10 (of {{tw_news_num[i]}}) 
-                                        {% endif %}
-                                        relevant news articles for the selected Tweet: 
-                                    </h4>
-                                </div>
-                                <div class = "container">
-                                {% if tw_news_num[i] < 10 %}
-                                    {% for j in range(tw_news_num[i]) %}
-                                        <div class = "row">
-                                            <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
-                                            style = "margin-bottom: 4px">
-                                                <h5 style = "margin-bottom: 2px">
-                                                    <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
-                                                Article no. {{j + 1}} relevant to Tweet:</h5>
-                                                <small class="text-muted">Source: <strong>{{news_list[i][j][0]}}</strong><br></small>
-                                                <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
-                                                    <h6 class="mb-1">{{news_list[i][j][1]}}</h6>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    {% for j in range(10) %}
-                                        <div class = "row">
-                                            <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
-                                            style = "margin-bottom: 4px">
-                                                <h5 style = "margin-bottom: 2px">
-                                                    <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
-                                                Article no. {{j + 1}} relevant to Tweet:</h5>
-                                                <small class="text-muted">Source: <strong>{{news_list[i][j][0]}}</strong><br></small>
-                                                <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
-                                                    <h6 class="mb-1">{{news_list[i][j][1]}}</h6>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                                </div>
-                            </div>
-                            <div class = "modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             {% endfor %}
         {% endif %}
     </div>
+
+<!--     <div class="col-lg-5" style = "margin-top: 20px; margin-bottom: 20px">
+        {% if tw_text %}
+            <div class = "container" style = "margin-bottom: 10px">
+                <h4 style = "color: #222222; font-size: 23.5px; margin-bottom: 2px">
+                    Recent relevant news articles: 
+                </h4>
+                {% if topic != None %}
+                    <small class="text-muted" style = "margin-bottom: 5px;">
+                        Article keyword(s): "{{topic}}"<br></small>
+                {% endif %}
+            </div>
+            {% for i in range(length) %}  
+                <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between" style = "margin-bottom: 5px;">
+                        <h6 class="mb-1">{{news_list[i][0][1]}}</h6>
+                    </div>
+                    <small class="text-muted"><strong>Source: </strong>{{news_list[i][0][0]}}<br></small>
+                </a>
+            {% endfor %}
+        {% endif %}
+        
+    </div> -->
 </div>
 </main>
 </div>
 
-
-
-
-<!-- User Profile Modal -->
-<div class="modal fade" id="userProfileModal" tabindex="-1" role="dialog" 
-aria-labelledby="userProfileModalTitle" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="userProfileModal" tabindex="-1" role="dialog" aria-labelledby="userProfileModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header" style = "background-color: #14242c; color: #ffffff">
@@ -252,11 +184,17 @@ aria-labelledby="userProfileModalTitle" aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button> -->
             </div>
+            <!-- # contains user data: [display name, url, verified]
+    tw_user_data = []
+    # contains user x_counts: [followers, friends, listed, favourites, statuses]
+    tw_user_counts = []
+    # contains links for user media objects: [profile_banner_url, profile_image_url_https] -->
             <div class="modal-body" style = "background-color: #233d4a; color: #ffffff">
                 <div class = "crop-to-middle">
                     <img src = {{tw_user_media_obj[0]}}>
                 </div>
-                <p style = "font-size: 15px">
+<!--                 {{tw_user_data}} <br>{{tw_user_counts}} <br>{{tw_user_media_obj}}
+-->             <p style = "font-size: 15px">
                     <i class="far fa-user-tag"></i>&nbsp;&nbsp;Username: @{{user}}<br>
                     {% if tw_user_data[2] %}
                         <i class="far fa-user-check"></i>&nbsp;&nbsp;User is Verified

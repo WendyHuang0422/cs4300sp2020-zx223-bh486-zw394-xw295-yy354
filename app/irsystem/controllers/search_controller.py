@@ -71,6 +71,7 @@ def search_for():
 	tw_retweets = []
 	tw_like = []
 	news_list = []
+	tw_news_num = []
 	error = []
 	# padding = "_".ljust(len(user) + 2, "_")
 	start_time = time.time()
@@ -131,6 +132,7 @@ def search_for():
 				tweet_news.append((source, title, news[0]["url"], \
 					source_color, news[1]))
 			news_list.append(tweet_news)
+			tw_news_num.append(len(tweet_news))
 		
 	except tweepy.TweepError as err:
 		print("Oops, something went wrong!")
@@ -149,7 +151,7 @@ def search_for():
 		tw_id_str = tw_id_str, tw_text = tw_text, tw_text_trunc = tw_text_trunc, \
 		tw_date = tw_date, tw_retweets = tw_retweets, tw_like = tw_like, \
 		tw_user_data = tw_user_data, tw_user_counts = tw_user_counts, tw_user_media_obj = tw_user_media_obj, \
-		news_list = news_list, \
+		tw_news_num = tw_news_num, news_list = news_list, \
 		error = error, time_taken = time_taken)
 
 
