@@ -105,33 +105,34 @@ def update_news(N=50):
             "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"]
 
     news_count = 0
+    page = 0
     results_left = 1
     i = 0
     limit = True
     retrieved = set([new['url'] for new in past_news])
     results = []
-    for page in range(N):
-        try:
-            if limit != True:
-                break
-            key = keys[i]
-            instance = raw_news_retrieval(
-                None, key, date1, date2, 100, page, 'publishedAt')
-            print("-----********888888888888888888 ")
-            limit = instance['status'] == 'ok'
-            for article in instance['articles']:
-                if article['url'] not in retrieved:
-                    news_count += 1
-                    results.append(article)
-                    retrieved.add(article['url'])
-            page = page + 1
-        except:
-            print("------=========   heloo ======")
-            print(len(results))
-            i += 1
-            if i == len(keys):
-                break
-            pass
+    while (page < N):
+        # try:
+        if limit != True:
+            break
+        key = keys[i]
+        instance = raw_news_retrieval(
+            None, key, date1, date2, 100, page, 'publishedAt')
+        print("-----********888888888888888888 ")
+        limit = instance['status'] == 'ok'
+        for article in instance['articles']:
+            if article['url'] not in retrieved:
+                news_count += 1
+                results.append(article)
+                retrieved.add(article['url'])
+        page = page + 1
+        # except:
+        #     print("------=========   heloo ======")
+        #     print(len(results))
+        #     i += 1
+        #     if i == len(keys):
+        #         break
+        #     pass
 
     wanted = ['source', 'author', 'description',
               'publi_time', 'url', 'content']
