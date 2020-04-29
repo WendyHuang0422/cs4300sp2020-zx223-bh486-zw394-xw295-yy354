@@ -110,27 +110,26 @@ def update_news(N=50):
     retrieved = set([new['url'] for new in past_news])
     results = []
     while (page < N):
-        # try:
-        if limit != True:
-            break
-        key = keys[i]
-        instance = raw_news_retrieval(
-            None, key, date1, date2, 100, page, 'publishedAt')
-        print("-----********888888888888888888 ")
-        limit = instance['status'] == 'ok'
-        for article in instance['articles']:
-            if article['url'] not in retrieved:
-                news_count += 1
-                results.append(article)
-                retrieved.add(article['url'])
-        page = page + 1
-        # except:
-        #     print("------=========   heloo ======")
-        #     print(len(results))
-        #     i += 1
-        #     if i == len(keys):
-        #         break
-        #     pass
+        try:
+            if limit != True:
+                break
+            key = keys[i]
+            instance = raw_news_retrieval(
+                None, key, date1, date2, 100, page, 'publishedAt')
+            limit = instance['status'] == 'ok'
+            for article in instance['articles']:
+                if article['url'] not in retrieved:
+                    news_count += 1
+                    results.append(article)
+                    retrieved.add(article['url'])
+            page = page + 1
+        except:
+            print("------=========   heloo ======     -----")
+            print(len(results))
+            i += 1
+            if i == len(keys):
+                break
+            pass
 
     wanted = ['source', 'author', 'description',
               'publi_time', 'url', 'content']
@@ -180,4 +179,5 @@ if __name__ == '__main__':
         updated_news)
     print(len(update_news))
     print(len(up_inverted_index) == len(up_idf))
-    # main(updated_news,up_inverted_index, up_document_norms, up_idf, up_dictionaries_without_texts)
+    # main(updated_news, up_inverted_index, up_document_norms,
+    #      up_idf, up_dictionaries_without_texts)

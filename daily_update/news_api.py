@@ -204,7 +204,6 @@ def full_text_integerate(list_dictionaries1):
     3.idf
     4.list of dictionaries without texts (no 'contents' or 'description' keys)
     """
-    print(list_dictionaries1[0])
     list_dictionaries = [dict(ele) for ele in list_dictionaries1]
     urls = [news['url'] for news in list_dictionaries]
     full_text = get_news_text(urls)
