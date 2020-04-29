@@ -116,6 +116,7 @@ def update_news(N=50):
             key = keys[i]
             instance = raw_news_retrieval(
                 None, key, date1, date2, 100, page, 'publishedAt')
+            print("herere")
             limit = instance['status'] == 'ok'
             for article in instance['articles']:
                 if article['url'] not in retrieved:
