@@ -93,7 +93,10 @@ def update_news(N=50):
     """
     past_news = get_mongo_store("news")
     date2 = datetime.today().strftime("%Y-%m-%d")
-    date1 = past_news[0]['publi_time']
+    DURATION = 1
+    date1 = (datetime.today() -
+             timedelta(days=DURATION)).strftime("%Y-%m-%d")
+    # date1 = past_news[0]['publi_time']
     date = date1+':'+date2
     keys = ["770d3e15e7234b028da0d84fc0fb6210", "faaccca75145413bb1afe5f9742e34be",
             "ac4e23f90a0e40eeb1732a4507f768ed", "9f2590eef62045aead200877ef8e16f1",
@@ -114,6 +117,7 @@ def update_news(N=50):
             key = keys[i]
             instance = raw_news_retrieval(
                 None, key, date1, date2, 100, page, 'publishedAt')
+            print("-----********888888888888888888 ")
             limit = instance['status'] == 'ok'
             for article in instance['articles']:
                 if article['url'] not in retrieved:
