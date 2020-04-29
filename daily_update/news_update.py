@@ -98,11 +98,9 @@ def update_news(N=50):
              timedelta(days=DURATION)).strftime("%Y-%m-%d")
     # date1 = past_news[0]['publi_time']
     date = date1+':'+date2
-    keys = ["770d3e15e7234b028da0d84fc0fb6210", "faaccca75145413bb1afe5f9742e34be",
-            "ac4e23f90a0e40eeb1732a4507f768ed", "9f2590eef62045aead200877ef8e16f1",
-            "B8073fe826ee44b48ebf71b767901a43", "7ae791fb7ff447d4b8b773766d8891f0",
-            "3ebcb31788484caca0186832bdbbba63", "0ab86b9133554662bd5577593b2a5b50",
-            "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"]
+    keys = [
+        "3ebcb31788484caca0186832bdbbba63", "0ab86b9133554662bd5577593b2a5b50",
+        "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"]
 
     news_count = 0
     page = 0
