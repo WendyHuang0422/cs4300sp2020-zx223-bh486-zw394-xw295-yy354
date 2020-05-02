@@ -45,11 +45,10 @@
             <div class="col-md-8">
                 {% if topic%}
                     <input id="input_2" type="text" name="terms" 
-                    class="form-control" placeholder="Topic or Keywords (optional)"
-                    value = "{{topic}}">
+                    class="form-control" placeholder="Topic or Keywords (optional, separate using commas)" value = "{{topic}}">
                 {% else %}
                     <input id="input_2" type="text" name="terms" 
-                    class="form-control" placeholder="Topic or Keywords (optional)">
+                    class="form-control" placeholder="Topic or Keywords (optional, separate using commas)">
 <!--                     <input id="input_2" type="text" name="terms" 
                     class="form-control" placeholder="Topic or Keywords (optional) feature coming soon!" disabled> -->
                 {% endif %}
