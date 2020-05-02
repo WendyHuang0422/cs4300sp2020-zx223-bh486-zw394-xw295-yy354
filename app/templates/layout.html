@@ -88,13 +88,178 @@
             background-image: url("/static/media/bg_tile_r3_op30_w_500px_y25.png");
             background-repeat: repeat;
         }
-
+<!--temp-->
+* { box-sizing: border-box; }
+body {
+  font: 16px Arial;
+}
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+}
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+var countries = ['HillaryClinton','realDonaldTrump','katyperry', 'justinbieber', 'taylorswift13', 'rihanna', 'ladygaga', 'jtimberlake', 'TheEllenShow', 'britneyspears', 'Cristiano', 'KimKardashian', 'katyperry', 'justinbieber', 'taylorswift13', 'rihanna', 'ladygaga', 'jtimberlake', 'TheEllenShow', 'britneyspears', 'Cristiano', 'KimKardashian', 'shakira', 'selenagomez', 'JLo', 'ArianaGrande', 'ddlovato', 'jimmyfallon', 'Oprah', 'Pink', 'Drake', 'Harry_Styles', 'onedirection', 'BillGates', 'KingJames', 'LilTunechi', 'BrunoMars', 'KAKA', 'Adele', 'NiallOfficial', 'MileyCyrus', 'aliciakeys', 'KevinHart4real', 'wizkhalifa', 'pitbull', 'Real_Liam_Payne', 'Louis_Tomlinson', 'NICKIMINAJ', 'neymarjr', 'Eminem', 'EmWatson', 'AvrilLavigne', 'ActuallyNPH', 'danieltosh', 'davidguetta', 'ConanOBrien', 'SrBachchan', 'aplusk', 'khloekardashian', 'kourtneykardash', 'zaynmalik', 'iamsrk', 'coldplay', 'MariahCarey', 'edsheeran', 'xtina', 'JimCarrey', 'kanyewest', 'chrisbrown', 'aamir_khan', 'BeingSalmanKhan', 'agnezmo', 'Beyonce', 'blakeshelton', 'RyanSeacrest', 'ivetesangalo', 'LeoDiCaprio', 'ParisHilton', 'iamwill', 'MohamadAlarefe', 'KendallJenner', 'ashleytisdale', 'tyrabanks', 'SnoopDogg', 'AlejandroSanz', 'ricky_martin', '10Ronaldinho', 'SimonCowell', 'WayneRooney', 'KDTrey5', 'maroon5', 'radityadika', 'KylieJenner', 'ClaudiaLeitte', 'DaniloGentili', 'shugairi', 'marcosmion', 'deepikapadukone', 'stephenfry', 'charliesheen', 'andresiniesta8', 'iHrithik', 'priyankachopra', 'LucianoHuck', '3gerardpique', 'ZacEfron', 'carlyraejepsen', 'rustyrockets', 'juanes', 'paurubio', 'iamdiddy', 'Ludacris', 'SHAQ', 'paulocoelho', 'SabrinaSatoReal', 'kelly_clarkson', 'tomhanks', 'Dr_alqarnee', 'Usher', 'akshaykumar', 'LunaMaya26', 'rickygervais', 'MesutOzil1088', 'sherinasinna', 'CMYLMZ', 'nickjonas', 'XabiAlonso', 'TheRock', 'enrique305', 'StephenAtHome', 'aguerosergiokun', 'VictoriaJustice', 'FALCAO', 'lindsaylohan', 'arrahman', 'AustinMahone', 'victoriabeckham', 'jamesdrodriguez', 'TreySongz', 'SofiaVergara', 'jessicaalba', 'RafaelNadal', 'rafinhabastos', 'daddy_yankee', 'afgansyah_reza', 'Anahi', 'LMFAO', 'realwbonner', 'imVkohli', 'JessieJ', 'vidialdiano', 'annecurtissmith', 'sachin_rt', 'MarceloTas', 'mishari_alafasy', 'Carles5puyol', 'SethMacFarlane', 'thalia', 'MarcAnthony', 'cesc4official', '50cent', 'Pharrell', 'joejonas', 'BigSean', 'SOS\xa05', 'azizansari', 'kobebryant', 'davidbisbal', 'juniorbachchan', 'Tatawerneck', 'channingtatum', 'Persie_Official', 'sonamakapoor', 'CodySimpson', 'LuisFonsi', 'marcoluque', 'DavidLuiz_4', 'GarethBale11', 'JohnCena', 'EugenioDerbez', 'JColeNC', 'elissakh', 'MirandaCosgrove', 'johnlegend', 'EvaLongoria', 'salman_alodah', 'karanjohar', 'Guaje7Villa', 'CherLloyd', 'JessicaSimpson', 'NancyAjram', 'SpiderAnderson', 'montanertwiter', 'LittleMix', 'carmeloanthony', 'SarahKSilverman', 'shahidkapoor', 'Tyga', 'ChespiritoRGB', 'snooki', 'cuervotinelli', '143redangel', 'IAMQUEENLATIFAH', 'ZooeyDeschanel', 'simonpegg', 'RaffiAhmadLagi', 'NeYoCompound', 'CalvinHarris', 'richardbranson', 'ciara', 'SteveMartinToGo', 'ollyofficial', 'DaniAlvesD2', 'KELLYROWLAND', 'Fearnecotton', 'rioferdy5', 'FloydMayweather', 'Luke5SOS', 'shireensungkar', 'jedarcantik', 'andersoncooper', 'MTLovenHoney', 'FabioPorchat', 'FarOutAkhtar', 'jennettemccurdy', 'gusttavo_lima', 'bellathorne', 'pittyleone', 'hollywills', 'JuanLuisGuerra', 'Tip', 'PerezHilton', 'DwightHoward', 'CHAYANNEMUSIC', 'Ricardo_Arjona', 'aliaa08', 'vicegandako', 'Zendaya', 'DulceMaria', 'oceara', 'iansomerhalder', 'KrisJenner', 'jimmykimmel', 'RealHughJackman', 'luansantana', 'IGGYAZALEA', 'GalileaMontijo', 'AnushkaSharma', 'robkardashian', 'Akon', 'jason_mraz', 'ninadobrev', 'OMARCHAPARRO', 'SergioRamos', 'rodrigovesgo', 'LanaDelRey', 'sonakshisinha', 'Mascherano', 'chetan_bhagat', 'Calum5SOS', 'CH14_', 'jk_rowling', 'official_flo', 'chelseahandler', 'atademirer', 'ScottDisick', 'CherylOfficial', 'officialjaden', 'LuisSuarez9', 'ParineetiChopra', 'RobertDowneyJr', 'G_Higuain', 'jimmycarr', 'TomCruise', 'kendricklamar', 'serenawilliams', 'Residente', 'adamlevine', 'CarlosLoret', 'JeremyClarkson', 'ahickmann', 'Talhabeeb', 'VanessaHudgens', 'TareqAlSuwaidan', 'JKCorden', 'Michael5SOS', 'elliegoulding', 'camerondallas', 'lopezdoriga', 'DrBassemYoussef', 'thekiranbedi', 'raisa6690', 'lilyallen', 'AnupamPkher', 'MichelleObama', 'BarackObama','maryjblige', 'oserginho', 'justdemi', 'bernardokath', 'SamuelLJackson', 'NicoleScherzy', 'bep', 'Ahlam_Alshamsi', 'okanbayulgen', 'INDONESIAinLOVE', 'amrkhaled', 'MeekMill', 'antanddec', 'CasillasWorld', 'RitaOra', 'lulopilato', 'Fiuk', 'NickCannon', 'bepe20s', 'SandyLeah', 'mirandalambert', 'Angelluisr', 'Nashgrier', 'bclsinclair', 'RedHourBen', 'DemetAkalin', 'YengPLUGGEDin', 'mindykaling', 'LukeBryanOnline', 'siwon407', 'MacMiller', 'D_DeGea', 'juanmata8', 'TigerWoods', 'MikeTyson', 'LennyKravitz', 'kevinjonas', 'JonahHill', 'DwyaneWade', 'nicolerichie', 'linkinpark', 'HilaryDuff', 'ImRaina', 'RNTata2000', 'ariyoshihiroiki', 'IBGDRGN', 'AnnaKendrick47', 'AlanCarr', 'sectorkekz', 'wossy', 'lucyhale', 'bridgitmendler', 'donghae861015', 'JohnCleese', 'souljaboy', 'PrinceRoyce', 'TiagoLeifert', 'carrieunderwood', 'jesseyjoy', 'yokoono', 'olla_ramlan', 'DjokerNole', 'gabyespino', 'Bellaudyaa', 'tyleroakley', 'johngreen', 'BillSimmons', 'DiegoForlan7', 'llcoolj', 'facufacundo', 'msleamichele', 'iamsuperbianca', 'msdhoni', 'piersmorgan', 'Skrillex', 'virendersehwag', 'jorgeemateus', 'gitagut', 'Lord_Sugar', 'MonsieurDream', 'CP3', 'iamjamiefoxx', 'IrfanBachdim10', 'kc_concepcion', 'imdanielpadilla', 'gadelmaleh', 'MarceloM12', 'micheltelo', 'SalehAlmoghamsy', 'luckymanzano', 'yelyahwilliams', 'DONOMAR', 'SteveCarell', 'neiltyson', 'wisinyyandel', 'NoelSchajris', 'RevRunWisdom', 'SandraDewi88', 'amrdiab', 'ShawnMendes', 'syntekoficial', 'AdelAliBinAli', 'felipeneto', 'polo_polo', 'GloriaTrevi', 'TheVijayMallya', 'Ashton5SOS', 'Wale', 'ChinoyNacho', 'Riteishd', 'RealLamarOdom', 'PretaGil', 'TomCavalcante1', 'RandyOrton', 'DjKingAssassin', 'gadiiing', 'DJPaulyD', 'LuceroMexico', 'paulitachaves', 'KevinSpacey', 'OzzyOsbourne', 'AdamSchefter', 'GaryLineker', 'VhongX44', '_CristineReyes_', 'JordinSparks', 'juliaperrez', 'rainnwilson', 'silagencoglu', 'QueenRania', 'hulyavsar', 'najwakaram', '1victorvaldes', 'DebbouzeJamel', 'montesjulia', 'hazardeden10', 'ajaydevgn', 'indrabektiasli', 'MirandaKerr', 'fayez_malki', 'angelicaksy', 'GaryBarlow', 'TheShilpaShetty', 'aristeguicnn', 'BillCosby', 'tonyhawk', 'noaheverett', 'AndreaLegarreta', 'tylerperry', 'julietav', 'bipsluvurself', 'psy_oppa', 'Caradelevingne', 'galifianakisz', 'Nelly_Mo', 'DebbyRyan', 'KellyOsbourne', 'YordiRosado', 'eddieizzard', 'KapilSharmaK9', 'cuneytozdemir', 'JoelOsteen', 'dylanobrien', 'diegotorres', 'KeriHilson', 'yilmazerdogan', 'realpreityzinta', 'rogerfederer', 'lordemusic', 'GreenDay', 'PochoLavezzi', 'carlosvives', 'jackwhitehall', 'alyankovic', 'alexoficial', 'Jenna_Marbles', 'MaiteOficial', 'shreyaghoshal', 'LAURAGII', 'raghebalama', 'wyclef', 'Alwaleed_Talal', 'scooterbraun', 'Adela_Micha', 'tiesto', 'paramore', 'apriliokevin', 'AshBenzo', 'urgantcom', 'NormanDesVideos', 'iyavillania', 'usainbolt', 'lancearmstrong', 'paulwesley', 'LuisChataing', 'aarbeloa17', 'paulpierce34', 'hitRECordJoe', 'HamzaNamira', 'MadhuriDixit', 'IAMJHUD', 'mcuban', 'DrOz', 'belindapop', 'JoyceMeyer', 'ValeYellow46', 'Poconggg', 'gulbenergen', 'TherealTaraji', 'ElBaradei', 'jimjonescapo', 'abdulrahman', 'joelmchale', 'jaimecamil', 'acunilicali', 'alinebarros', 'luisnani', 'OfficialWillow', 'ahmethc', 'bigtimerush', '_Pedro17_', 'samsmithworld', 'Schofe', 'pamyurin', 'EmilyOsment', 'itsenriquegil', 'samuelmilby', 'FinallyMario', 'DollyParton', 'ChrisMoyles', 'BradPaisley', 'FreddyAmazin', 'FrancoDVita', 'HaifaWehbe', 'DannyDeVito', 'robdyrdek', 'JENNIWOWW', 'mangeshkarlata', 'PaulaFernandes7', 'PrincesSyahrini', 'jasonderulo', 'zoetheband', 'brunogagliasso', 'Schwarzenegger', 'BruMarquezine', 'JoshDevineDrums', 'pedroalfonsoo', 'KeshaRose', 'UncleRUSH', 'JakeTAustin', 'officialtulisa', 'EleanorJCalder', 'ochocinco', 'chrisrock', 'sneijder101010', 'SeanKingston', 'brozoxmiswebs', 'MuratBoz', 'vjdaniel', 'JamesFrancoTV', 'amandabynes', 'FePaesLeme', 'jessicacediel', 'ANAMARIABRAGA', 'MCHammer', 'giseleofficial', 'Fergie', 'Fonseca', 'dumbassgenius', 'mrsayudewi', 'battalalgoos', 'NellyFurtado', 'kuyakim_atienza', 'nikkigil', 'maddow', 'questlove', 'ErikaDLV', 'RomeoSantosPage', 'YUVSTRONG12', 'TravieMcCoy', 'LaurenConrad', '21LVA', 'CaioCastro', 'thiaguinhocomth', 'AHMTKURAL', 'Titi_KamaLL', 'RealVolya', 'rialjorge', 'brookeburke', 'MrPeterAndre', 'ToniKroos', 'mustafaceceli', 'SamiAlJaber', 'GiulianaRancic', 'shfly3424', 'lopezandres', 'JoeyEssex_', 'heidiklum', 'lala', 'GemmaAnneStyles', 'mustafa_agha', 'RobertsEmma', 'BustaRhymes', 'manomenezes', 'NathanFillion', 'pattiemallette', '6BillionPeople', 'TheMattEspinosa', 'waleedalfarraj', 'cerati', 'myfabolouslife', 'blakegriffin32', 'danawhite', 'EspinozaOficial', 'Khunnie0624', 'Sethrogen', 'andy_murray', 'JohnBishop100', 'laliespos', 'corbuzier', 'ceracoat', 'DavidKWilliams', 'michkeegan', 'Slash', 'deadmau5', 'missA_suzy', 'PBiaL', 'BRUNOIERULLO', 'NOAH_ID', 'themichaelowen', 'DrakeBell', 'AnselElgort', 'SaraBareilles', 'MPOFFICIAL', 'Tbambino', 'isco_alarcon', 'VigilanteArtist', 'Manuel_Neuer', 'kevadamsss', 'sethmeyers', 'AndreaSernaTV', 'special1004', 'JanetJackson', 'paugasol', 'billmaher', 'JBALVIN', 'RolaWorLD', 'S_C_', 'VINNYGUADAGNINO', 'MsLeaSalonga', 'jack', 'manuginobili', 'ilovegeorgina', 'jackybrv', 'Tyrese', 'ReikMx', 'DaneCook', 'JerrySeinfeld', 'geneliad', 'D_Copperfield', 'RealTracyMorgan', 'drdrew', 'marley_ok', 'andreolifelipe', '1LoganHenderson', 'Ibra_official', 'handeyener', 'smosh', 'rickyrozay', 'Caitlyn_Jenner', 'common', 'susoelpaspi', 'huryazarlar', 'DaRealAmberRose', 'Asli_Jacqueline', 'Benzema', 'MarthaStewart', 'jamesmaslow', 'lafouine78', 'oscar8', 'Su_Gimenez', 'DavidHenrie', 'Caspar_Lee', 'steveaoki', 'BoAkwon', 'VeraBrezhneva', 'DaniellePeazer', 'JHarden13', 'shrutihaasan', 'Joey7Barton', 'MirzaSania', 'steveaustinBSR', 'krungy21', 'ninagarcia', 'farisf9', 'Imaginedragons', 'HayesGrier', 'ryeong9', 'AlbertoCiurana', 'shaymitch', 'mynameisrossa', 'troyesivan', 'ReggieBush', 'mh_awadi', 'chinasuarez', 'Metallica', 'bhogleharsha', 'dedesecco', 'jupaesoficial', 'GNev2', 'StephenCurry30', 'TimTebow', 'LewisHamilton', 'gio_antonelli', 'jhutch1992', 'Torres', 'amrwaked', 'bomanirani', 'lenadunham', 'assihallani', 'LeighFrancis', 'williecolon', '7sainaljassmi', 'FLOTUS', 'eseryenenler', 'theweeknd', 'PearlJam', 'AllRiseSilver', 'ShawnMichaels', 'shitmydadsays', 'TheVampsband', 'IAmSteveHarvey', 'ABdeVilliers17', 'ErinAndrews', 'OscarFilho', 'sardesairajdeep', 'wilw', 'prattprattpratt', 'itsgabrielleu', 'sertaberener', 'sonunigam', 'lnsaneTweets', 'Jason_Aldean', 'MikaSingh', 'ChrisEvans', 'tonyhsieh', 'matsu_bouzu', 'jimmyeatworld', 'MarkWright_', 'cher', 'Alyssa_Milano', 'LisaSurihani', 'lorenzojova', 'ThatKevinSmith', 'MarioGoetze', 'BDUTT', 'thebeatles', 'kasimf', 'SintoniaVerso', 'Javier_Alatorre', 'AxelOficial', 'KadimAlSahirORG', 'Niltakipte', 'MagicJohnson', 'BSchweinsteiger', 'KP24', 'Buenafuente', 'ashleesimpson', 'pabloalboran', 'SSantiagosegura', 'drdre', 'KatGraham', 'elonmusk', 'mark_wahlberg', 'desta80s', 'MissyElliott', 'PointlessBlog', 'mariagadu', 'solennheussaff', 'DennyCagur', 'Podolski10', 'ImRo45', 'macklemore', 'willylevy29', 'TheRealMikeEpps', 'tarkan', '10neto', 'cadieckmann', 'FannyLu', 'thekillers', 'markhoppus', 'haashoficial', 'germanpaoloski', 'LizGillies', 'ActorLeeMinHo', 'notch', 'YALINonline', 'radioleary', 'Elovera22', 'russwest44', 'henrylau89', 'Trevornoah', 'OneRepublic', 'rampalarjun', 'officialJKT48', 'TheFarahKhan', 'RyanSheckler', 'vazqueznico', 'hardwick', 'AlvaroMorata', 'kerrywashington', 'cortezrafa', 'marceloadnet0', 'Omar_Almulhem', 'BethanyMota', 'Thiago6', 'TheCarlosPena', 'AlfredoFlores', 'jackgilinsky', 'CAROLE_SAMAHA', 'TonyRobbins', 'carocruzosorio', 'GaryValenciano1', 'KendraWilkinson', '4everBrandy', 'GordonRamsay', 'henrygayle', 'SeppBlatter', 'fucktyler', 'kenandogulu', 'McIlroyRory', 'Garik2000', 'gisel_la', 'RealPaulWalker', 'YASSER_Q_Y20', 'FarrukoPR', 'jhongsample', 'drangelocarbone', 'Flordelav', 'IanMcKellen', 'XianLimm', 'SamNasri19', 'zairana', 'DeepakChopra', 'kingsthings', 'Anggun_Cipta', 'icecube', 'LaraDutta', 'DAVID_LYNCH', 'LAAZCARATE', 'jeremypiven', 'FifthHarmony', 'feliciaday', 'ShraddhaKapoor', 'TurkiAldakhil', 'biz', 'OscarDLeon', 'TomDaley1994', 'chriscolfer', 'TheRealAC3', 'IAmJericho', 'JackJackJohnson', 'Dbolina', 'JoeyGraceffa', 'Joe_Sugg', 'katedelcastillo', 'masason', 'aaronpaul_8', 'MannyPacquiaoTR', 'MsLaurenLondon', 'PaulMcCartney', 'rossR5', 'TheMandyMoore', 'adamlambert', 'anandmahindra', 'BillNye', 'OlaAlfares', 'showimah', 'greysonchance', 'JimGaffigan', 'DENISE_RICHARDS', 'stephenasmith', 'RichardHammond', 'ristomejide', 'iqbaale', 'ThisisDavina', 'D_Ospina1', 'emreaydin', 'raphaelvarane', 'JAlvarezFlow', 'xtianbautista', 'carterreynolds', 'KyrieIrving', 'YosriFouda', 'iloveruffag', 'jccaylen', 'shymofficiel', 'Bourdain', 'RachelZoe', 'djkhaled', 'angelicavale', 'jasonsegel', 'dhikacungkring', 'robbiewilliams', 'MrJamesMay', 'ImZaheer', 'lottietommo', 'JackHarries', 'wandaicardi', 'HeffronDrive', 'anakarylle', 'elmorenomichael', 'JeremyBieber', 'NathanKress', 'HARDWELL', 'Charlottegshore', 'sarseh', 'Hadise', 'S1dharthM', 'Cyrilhanouna', 'twhiddleston', 'superstarrajini', 'manaoficial', 'CMPunk', 'MarcusButler', 'kojiharunyan', 'andrescepeda', 'pattonoswalt', 'TripleH', 'JodiStaMaria', 'sebastianrulli', 'carlosbaute', 'AudrinaPatridge', 'dannapaola', 'siyovushdustov', 'KattPackAllDay', 'k_alshenaif', 'officialpepe', 'LeventUzumcu', 'ladyantebellum', 'nxzerooficial', 'ShaneWarne', 'AdnanAlarour', 'Dynamomagician', 'booba', 'MustafaHosny', 'FrencHMonTanA', 'KeithUrban', 'xuxameneghel', 'cala', 'mariko_dayo', 'danimartinezweb', 'NajwaShihab', 'AdalRamones', 'Ferrynimous', 'belalfadl', 'OficialGio', 'MikeVick', 'woodyinho', 'bobsaget', 'TomFelton', 'MrsSOsbourne', 'MartinGarrix', 'SteveNash', 'omeshomesh', 'jotaquest', 'mariashriver', 'esmuellert_', 'AlKohler7KEPO', 'Yusuf_Mansur', 'VincentKompany', 'williebosshog', 'Stromae', 'neilhimself', 'MoezMasoud', 'DavidSpade', 'PaulaAbdul', 'WWEDanielBryan', 'drose', 'Fabio_Coentrao', 'ayseozyilmazel', 'alo_oficial', 'RebelWilson', 'michaelbuble', 'robertmarion', 'bonnovanderputt', 'sgokbakar', 'smoshanthony', 'luke_brooks', 'depechemode', 'amyschumer', 'CraigyFerg', 'FatinSL', 'mnzadornov', 'ayushmannk', 'BIRDMAN5STAR', 'danisuzuki', 'kylieminogue', 'Zedd', 'SleepintheGardn', 'therealjuicyj', 'manugavassi', 'soujorge']
+</script>
+<script>
+window.onload = (event) => {
+    console.log('page is fully loaded');
 
+    function autocomplete(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        console.log("inp event listener", inp)
+        if(inp){
+            inp.addEventListener("input", function(e) {
+                var a, b, i, val = this.value;
+                /*close any already open lists of autocompleted values*/
+                closeAllLists();
+                if (!val) {
+                    return false;
+                }
+                currentFocus = -1;
+                /*create a DIV element that will contain the items (values):*/
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-items");
+                /*append the DIV element as a child of the autocomplete container:*/
+                this.parentNode.appendChild(a);
+                /*for each item in the array...*/
+                for (i = 0; i < arr.length; i++) {
+                    /*check if the item starts with the same letters as the text field value:*/
+                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        /*create a DIV element for each matching element:*/
+                        b = document.createElement("DIV");
+                        /*make the matching letters bold:*/
+                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += arr[i].substr(val.length);
+                        /*insert a input field that will hold the current array item's value:*/
+                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        /*execute a function when someone clicks on the item value (DIV element):*/
+                        b.addEventListener("click", function(e) {
+                            /*insert the value for the autocomplete text field:*/
+                            inp.value = this.getElementsByTagName("input")[0].value;
+                            /*close the list of autocompleted values,
+                            (or any other open lists of autocompleted values:*/
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+          }
+        /*execute a function presses a key on the keyboard:*/
+        if(inp){
+            inp.addEventListener("keydown", function(e) {
+                var x = document.getElementById(this.id + "autocomplete-list");
+                if (x) x = x.getElementsByTagName("div");
+                if (e.keyCode == 40) {
+                    /*If the arrow DOWN key is pressed,
+                    increase the currentFocus variable:*/
+                    currentFocus++;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 38) { //up
+                    /*If the arrow UP key is pressed,
+                    decrease the currentFocus variable:*/
+                    currentFocus--;
+                    /*and and make the current item more visible:*/
+                    addActive(x);
+                } else if (e.keyCode == 13) {
+                    /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                    e.preventDefault();
+                    if (currentFocus > -1) {
+                        /*and simulate a click on the "active" item:*/
+                        if (x) x[currentFocus].click();
+                    }
+                }
+            });
+           }
+
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function(e) {
+            closeAllLists(e.target);
+        });
+    }
+    autocomplete(autocomplete(document.getElementById("input"), countries));
+
+}
+</script>
 </head>
 
 <body>

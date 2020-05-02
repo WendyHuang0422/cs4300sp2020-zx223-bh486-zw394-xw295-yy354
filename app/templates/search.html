@@ -27,19 +27,21 @@
         </a>
         <h1 style = "margin-bottom: 3px">Tweeted Facts</h1>
         <h2>Your Trusted Fact Checker for Untrusted Fact Spreaders</h2>
+
     </div>
 
-    <form action = "/results">
+    <form autocomplete="off" action = "/results">
         <div class="row d-flex justify-content-center" style = "margin-top: 18px">
-
             <div class="col-md-8">
                 <div class = "input-group">
                     <div class="input-group-prepend">
-                        <div class="input-group-text">@</div>
+                        <div class="input-group-text">@</div></div>
+
+                    <div class="autocomplete">
+                        <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
                     </div>
-                    <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+                    </div>
                 </div>
-            </div>
         </div>
         <div class="row d-flex justify-content-center" style = "margin-top: 5px">
             <div class="col-md-8">
