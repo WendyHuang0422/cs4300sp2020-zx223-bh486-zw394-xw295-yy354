@@ -38,7 +38,6 @@ def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
         '&sortBy=' + sort + date_a+"&language=en"+"&sources="+sources+keys_a
 
     agg_file = json.load(urllib.request.urlopen(url))
-    time.sleep(1)
 
     return agg_file
 
@@ -205,7 +204,6 @@ def full_text_integerate(list_dictionaries1):
     3.idf
     4.list of dictionaries without texts (no 'contents' or 'description' keys)
     """
-    print(list_dictionaries1[0])
     list_dictionaries = [dict(ele) for ele in list_dictionaries1]
     urls = [news['url'] for news in list_dictionaries]
     full_text = get_news_text(urls)
