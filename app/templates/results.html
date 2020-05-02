@@ -120,12 +120,27 @@
                 </a>
                 </div>
                 <div class = "col-lg-5" style = "padding: 1px 3px">
-                <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%">
+                {% if news_list[i][0][3] == "left" %}
+                    <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%; background-color: #d8baba;">
+                {% elif news_list[i][0][3] == "lean-left" %}
+                    <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%; background-color: #dacdcd;">
+                {% elif news_list[i][0][3] == "central" %}
+                    <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%; background-color: #e9e9e9;">
+                {% elif news_list[i][0][3] == "lean-right" %}
+                    <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%; background-color: #dde6f1;">
+                {% elif news_list[i][0][3] == "lean-right" %}
+                    <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%; background-color: #bac9db;">
+                {% else %}
+                    <a href="{{news_list[i][0][2]}}" class="list-group-item list-group-item-action" style = "height: 100%; background-color: white;">
+                {% endif %}
+
                     <h5 style = "margin-bottom: 0px">
-                        <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
+                    <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
                     Article relevant to Tweet:</h5>
                     <!-- <small class="text-muted">Keyword(s): "{{topic}}"<br></small> -->
-                    <small class="text-muted">Source: <strong>{{news_list[i][0][0]}}</strong><br></small>
+                    <small>
+                        Source: <strong>{{news_list[i][0][0]}}</strong>; Relability: {{news_list[i][0][5]}}<br>
+                    </small>
                     <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
                         <h6 class="mb-1">{{news_list[i][0][1]}}</h6>
                     </div>
@@ -183,14 +198,33 @@
                                 </div>
                                 <div class = "container">
                                 {% if tw_news_num[i] < 10 %}
-                                    {% for j in range(tw_news_num[i]) %}
+                                    {% for j in range(tw_news_num[i]) %}   
                                         <div class = "row">
-                                            <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
-                                            style = "margin-bottom: 4px">
+                                            {% if news_list[i][j][3] == "left" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #d8baba;">
+                                            {% elif news_list[i][j][3] == "lean-left" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #dacdcd;">
+                                            {% elif news_list[i][j][3] == "central" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #e9e9e9;">
+                                            {% elif news_list[i][j][3] == "lean-right" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #dde6f1;">
+                                            {% elif news_list[i][j][3] == "lean-right" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #bac9db;">
+                                            {% else %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: white;">
+                                            {% endif %}
                                                 <h5 style = "margin-bottom: 2px">
                                                     <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
                                                 Article no. {{j + 1}} relevant to Tweet:</h5>
-                                                <small class="text-muted">Source: <strong>{{news_list[i][j][0]}}</strong><br></small>
+                                                <small class="text-muted">
+                                                    Source: <strong>{{news_list[i][j][0]}}</strong>; Relability: {{news_list[i][j][5]}}<br>
+                                                </small>
                                                 <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
                                                     <h6 class="mb-1">{{news_list[i][j][1]}}</h6>
                                                 </div>
@@ -200,12 +234,31 @@
                                 {% else %}
                                     {% for j in range(10) %}
                                         <div class = "row">
-                                            <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
-                                            style = "margin-bottom: 4px">
+                                            {% if news_list[i][j][3] == "left" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #d8baba;">
+                                            {% elif news_list[i][j][3] == "lean-left" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #dacdcd;">
+                                            {% elif news_list[i][j][3] == "central" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #e9e9e9;">
+                                            {% elif news_list[i][j][3] == "lean-right" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #dde6f1;">
+                                            {% elif news_list[i][j][3] == "lean-right" %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: #bac9db;">
+                                            {% else %}
+                                                <a href="{{news_list[i][j][2]}}" class="list-group-item list-group-item-action" 
+                                            style = "margin-bottom: 4px; background-color: white;">
+                                            {% endif %}
                                                 <h5 style = "margin-bottom: 2px">
                                                     <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
                                                 Article no. {{j + 1}} relevant to Tweet:</h5>
-                                                <small class="text-muted">Source: <strong>{{news_list[i][j][0]}}</strong><br></small>
+                                                <small class="text-muted">
+                                                    Source: <strong>{{news_list[i][j][0]}}</strong>; Relability: {{news_list[i][j][5]}}<br>
+                                                </small>
                                                 <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
                                                     <h6 class="mb-1">{{news_list[i][j][1]}}</h6>
                                                 </div>

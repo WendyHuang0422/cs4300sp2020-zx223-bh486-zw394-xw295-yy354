@@ -48,12 +48,15 @@ def search_for():
 	user = request.args.get('search')
 	topic = request.args.get('terms')
 
-	leaning = {"abc-news" : 1, "associated-press" : 2, "bloomberg" : 2, "cbs-news" : 1, "nbc-news" : 1, \
-	'fox-news' : 3, 'reuters' : 2, 'usa-today' : 2, 'business-insider' : 2, 'the-hill' : 2, 'espn' : 1, \
-	'axios' : 1, 'bbc' : 2}
+	leaning = {"ABC News" : 1, "Associated Press" : 2, "Bloomberg" : 2, "CBS News" : 1, "NBC News" : 1, \
+	'Fox News' : 3, 'Reuters' : 2, 'USA Today' : 2, 'Business Insider' : 2, 'The Hill' : 2, 'ESPN' : 1, \
+	'Axios' : 1, 'BBC News' : 2}
 	leaning_ref = ["left", "lean-left", "central", 'lean-right', 'right']
-	color = {"left": "#e97676", "lean-left": "#e4a5a5", "central": "#d1d1d1", "lean-right": \
-	"#a5c0e4", "right": "#7fa2d1"}
+
+	fact = {"ABC News" : 1, "Associated Press" : 0, "Bloomberg" : 2, "CBS News" : 1, "NBC News" : 1, \
+	'Fox News' : 3, 'Reuters' : 0, 'USA Today' : 1, 'Business Insider' : 1, 'The Hill' : 2, 'ESPN' : 1, \
+	'Axios' : 1, 'BBC News' : 1}
+	fact_ref = ["Very High", "High", "Mostly Factual", "Mixed", "Low", "Very Low"]
 
 	if topic == "": topic = None
 
@@ -120,17 +123,13 @@ def search_for():
 			tweet_news = []
 
 			for news in result[1][i]:
-
 				source = news[0]["source"]
-				if source in leaning.keys():
-					source_leaning = leaning_ref[leaning[source]]
-					source_color = color[source_leaning]
-				else:
-					source_color = "white"
+				source_leaning = leaning_ref[leaning[source]]
+				source_fact = fact_ref[fact[source]]
 				# title truncator
 				title = helper_string_trunc(news[0]["description"], 200)
 				tweet_news.append((source, title, news[0]["url"], \
-					source_color, news[1]))
+					source_leaning, news[1], source_fact))
 			news_list.append(tweet_news)
 			tw_news_num.append(len(tweet_news))
 		
