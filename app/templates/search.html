@@ -35,13 +35,11 @@
             <div class="col-md-8">
                 <div class = "input-group">
                     <div class="input-group-prepend">
-                        <div class="input-group-text">@</div></div>
-
-                    <div class="autocomplete">
-                        <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity" value = "{{user}}" required>
+                        <div class="input-group-text">@</div>
                     </div>
-                    </div>
+                    <input id="input" type="text" name="search" class="form-control" placeholder="Twitter Celebrity (do not include '@')" value = "{{user}}" required>
                 </div>
+            </div>
         </div>
         <div class="row d-flex justify-content-center" style = "margin-top: 5px">
             <div class="col-md-8">
@@ -57,10 +55,15 @@
             </div>
         </div>
         <div class="row d-flex justify-content-center" style = "margin-top: 5px">
-            <button type="submit" class="btn btn-primary mb-2" style = "">Fact Check &nbsp; <i class="far fa-search"></i></button>
+            <button onclick="show_spinner()" type="submit" class="btn btn-primary mb-2" style = "">Fact Check &nbsp; <span id = "spinner"><i class="far fa-search"></i></span></button>
         </div>
     </form>
 </main>
 
+<script>
+    function show_spinner() {
+        document.getElementById("spinner").innerHTML = "<i class='fas fa-spinner fa-pulse'></i>";
+    }
+</script>
 
 {% endblock content %}
