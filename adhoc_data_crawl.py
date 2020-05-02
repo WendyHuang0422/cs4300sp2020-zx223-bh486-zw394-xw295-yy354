@@ -1041,6 +1041,7 @@ def db_news_retrieval(list_of_tweets,N_news,input_keys,N_tweets):
     tweet,t_overlap,t_idx,_ = tokenized[tweet_idx]
     text = tweet[0]
     top_n = tweet_match_db(text,inverted_idx,idf,doc_norms,list_of_news,doc_overlap)[:N_news]
+    temp.update((tweet_idx,[]))
     for result in top_n:
       info = result
       if tweet_idx in temp.keys():
