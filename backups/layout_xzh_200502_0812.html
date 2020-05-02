@@ -35,15 +35,6 @@
             --orange50-75sat: #df6c20;
             --red65-90sat: #df6c20;
             --red45-75sat: #c91d1d;
-            --bg-transparent-blue: #cee5f5;
-        }
-
-        a:link {
-           color:inherit;
-        }
-
-        a:hover {
-            text-decoration: underline;
         }
 
         #go_back_to_top_button {
@@ -75,20 +66,14 @@
             border-color: var(--tw_blue_border_3b);
 
         }
-
-        .crop-to-middle img {
-            object-fit: none; /* Do not scale the image */
-            object-position: center; /* Center the image within the element */
-            width: 100%;
-            max-height: 100px;
-            margin-bottom: 1rem;
+        .navbar-toggler {
+            padding: .15rem .55rem;
+            font-size: 1rem;
+        /*  navbar-toggler{padding:.25rem .75rem;font-size:1.25rem;line-height:1;background-color:transparent;border:1px solid transparent;border-radius:.25rem}*/
         }
-
-        .bg_tile {
-            background-image: url("/static/media/bg_tile_r3_op30_w_500px_y25.png");
-            background-repeat: repeat;
-        }
-
+        /*.navbar-toggler:focus,.navbar-toggler:hover{text-decoration:none}
+        .navbar-toggler-icon{display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;content:"";background:no-repeat center center;background-size:100% 100%}
+        }*/
     </style>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -98,59 +83,7 @@
 </head>
 
 <body>
-    <!-- <nav class = "navbar navbar-light" style = "padding: 0px; background-color: var(--bg-transparent-blue);"> -->
-    <nav class = "navbar navbar-light" style = "padding: 0px;">
-        <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
-        <div class = "container">
-            <div class = "row">
-                <div class = "col">
-                <a href = "/" style = "color: #000000"><i class="fas fa-home"></i>&nbsp;Tweeted Facts</a>&nbsp;&nbsp;
-                <a href = "#" data-toggle="modal" data-target="#aboutModal"
-                    style = "color: #000000"><i class="fas fa-info-circle"></i>&nbsp;About</a>
-                </div>
-            </div>
-            <span class="navbar-text">
-                <a href = "https://twittedfactv1.herokuapp.com/">Prototype 1</a> | <a href = "https://twittedfacts.herokuapp.com/">Prototype 2</a>
-            </span>
-        </div>
-    </nav>
-<!--     <div class="text-right" style = "margin-top: 10px">
-        <h6>Project Name: Tweeted Facts (DEVELOPMENT VERSION)</h6>
-        <h6>Student Name: Zenong Wang: zw394, Wendy Huang: bh486, Alicia Yang: yy354, Zi Heng Xu: zx223, Iris Wang: zw295</h6>
-    </div> -->
-    <!-- about us modal -->
-    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" 
-    aria-labelledby="aboutModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 style = "margin-bottom: 0px">&nbsp;About Tweeted Facts</h5>
-                </div>
-                <div class="modal-body">
-                    <p style = "font-size: 15px">
-                        Tweeted Facts is an online app that displays a celebrity’s latest Tweets and matches each to a list of relevant news articles to help users verify claims made in that Tweet. The Tweets can be of specific topic(s) provided by the user if desired.
-                    </p>
-                    <p style = "font-size: 15px">
-                        Created by Students at Cornell University:<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zenong Wang (zw394)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Wendy Huang (bh486)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alicia Yang (yy354)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zi Heng Xu (zx223)<br>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iris Wang (xw295)<br>
-                        For <a href = "https://www.cs.cornell.edu/courses/cs4300/2020sp/" style = "color: #000000">CS/INFO 4300</a>, Spring 2020.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <button onclick="topFunction()" id="go_back_to_top_button" class="btn btn-info"><i class="fas fa-chevron-double-up"></i></button>
-
-    <!-- <main class = "container" style = "margin-top: 6%"> -->
-    <!-- block content -->
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -161,9 +94,9 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    {% block content %}{% endblock %}
 
-    <!-- </main> -->
+    <!-- block content -->
+    {% block content %}{% endblock %}
 
     <script>
         //Get the button:
