@@ -28,7 +28,7 @@ def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
     # build the url
     sources = "abc-news,cbs-news,associated-press,bloomberg,nbc-news,fox-news,reuters,usa-today,business-insider,the-hill,espn,axios,bbc-news"
     keys_a = "&apiKey=" + api_key
-    date_a = '&to='+date2+'&from='+date1
+    date_a = '&to='+date2+'&from_param='+date1
     if not query is None:
         query = 'everything?q='+query + '&'
     else:
@@ -38,6 +38,7 @@ def raw_news_retrieval(query, api_key, date1, date2, N, page, sort):
         '&sortBy=' + sort + date_a+"&language=en"+"&sources="+sources+keys_a
 
     agg_file = json.load(urllib.request.urlopen(url))
+    time.sleep(0.5)
 
     return agg_file
 
@@ -70,11 +71,10 @@ def retrieve_news_article(N, keys, date1, date2, order, query):
     count = 0
     i = 0
     key = keys[i]
-    # instance = raw_news_retrieval(
-    #         query, key, date1, date2, 100, page, 'publishedAt')
-    # limit = instance['status'] == 'ok'
     limit = True
     retrieved = set()
+    retrieved_url = set()
+    retrieved_des = set()
     while limit == True:
         try:
             key = keys[i]
@@ -82,18 +82,18 @@ def retrieve_news_article(N, keys, date1, date2, order, query):
                 query, key, date1, date2, 100, page, 'publishedAt')
             limit = instance['status'] == 'ok'
             for article in instance['articles']:
-                if count % 100 == 0:
-                    print(count)
-                if article['url'] not in retrieved:
+                if (article['title'] not in retrieved) and (article['url'] not in retrieved_url) and (article['description'] not in retrieved_des):
+                    if count % 100 == 0:
+                        mongo_store("news_temp", results)
                     count += 1
                     results.append(article)
-                    retrieved.add(article['url'])
+                    retrieved.add(article['title'])
+                    retrieved_url.add(article['url'])
+                    retrieved_des.add(article['description'])
             if len(results) >= N:
                 return results[:N]
             page = page + 1
-            instance = raw_news_retrieval(
-                query, keys[i], date1, date2, 100, page, 'publishedAt')
-            limit = instance['status'] == 'ok'
+
         except:
             print("------=========   heloo ======")
             print(len(results))
@@ -101,10 +101,6 @@ def retrieve_news_article(N, keys, date1, date2, order, query):
             if i == len(keys):
                 return results
             pass
-            # key = keys[i]
-            # instance = raw_news_retrieval(
-            #     query, key, date1, date2, 100, page, 'publishedAt')
-            # limit = instance['status'] == 'ok'
 
     print("there are not enoguh results that can be retrieved, returning as many as we can")
     return (results)
@@ -123,23 +119,13 @@ def news_Aggregated(N, date1, date2, order, query=None):
      query (any operator) (query), 
      keyword (any operator) query
      default is None
-    date11: the start date of the timespan from which we retrieve news
-      format: "yyyy-mm-dd"
-    date2: the end date of the time span from which we retrieve news
-
-    (the time span can at most be one month)
-
     order: one of 'pubishedAt', 'relevancy',or 'popularity' 
-
-    libraries:
-    re
-    urllib
-    json
     """
     instance = retrieve_news_article(
-        N, ["a0c45775a6714e06b7dd975a7757997d", "c33d4fa299fb48548e55d405eb842066", "1c65f25827d745649be0ea2818ca2667",
+        N, ['2360f7b25a9c409e9909f4c57cb8df01', "a0c45775a6714e06b7dd975a7757997d",
+            "c33d4fa299fb48548e55d405eb842066", "1c65f25827d745649be0ea2818ca2667",
             "be0df2da3eb84d5eae22ae1c4443f710", "40aa19742fb54d1a806a7c7785068ab1",
-            "681b44cc0dea4b3baa66f6e2ecdf7161", "b5a15ccfd37149fbbeec4d9177d163e9"
+            "681b44cc0dea4b3baa66f6e2ecdf7161", "b5a15ccfd37149fbbeec4d9177d163e9",
             "5af3cde7a82f43998721f7a36f69a6be", "58cacb81c6424e4494857fa0de0a422f",
             "3af999d7b5d241429f6c5437e55b0244", "7ae791fb7ff447d4b8b773766d8891f0",
             "7d1aa6b9b6404411959be508a620be08", "c1b13c06d9634e33b015c7174485ea71",
@@ -148,10 +134,11 @@ def news_Aggregated(N, date1, date2, order, query=None):
             "ac4e23f90a0e40eeb1732a4507f768ed", "9f2590eef62045aead200877ef8e16f1",
             "B8073fe826ee44b48ebf71b767901a43", "7ae791fb7ff447d4b8b773766d8891f0",
             "3ebcb31788484caca0186832bdbbba63", "0ab86b9133554662bd5577593b2a5b50",
-            "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"
-            ], date1, date2, order, query)
+            "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"], date1, date2, order, query)
+    # instance = retrieve_news_article(N,['2360f7b25a9c409e9909f4c57cb8df01'], date1, date2, order, query)
+
     wanted = ['source', 'author', 'description',
-              'publi_time', 'url', 'content']
+              'publi_time', 'url', 'content', 'title']
     full1 = []
     count = 0
     for idx in instance:
@@ -177,8 +164,6 @@ def get_news_text(url_list):
 
       url_list: a list of urls
       Return: a list of strings(news content)
-
-      Required Library: newspaper3k, nltk
       """
     text_list = []
     for i in range(len(url_list)):
@@ -204,6 +189,7 @@ def full_text_integerate(list_dictionaries1):
     3.idf
     4.list of dictionaries without texts (no 'contents' or 'description' keys)
     """
+    print(list_dictionaries1[0])
     list_dictionaries = [dict(ele) for ele in list_dictionaries1]
     urls = [news['url'] for news in list_dictionaries]
     full_text = get_news_text(urls)
@@ -297,15 +283,6 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
                 rich_word = parser(temp)
                 sent_tok = [x.text for x in rich_word]
             sent_tok = tokenizer.tokenize(temp)
-            # if pos:
-            #     if nltk1:
-            #         tags = [x[1] for x in nltk.pos_tag(sent_tok)]
-            #         sent_tok = [sent_tok[i] for i in range(
-            #             len(sent_tok)) if tags[i][:1] in wanted]
-            #     elif not nltk1:
-            #         tags = [word.pos_ for word in rich_word]
-            #         sent_tok = [sent_tok[i] for i in range(
-            #             len(sent_tok)) if tags[i] in wanted_scp]
             if stemming:
                 for idx in range(len(sent_tok)):
                     sent_tok[idx] = stemmer.stem(sent_tok[idx])
@@ -321,3 +298,78 @@ def tokenize_news(news_texts, stemming=False, pos=False, lower=True, remove_stop
             tokens.extend(sent_tok)
         result.append((tokens, 'padded'))
     return result
+
+
+def update_news(total=1500, N=100):
+    """
+    N:  total number of pages for update 
+    """
+    past_news = get_mongo_store("news")
+    date2 = datetime.today().strftime("%Y-%m-%d")
+    date1 = past_news[0]['publi_time']
+    date = date1+':'+date2
+    keys = ['2036183222ab402cbce56ee293728fb1', '8ba8b6889b1343508e1ba0b55849ec31',
+            "ac4e23f90a0e40eeb1732a4507f768ed", "9f2590eef62045aead200877ef8e16f1",
+            "B8073fe826ee44b48ebf71b767901a43", "7ae791fb7ff447d4b8b773766d8891f0",
+            "3ebcb31788484caca0186832bdbbba63", "0ab86b9133554662bd5577593b2a5b50",
+            "c34679daedc3459f8192323b82f447c9", "f5e10b46583d48428332c0187049cade"]
+
+    news_count = 0
+    results_left = 1
+    prev_size = len(past_news)
+    page = 0
+    i = 0
+    limit = True
+    retrieved = set([new['title'] for new in past_news])
+    retrieved_url = set([new['url'] for new in past_news])
+    retrieved_des = set([new['description'] for new in past_news])
+    results = []
+    while prev_size < total and page < N:
+        try:
+            if limit != True:
+                break
+            key = keys[i]
+            instance = raw_news_retrieval(
+                None, key, date1, date2, 100, page, 'publishedAt')
+            limit = instance['status'] == 'ok'
+            for article in instance['articles']:
+                if (article['title'] not in retrieved) and (article['description'] not in retrieved_des) and (article['url'] not in retrieved_url):
+                    news_count += 1
+                    prev_size += 1
+                    results.append(article)
+                    retrieved.add(article['title'])
+                    retrieved_des.add(article['description'])
+                    retrieved_url.add(article['url'])
+            page = page + 1
+        except:
+            print("------=========   heloo ======")
+            print(len(results))
+            i += 1
+            if i == len(keys):
+                break
+            pass
+
+    wanted = ['source', 'author', 'description',
+              'publi_time', 'url', 'content']
+    full1 = []
+    count = 0
+    for idx in results:
+        data1 = {x: None for x in wanted}
+        data1['source'] = idx['source']['name']
+        data1['author'] = idx['author']
+        data1['description'] = idx['description']
+        data1['publi_time'] = idx['publishedAt']
+        data1['url'] = idx['url']
+        data1['content'] = idx['content']
+        data1['title'] = idx['title']
+        full1.append(data1)
+        count += 1
+    news_dict = full1 + past_news
+    news_dict = news_dict[:total]
+    return news_dict
+
+
+def update_full_text(news):
+    inverted_index, document_norms, idf, dictionaries_without_texts = full_text_integerate(
+        news)
+    return inverted_index, document_norms, idf, dictionaries_without_texts
