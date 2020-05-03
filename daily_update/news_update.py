@@ -104,8 +104,8 @@ def initial():
          idf, dictionaries_without_texts)
 
 
-def daily_update():
-    updated_news = update_news(total=1500, N=200)
+def daily_update(total=want_size, N=200):
+    updated_news = update_news(total, N)
     up_inverted_index, up_document_norms, up_idf, up_dictionaries_without_texts = update_full_text(
         updated_news)
     main(updated_news, up_inverted_index, up_document_norms,
