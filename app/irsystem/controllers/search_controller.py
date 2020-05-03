@@ -91,6 +91,7 @@ def search_for():
     tw_date = []
     tw_retweets = []
     tw_like = []
+    tw_sentiment = []
     news_list = []
     tw_news_num = []
     error = []
@@ -142,6 +143,7 @@ def search_for():
             tw_date.append(time_stamp_string)
             tw_retweets.append(tweet["retweet_count"])
             tw_like.append(tweet["favorite_count"])
+            tw_sentiment.append(tweet["sentiment"])
             tweet_news = []
             try:
                 for news in result[1][i]:
