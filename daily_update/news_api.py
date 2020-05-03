@@ -156,7 +156,8 @@ def news_Aggregated(N, date1, date2, order, query=None):
         sentiment_dict = sid_obj.polarity_scores(data1['description'])
         rank = [sentiment_dict['pos'],
                 sentiment_dict['neu'], sentiment_dict['neg']]
-        data1['sentiment'] = ['positive', "neutral", 'negative'][rank.index(max(rank))]
+        data1['sentiment'] = ['positive', "neutral",
+                              'negative'][rank.index(max(rank))]
         full1.append(data1)
         count += 1
     return full1
@@ -374,7 +375,8 @@ def update_news(total=1500, N=100):
         sentiment_dict = sid_obj.polarity_scores(data1['description'])
         rank = [sentiment_dict['pos'],
                 sentiment_dict['neu'], sentiment_dict['neg']]
-        temp['sentiment'] = ['positive', "neutral", 'negative'][rank.index(max(rank))]
+        data1['sentiment'] = ['positive', "neutral",
+                              'negative'][rank.index(max(rank))]
         full1.append(data1)
         count += 1
     news_dict = full1 + past_news
