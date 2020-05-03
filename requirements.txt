@@ -60,4 +60,4 @@ pandas==1.0.3
 tweepy==3.8.0
 DateTime==4.3
 ipython==7.13.0
-vaderSentiment==0.0.1
+vaderSentiment==3.2.1
