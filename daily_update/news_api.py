@@ -149,6 +149,7 @@ def news_Aggregated(N, date1, date2, order, query=None):
         data1['publi_time'] = idx['publishedAt']
         data1['url'] = idx['url']
         data1['content'] = idx['content']
+        data1['title'] = idx['title']
         full1.append(data1)
         count += 1
     return full1
@@ -350,7 +351,7 @@ def update_news(total=1500, N=100):
             pass
 
     wanted = ['source', 'author', 'description',
-              'publi_time', 'url', 'content']
+              'publi_time', 'url', 'content', 'title']
     full1 = []
     count = 0
     for idx in results:
