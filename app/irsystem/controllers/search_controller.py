@@ -91,6 +91,7 @@ def search_for():
     tw_date = []
     tw_retweets = []
     tw_like = []
+    tw_sentiment = []
     news_list = []
     tw_news_num = []
     error = []
@@ -108,6 +109,7 @@ def search_for():
 
         for i in range(length):
             tweet = result[0][i][0]
+            tw_sentiment.append(tweet["sentiment"])
             # print(tweet)
             if i == 0:
                 user_tw_acc_url = "https://twitter.com/" + user
@@ -149,11 +151,12 @@ def search_for():
                         source = news[0]["source"]
                         source_leaning = leaning_ref[leaning[source]]
                         source_fact = fact_ref[fact[source]]
+                        sentiment = news[0]["sentiment"]
                         # title truncator
                         title = helper_string_trunc(
                             news[0]["description"], 170)
                         tweet_news.append((source, title, news[0]["url"],
-                                           source_leaning, news[1], source_fact))
+                                           source_leaning, news[1], source_fact, sentiment))
                     except KeyError:
                         title = "This article failed to load."
                         tweet_news.append(("", title, "#",
@@ -163,7 +166,7 @@ def search_for():
                                         "#", "#", "#"))
             news_list.append(tweet_news)
             tw_news_num.append(len(tweet_news))
-
+    
     except tweepy.TweepError as err:
         print("Oops, something went wrong!")
         if err.reason.find("status code = 404") > -1:
@@ -193,10 +196,12 @@ def search_for():
             error.append(
                 "Your search returned no results, please try searching for something else.")
 
+    print(tw_sentiment)
+
     return render_template("results.html",
                            user=user, topic=topic, length=length,
                            tw_id_str=tw_id_str, tw_text=tw_text, tw_text_trunc=tw_text_trunc,
-                           tw_date=tw_date, tw_retweets=tw_retweets, tw_like=tw_like,
+                           tw_date=tw_date, tw_retweets=tw_retweets, tw_like=tw_like, tw_sentiment=tw_sentiment,
                            tw_user_data=tw_user_data, tw_user_counts=tw_user_counts, tw_user_media_obj=tw_user_media_obj,
                            tw_news_num=tw_news_num, news_list=news_list,
                            error=error, time_taken=time_taken)

@@ -106,6 +106,12 @@
                         <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
                         <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
                         <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
+                        &nbsp;Sentimental Analysis: 
+                        {% if tw_sentiment[i] == "positive" %}<span style = "color: var(--green45-50sat)">
+                        {% elif tw_sentiment[i] == "neutral" %}<span style = "color: grey">
+                        {% elif tw_sentiment[i] == "negative" %}<span style = "color: var(red45-75sat)">
+                        {% endif %}
+                        {{tw_sentiment[i]}}</span>&nbsp;&nbsp;
                     <br></small>
                 </a>
                 </div>
@@ -132,7 +138,13 @@
                                 {% else %}<span>
                                 {% endif %}
                                 {{news_list[i][0][3]}})</span><br>
-                        </small>
+                            Sentimental Analysis: 
+                            {% if news_list[i][0][6] == "positive" %}<span style = "color: var(--green45-50sat)">
+                            {% elif news_list[i][0][6] == "neutral" %}<span style = "color: grey">
+                            {% elif news_list[i][0][6] == "negative" %}<span style = "color: var(red45-75sat)">
+                            {% endif %}
+                            {{news_list[i][0][6]}}</span>&nbsp;&nbsp;
+                        <br></small>
                         <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
                             <h6 class="mb-1">{{news_list[i][0][1]}}</h6>
                         </div>
@@ -175,10 +187,13 @@
                                         <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
                                         <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
                                         <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
-                                        {% if tw_sentiment[i] == "positive" %}<i class="far fa-grin-alt"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
-                                        {% elif tw_sentiment[i] == "neutral" %}<i class="far fa-meh"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
-                                        {% elif tw_sentiment[i] == "negative" %}<i class="ffar fa-angry"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;  
-                                    <br></small>
+                                        &nbsp;Sentimental Analysis: 
+                                        {% if tw_sentiment[i] == "positive" %}<span style = "color: var(--green45-50sat)">
+                                        {% elif tw_sentiment[i] == "neutral" %}<span style = "color: grey">
+                                        {% elif tw_sentiment[i] == "negative" %}<span style = "color: var(red45-75sat)">
+                                        {% endif %}
+                                        {{tw_sentiment[i]}}</span>&nbsp;&nbsp;
+                                    </small>
                                 </a>
                                 <!-- </div> -->
                             </div>
@@ -200,24 +215,30 @@
                                                     <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
                                                 Article no. {{j + 1}} relevant to Tweet:</h5> -->
                                                 <small class = "text-muted">
-                                                    Source: <strong>{{news_list[i][0][0]}}</strong>&nbsp;&nbsp;(Reliability: 
-                                                        {% if news_list[i][0][5] == "Very High" %}<span style = "color: var(--green45-50sat)">
-                                                        {% elif news_list[i][0][5] == "High" %}<span style = "color: var(--green55-60sat)">
-                                                        {% elif news_list[i][0][5] == "Medium" %}<span style = "color: var(--orange70-80sat)">
-                                                        {% elif news_list[i][0][5] == "Mixed" %}<span style = "color: var(--orange50-75sat)">
-                                                        {% elif news_list[i][0][5] == "Low" %}<span style = "color: var(--red65-90sat)">
-                                                        {% elif news_list[i][0][5] == "Very Low" %}<span style = "color: var(--red45-75sat)">
+                                                    Source: <strong>{{news_list[i][j][0]}}</strong>&nbsp;&nbsp;(Reliability: 
+                                                        {% if news_list[i][j][5] == "Very High" %}<span style = "color: var(--green45-50sat)">
+                                                        {% elif news_list[i][j][5] == "High" %}<span style = "color: var(--green55-60sat)">
+                                                        {% elif news_list[i][j][5] == "Medium" %}<span style = "color: var(--orange70-80sat)">
+                                                        {% elif news_list[i][j][5] == "Mixed" %}<span style = "color: var(--orange50-75sat)">
+                                                        {% elif news_list[i][j][5] == "Low" %}<span style = "color: var(--red65-90sat)">
+                                                        {% elif news_list[i][j][5] == "Very Low" %}<span style = "color: var(--red45-75sat)">
                                                         {% else %}<span>
                                                         {% endif %}
-                                                        {{news_list[i][0][5]}}</span>;&nbsp;&nbsp;Bias: 
-                                                        {% if news_list[i][0][3] == "Left" %}<span style = "color: var(--blue60-80sat)">
-                                                        {% elif news_list[i][0][3] == "Lean Left" %}<span style = "color: var(--blue75-80sat)">
-                                                        {% elif news_list[i][0][3] == "Lean Right" %}<span style = "color: var(--red75-75sat)">
-                                                        {% elif news_list[i][0][3] == "Right" %}<span style = "color: var(--blue75-80sat)">
+                                                        {{news_list[i][j][5]}}</span>;&nbsp;&nbsp;Bias: 
+                                                        {% if news_list[i][j][3] == "Left" %}<span style = "color: var(--blue60-80sat)">
+                                                        {% elif news_list[i][j][3] == "Lean Left" %}<span style = "color: var(--blue75-80sat)">
+                                                        {% elif news_list[i][j][3] == "Lean Right" %}<span style = "color: var(--red75-75sat)">
+                                                        {% elif news_list[i][j][3] == "Right" %}<span style = "color: var(--blue75-80sat)">
                                                         {% else %}<span>
                                                         {% endif %}
-                                                        {{news_list[i][0][3]}})</span><br>
-                                                </small>
+                                                        {{news_list[i][j][3]}})</span>
+                                                    &nbsp;&nbsp;Sentimental Analysis: 
+                                                    {% if news_list[i][j][6] == "positive" %}<span style = "color: var(--green45-50sat)">
+                                                    {% elif news_list[i][j][6] == "neutral" %}<span style = "color: grey">
+                                                    {% elif news_list[i][j][6] == "negative" %}<span style = "color: var(red45-75sat)">
+                                                    {% endif %}
+                                                    {{news_list[i][j][6]}}</span>&nbsp;&nbsp;
+                                                <br></small>
                                                 <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
                                                     <h6 class="mb-1"><i class="far fa-newspaper"></i>&nbsp; {{news_list[i][j][1]}}</h6>
                                                 </div>
@@ -232,24 +253,30 @@
                                                     <span style = "font-size: 20px"><i class="far fa-newspaper"></i>&nbsp;</span>
                                                 Article no. {{j + 1}} relevant to Tweet:</h5> -->
                                                 <small class = "text-muted">
-                                                    Source: <strong>{{news_list[i][0][0]}}</strong>&nbsp;&nbsp;(Reliability: 
-                                                        {% if news_list[i][0][5] == "Very High" %}<span style = "color: var(--green45-50sat)">
-                                                        {% elif news_list[i][0][5] == "High" %}<span style = "color: var(--green55-60sat)">
-                                                        {% elif news_list[i][0][5] == "Medium" %}<span style = "color: var(--orange70-80sat)">
-                                                        {% elif news_list[i][0][5] == "Mixed" %}<span style = "color: var(--orange50-75sat)">
-                                                        {% elif news_list[i][0][5] == "Low" %}<span style = "color: var(--red65-90sat)">
-                                                        {% elif news_list[i][0][5] == "Very Low" %}<span style = "color: var(--red45-75sat)">
+                                                    Source: <strong>{{news_list[i][j][0]}}</strong>&nbsp;&nbsp;(Reliability: 
+                                                        {% if news_list[i][j][5] == "Very High" %}<span style = "color: var(--green45-50sat)">
+                                                        {% elif news_list[i][j][5] == "High" %}<span style = "color: var(--green55-60sat)">
+                                                        {% elif news_list[i][j][5] == "Medium" %}<span style = "color: var(--orange70-80sat)">
+                                                        {% elif news_list[i][j][5] == "Mixed" %}<span style = "color: var(--orange50-75sat)">
+                                                        {% elif news_list[i][j][5] == "Low" %}<span style = "color: var(--red65-90sat)">
+                                                        {% elif news_list[i][j][5] == "Very Low" %}<span style = "color: var(--red45-75sat)">
                                                         {% else %}<span>
                                                         {% endif %}
-                                                        {{news_list[i][0][5]}}</span>;&nbsp;&nbsp;Bias: 
-                                                        {% if news_list[i][0][3] == "Left" %}<span style = "color: var(--blue60-80sat)">
-                                                        {% elif news_list[i][0][3] == "Lean Left" %}<span style = "color: var(--blue75-80sat)">
-                                                        {% elif news_list[i][0][3] == "Lean Right" %}<span style = "color: var(--red75-75sat)">
-                                                        {% elif news_list[i][0][3] == "Right" %}<span style = "color: var(--blue75-80sat)">
+                                                        {{news_list[i][j][5]}}</span>;&nbsp;&nbsp;Bias: 
+                                                        {% if news_list[i][j][3] == "Left" %}<span style = "color: var(--blue60-80sat)">
+                                                        {% elif news_list[i][j][3] == "Lean Left" %}<span style = "color: var(--blue75-80sat)">
+                                                        {% elif news_list[i][j][3] == "Lean Right" %}<span style = "color: var(--red75-75sat)">
+                                                        {% elif news_list[i][j][3] == "Right" %}<span style = "color: var(--blue75-80sat)">
                                                         {% else %}<span>
                                                         {% endif %}
-                                                        {{news_list[i][0][3]}})</span><br>
-                                                </small>
+                                                        {{news_list[i][j][3]}})</span>
+                                                    &nbsp;&nbsp;Sentimental Analysis: 
+                                                    {% if news_list[i][j][6] == "positive" %}<span style = "color: var(--green45-50sat)">
+                                                    {% elif news_list[i][j][6] == "neutral" %}<span style = "color: grey">
+                                                    {% elif news_list[i][j][6] == "negative" %}<span style = "color: var(red45-75sat)">
+                                                    {% endif %}
+                                                    {{news_list[i][j][6]}}</span>&nbsp;&nbsp;
+                                                <br></small>
                                                 <div class="d-flex w-100 justify-content-between" style = "margin-top: 5px; margin-bottom: 5px;">
                                                     <h6 class="mb-1"><i class="far fa-newspaper"></i>&nbsp; {{news_list[i][j][1]}}</h6>
                                                 </div>
