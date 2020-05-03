@@ -267,8 +267,10 @@ def twittter_aggregated(N, pool_size, celeb_name, inc_retweets):
             temp[x] = idx[x]
         sid_obj = SentimentIntensityAnalyzer()
         sentiment_dict = sid_obj.polarity_scores(temp['text'])
-        temp['sentiment'] = {'pos': sentiment_dict['pos'],
-                             'neu': sentiment_dict['neu'], 'neg': sentiment_dict['neg']}
+        rank = [sentiment_dict['pos'],
+                sentiment_dict['neu'], sentiment_dict['neg']]
+        temp['sentiment'] = ['positive', "neutral",
+                             'negative'][rank.index(max(rank))]
         data.append(temp)
     return data, idx_time
 
