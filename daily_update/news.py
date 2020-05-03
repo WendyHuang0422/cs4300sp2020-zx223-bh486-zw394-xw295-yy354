@@ -87,6 +87,14 @@ def main(news_dict, inverted_index, document_norms, idf, dictionaries_without_te
         # get_mongo_store(source_name)
 
 
+def daily_update():
+    updated_news = update_news(total=1500, N=200)
+    up_inverted_index, up_document_norms, up_idf, up_dictionaries_without_texts = update_full_text(
+        updated_news)
+    main(updated_news, up_inverted_index, up_document_norms,
+         up_idf, up_dictionaries_without_texts)
+
+
 if __name__ == '__main__':
     DURATION = 35
     TODAY = datetime.today().strftime("%Y-%m-%d")
@@ -97,27 +105,8 @@ if __name__ == '__main__':
     print(N)
 
     news_dict = news_Aggregated(N, START_DATE, TODAY, "pubishedAt")
-    # print("count is ***************", count)
-    # news_dict = get_mongo_store('news')
     inverted_index, document_norms, idf, dictionaries_without_texts = full_text_integerate(
         news_dict)
-    print("herere")
-    # document_norms = {str(key): document_norms[key] for key in document_norms}
-    # print("------   finished computation now start storing   ------")
+    print("finished tf idf computation")
     main(news_dict, inverted_index, document_norms,
          idf, dictionaries_without_texts)
-
-    # STORE_ITEMS = []
-    # # print('.' in inverted_index)
-    # i = ''
-    # STORE_ITEMS.append(("news"+i, news_dict))
-    # STORE_ITEMS.append(("inverted_index"+i, inverted_index))
-    # STORE_ITEMS.append(("document_norms"+i, document_norms))
-    # STORE_ITEMS.append(("idf"+i, idf))
-    # STORE_ITEMS.append(("dictionaries_without_texts"+i,
-    #                     dictionaries_without_texts))
-    # for (source_name, dictionary) in STORE_ITEMS:
-    #     mongo_store(source_name, dictionary)
-
-    #     # check if secuss
-    #     # get_mongo_store(source_name)

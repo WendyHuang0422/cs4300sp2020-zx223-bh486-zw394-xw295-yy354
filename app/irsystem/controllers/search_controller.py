@@ -21,22 +21,28 @@ from newspaper import Article
 import adhoc_data_crawl
 
 import time
-
+import re
 
 # how many tweets we are retrieving, and how many news for each tweet we are retrieving
 length_retrieval_tweets = 20
 length_retrieval_news = 20
 
+num_tweets_to_show = 10
 
-def helper_string_trunc (long_str, trunc_len):
+html_tag = re.compile(r'<[^>]+>')
+
+def helper_remove_html_tags(raw_string):
+    return html_tag.sub('', raw_string)
+
+def helper_string_trunc(long_str, trunc_len):
 	if len(long_str) < trunc_len:
-		return long_str
+		return helper_remove_html_tags(long_str)
 	else:
 		short_str = long_str[ : trunc_len]
 		last_space_idx = short_str.rfind(" ")
 		if last_space_idx != -1:
 			short_str = long_str[ : last_space_idx]
-		return short_str + " ... "
+		return helper_remove_html_tags(short_str) + " ... "
 
 
 @irsystem.route("/", methods=['GET', 'POST'])
@@ -51,12 +57,14 @@ def search_for():
 	leaning = {"ABC News" : 1, "Associated Press" : 2, "Bloomberg" : 2, "CBS News" : 1, "NBC News" : 1, \
 	'Fox News' : 3, 'Reuters' : 2, 'USA Today' : 2, 'Business Insider' : 2, 'The Hill' : 2, 'ESPN' : 1, \
 	'Axios' : 1, 'BBC News' : 2}
-	leaning_ref = ["left", "lean-left", "central", 'lean-right', 'right']
+	# leaning_ref = ["left", "lean-left", "central", 'lean-right', 'right']
+	leaning_ref = ["Left", "Lean Left", "None", 'Lean Right', 'Right']
 
 	fact = {"ABC News" : 1, "Associated Press" : 0, "Bloomberg" : 2, "CBS News" : 1, "NBC News" : 1, \
 	'Fox News' : 3, 'Reuters' : 0, 'USA Today' : 1, 'Business Insider' : 1, 'The Hill' : 2, 'ESPN' : 1, \
 	'Axios' : 1, 'BBC News' : 1}
-	fact_ref = ["Very High", "High", "Mostly Factual", "Mixed", "Low", "Very Low"]
+	# fact_ref = ["Very High", "High", "Mostly Factual", "Mixed", "Low", "Very Low"]
+	fact_ref = ["Very High", "High", "Medium", "Mixed", "Low", "Very Low"]
 
 	if topic == "": topic = None
 
@@ -83,10 +91,10 @@ def search_for():
 	try:
 		# result = adhoc_data_crawl.totally_aggregated(user, 3, False, topic, N_keyword = 5, \
 		# 	num_processed_tweets = 100, num_pool_tweets = 200, nltk1 = True)
-		result = adhoc_data_crawl.totally_aggregated(user, 3, False, topic, N_keyword = 5, \
+		result = adhoc_data_crawl.totally_aggregated(user, num_tweets_to_show, False, topic, N_keyword = 5, \
 			num_processed_tweets = 20, num_pool_tweets = 40, nltk1 = True)
 
-		length = min(len(result[0]), 3)
+		length = min(len(result[0]), num_tweets_to_show)
 
 		for i in range(length):
 			tweet = result[0][i][0]
@@ -121,15 +129,23 @@ def search_for():
 			tw_retweets.append(tweet["retweet_count"])
 			tw_like.append(tweet["favorite_count"])
 			tweet_news = []
-
-			for news in result[1][i]:
-				source = news[0]["source"]
-				source_leaning = leaning_ref[leaning[source]]
-				source_fact = fact_ref[fact[source]]
-				# title truncator
-				title = helper_string_trunc(news[0]["description"], 200)
-				tweet_news.append((source, title, news[0]["url"], \
-					source_leaning, news[1], source_fact))
+			try:
+				for news in result[1][i]:
+					try: 
+						source = news[0]["source"]
+						source_leaning = leaning_ref[leaning[source]]
+						source_fact = fact_ref[fact[source]]
+						# title truncator
+						title = helper_string_trunc(news[0]["description"], 170)
+						tweet_news.append((source, title, news[0]["url"], \
+							source_leaning, news[1], source_fact))
+					except KeyError:
+						title = "This article failed to load."
+						tweet_news.append(("", title, "#", \
+							"", "", ""))
+			except KeyError:
+				tweet_news.append(("#", "Error: This article failed to load properly.", "#", \
+							"#", "#", "#"))
 			news_list.append(tweet_news)
 			tw_news_num.append(len(tweet_news))
 		
@@ -137,13 +153,27 @@ def search_for():
 		print("Oops, something went wrong!")
 		if err.reason.find("status code = 404") > -1:
 			print("Houston, we got a TweepError 404")
-			error_msg = "User \"" + user + "\" either does not exist, or the user is inactive."
+			error_msg = "User \"" + user + "\" either does not exist, or is inactive. Please try another search."
 			error.append(error_msg)
 			error.append("TweepyError code: 404")
 		else:
-			error.append("An error occured, please try another search.")
+			error.append("An error occured. Please refresh the page, or try another search.")
+			error.append("TweepyError")
+
+	except:
+		print("Oops, something went wrong!")
+		error.append("An error occured. Please refresh the page, or try another search.")
+		try: 
+			e = sys.exc_info()[0]
+			error.append(e)
+		except:
+			print("Unknown Error")
 
 	time_taken = round(time.time() - start_time, 5)
+	if len(error) == 0:
+		if len(tw_text) == 0:
+			error.append("Your search returned no results, please try searching for something else.")
+	
 	
 	return render_template("results.html", \
 		user = user, topic = topic, length = length, \
@@ -154,9 +184,13 @@ def search_for():
 		error = error, time_taken = time_taken)
 
 
+@irsystem.route("/trigger_error_404")
+def test_error_404():
+	return abort(404)
 
-
-
+@irsystem.route("/trigger_error_500")
+def test_error_500():
+	return abort(500)
 
 
 
