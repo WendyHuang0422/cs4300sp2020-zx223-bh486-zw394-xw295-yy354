@@ -1,3 +1,5 @@
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+import vaderSentiment.vaderSentiment
 from spacy import load
 import numpy as np
 import math
@@ -150,6 +152,10 @@ def news_Aggregated(N, date1, date2, order, query=None):
         data1['url'] = idx['url']
         data1['content'] = idx['content']
         data1['title'] = idx['title']
+        sid_obj = SentimentIntensityAnalyzer()
+        sentiment_dict = sid_obj.polarity_scores(data1['description'])
+        data1['sentiment'] = {'pos': sentiment_dict['pos'],
+                              'neu': sentiment_dict['neu'], 'neg': sentiment_dict['neg']}
         full1.append(data1)
         count += 1
     return full1
@@ -363,6 +369,10 @@ def update_news(total=1500, N=100):
         data1['url'] = idx['url']
         data1['content'] = idx['content']
         data1['title'] = idx['title']
+        sid_obj = SentimentIntensityAnalyzer()
+        sentiment_dict = sid_obj.polarity_scores(data1['description'])
+        data1['sentiment'] = {'pos': sentiment_dict['pos'],
+                              'neu': sentiment_dict['neu'], 'neg': sentiment_dict['neg']}
         full1.append(data1)
         count += 1
     news_dict = full1 + past_news
