@@ -91,7 +91,6 @@ def search_for():
     tw_date = []
     tw_retweets = []
     tw_like = []
-    tw_sentiment = []
     news_list = []
     tw_news_num = []
     error = []
@@ -143,7 +142,6 @@ def search_for():
             tw_date.append(time_stamp_string)
             tw_retweets.append(tweet["retweet_count"])
             tw_like.append(tweet["favorite_count"])
-            tw_sentiment.append(tweet["sentiment"])
             tweet_news = []
             try:
                 for news in result[1][i]:
@@ -198,7 +196,7 @@ def search_for():
     return render_template("results.html",
                            user=user, topic=topic, length=length,
                            tw_id_str=tw_id_str, tw_text=tw_text, tw_text_trunc=tw_text_trunc,
-                           tw_date=tw_date, tw_retweets=tw_retweets, tw_like=tw_like, tw_sentiment=tw_sentiment,
+                           tw_date=tw_date, tw_retweets=tw_retweets, tw_like=tw_like,
                            tw_user_data=tw_user_data, tw_user_counts=tw_user_counts, tw_user_media_obj=tw_user_media_obj,
                            tw_news_num=tw_news_num, news_list=news_list,
                            error=error, time_taken=time_taken)
