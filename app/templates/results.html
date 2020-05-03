@@ -106,6 +106,9 @@
                         <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
                         <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
                         <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
+                        {% if tw_sentiment[i] == "positive" %}<i class="far fa-grin-alt"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
+                        {% elif tw_sentiment[i] == "neutral" %}<i class="far fa-meh"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
+                        {% elif tw_sentiment[i] == "negative" %}<i class="ffar fa-angry"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
                     <br></small>
                 </a>
                 </div>
@@ -175,6 +178,9 @@
                                         <i class="far fa-clock"></i>&nbsp;{{tw_date[i]}}&nbsp;&nbsp;
                                         <i class="far fa-retweet"></i>&nbsp;{{tw_retweets[i]}}&nbsp;&nbsp;
                                         <i class="far fa-heart"></i>&nbsp;{{tw_like[i]}}&nbsp;&nbsp;
+                                        {% if tw_sentiment[i] == "positive" %}<i class="far fa-grin-alt"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
+                                        {% elif tw_sentiment[i] == "neutral" %}<i class="far fa-meh"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;
+                                        {% elif tw_sentiment[i] == "negative" %}<i class="ffar fa-angry"></i>&nbsp;{{tw_sentiment[i]}}&nbsp;&nbsp;  
                                     <br></small>
                                 </a>
                                 <!-- </div> -->

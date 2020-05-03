@@ -198,7 +198,7 @@ def search_for():
     return render_template("results.html",
                            user=user, topic=topic, length=length,
                            tw_id_str=tw_id_str, tw_text=tw_text, tw_text_trunc=tw_text_trunc,
-                           tw_date=tw_date, tw_retweets=tw_retweets, tw_like=tw_like,
+                           tw_date=tw_date, tw_retweets=tw_retweets, tw_like=tw_like, tw_sentiment=tw_sentiment,
                            tw_user_data=tw_user_data, tw_user_counts=tw_user_counts, tw_user_media_obj=tw_user_media_obj,
                            tw_news_num=tw_news_num, news_list=news_list,
                            error=error, time_taken=time_taken)
