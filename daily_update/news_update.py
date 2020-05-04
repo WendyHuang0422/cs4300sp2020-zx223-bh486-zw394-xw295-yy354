@@ -104,7 +104,7 @@ def initial():
          idf, dictionaries_without_texts)
 
 
-def daily_update(total=want_size, N=200):
+def daily_update(total=want_size, N=500):
     updated_news = update_news(total, N)
     up_inverted_index, up_document_norms, up_idf, up_dictionaries_without_texts = update_full_text(
         updated_news)
@@ -114,4 +114,4 @@ def daily_update(total=want_size, N=200):
 
 if __name__ == '__main__':
     want_size = int(sys.argv[1])
-    daily_update(total=want_size, N=200)
+    daily_update(total=want_size, N=500)
